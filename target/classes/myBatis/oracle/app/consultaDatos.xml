@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.org.ift.simca.persistence.ConsultaDatosMapper">
+    
+    <!-- Ejercicio por vigencia-->
+    <resultMap id="resObtenEjerciciosMap" type="Ejercicio" >
+        <result jdbcType="INTEGER" property="idEjercicio" column="ID_EJERCICIO"/>
+        <result jdbcType="INTEGER" property="ejercicio" column="EJERCICIO"/>
+        <result jdbcType="INTEGER" property="vigente" column="VIGENTE"/>
+    </resultMap>    
+    <select id="obtenEjercicios" parameterType="map" statementType="CALLABLE"> 
+        {call #{o_acc_cur, mode=OUT,jdbcType=CURSOR,javaType=java.sql.ResultSet, resultMap=resObtenEjerciciosMap}:= FN_DA_OBTEN_EJERCICIOS(
+            #{vigenciaEjercicios,javaType=java.lang.Integer, jdbcType=INTEGER,mode=IN})}
+    </select>
+                        
+</mapper>

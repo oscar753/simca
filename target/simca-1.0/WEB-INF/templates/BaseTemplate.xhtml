@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <f:view contentType="text/html;charset=utf-8" encoding="UTF-8" >
+        <h:head >
+            <style type="text/css">
+            html {
+            overflow: hidden;
+            }
+            </style>     
+            
+            <title><ui:insert name="pageTitleText">Ift app</ui:insert></title>
+
+            <h:outputScript library="javascript" name="sy.js" />
+            <h:outputScript library="javascript" name="validacionesInput.js" />
+
+            <ui:insert name="extraHeadInfo" >
+                
+            <h:outputStylesheet library="css" name="miAppEstilo.css"/>                
+
+            </ui:insert>
+        </h:head>
+
+        <h:body onload="nobackbutton();" >
+            <!-- En producción, asegurarse que el growl está deshabilitado o no rendereado (ver profiles y application.properties) -->
+            <p:growl rendered="#{commonDataMB.renderGobalGrowl}" autoUpdate="true" />
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="70"  >
+                    <ui:insert name="headerPart">                        
+                        <ui:insert name="topbarPart">
+                            <table width="100%">
+                                <tr style="width: 100%;">
+                                    <td align="left" width="30%"><p:graphicImage value="/resources/images/logo-ift-horizontal-color.png"  height="38"/></td>
+                                    <td align="center" width="40%"><p:outputLabel value="Sistema de Información de Contenidos y Medios audiovisuales" class="ui-widget-content-footer"/></td>
+                                    <td align="right" width="30%">
+                                        <c:if test="#{commonDataMB.anonymousUser==false}" >
+                                            <p:graphicImage value="/resources/images/usr.png" title="usuario" height="20"/>
+                                        </c:if> 
+                                        <h:outputText value="#{commonDataMB.usuarioNombre}" class="ui-widget-content-footer"/>
+                                    </td>
+                                </tr>
+                            </table>                        
+                           
+                        </ui:insert>
+                    </ui:insert>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="15%" header="Menú" resizable="false" collapsible="false">
+                    <ui:insert name="menuPart"/>
+                </p:layoutUnit>
+
+
+
+                <p:layoutUnit position="center">
+           
+                  
+                    <ui:insert name="contentPart">
+
+                        <p>
+                            Unidad de Administración.
+                            <br/><br/>
+                            Es el área responsable de establecer las estrategias para la administración y desarrollo del capital humano del Instituto; así como la gestión y control de sus recursos financieros, materiales y las tecnologías de información y comunicaciones. Propone las acciones, medidas y normatividad administrativa interna para el funcionamiento eficaz y eficiente del Instituto
+                        </p>
+                        <br/>
+                        <p:graphicImage value="/resources/images/ift-panel-trabajo.jpg" title="img"/>        
+
+
+                    </ui:insert>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="80" >
+                    <ui:insert name="footerPArt">
+                        <div style="text-align: center; font-size: 7pt">
+                            <table width="100%">
+                                <tr style="width: 100%;">
+                                    <td align="left" width="20%"><p:graphicImage value="/resources/images/logo-ift-horizontal-color.png"  height="38"/></td>
+                                    <td align="center" width="60%"><p:outputLabel value="Insurgentes Sur #1143, Col. Nochebuena, Delegación Benito Juárez, Ciudad de México 03720; Contáctanos. atencion@ift.org.mx" class="ui-widget-content-footer"/></td>
+                                    <td align="right" width="20%"><p:outputLabel value="Ver.#{commonDataMB.versionApp}; Fecha: #{commonDataMB.fechaActual}" class="ui-widget-content-footer"/></td>
+                                </tr>
+                            </table>                        
+                        </div>
+                    </ui:insert>
+                </p:layoutUnit>
+            </p:layout>
+
+            <ui:include src="/WEB-INF/components/AjaxStatus.xhtml" />
+
+            <ui:insert name="outLayoutPart" >
+                <!-- Usar este define para declarar dialogos o cosas que no interactuan muy bien con el p:layout -->
+            </ui:insert>
+        </h:body>
+    </f:view>
+</html>
+

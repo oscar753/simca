@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.arq.core.persistence.ConfiguracionMapper">
+
+    <resultMap id="configuracionMap" type="Configuracion" >
+        <id property="configuracionPk" column="configuracion_pk" jdbcType="INTEGER"/>
+        <result property="tipoConfiguracionFk" column="tipo_configuracion_fk" jdbcType="INTEGER"/>
+        <result property="llave" column="llave" jdbcType="VARCHAR"/>
+        <result property="valorStr" column="valor_str" jdbcType="VARCHAR"/>
+        <result property="valorInt" column="valor_int" jdbcType="INTEGER"/>
+        <result property="valorFlt" column="valor_flt" jdbcType="REAL"/>
+        <result property="valorBol" column="valor_bol" jdbcType="BIT"/>
+    </resultMap>
+
+    <sql id="tableName">configuracion</sql>
+
+    <sql id="allColumns">
+        configuracion_pk, tipo_configuracion_fk, llave, valor_str, valor_int, valor_flt, valor_bol
+    </sql>
+
+    <sql id="primaryKeyWherePart">
+        WHERE
+            configuracion_pk = #{configuracionPk,jdbcType=INTEGER} 
+    </sql>
+
+    <sql id="selectColumnsFrom">
+        SELECT
+        <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+
+    <select id="getNextSquenceValue"
+            parameterType="java.lang.Integer">
+        select 1
+    </select>
+
+    <select id="getAll"
+            parameterType="Configuracion"
+            resultMap="configuracionMap" >
+        <include refid="selectColumnsFrom"/> 
+    </select>
+
+    <select id="getById"
+            parameterType="Configuracion"
+            resultMap="configuracionMap">
+        <include refid="selectColumnsFrom"/> 
+        <include refid="primaryKeyWherePart"/>
+    </select>
+
+    <insert id="insert" parameterType="Configuracion" >
+        INSERT INTO <include refid="tableName"/>(
+            <include refid="allColumns"/>
+        ) VALUES (
+            #{configuracionPk,jdbcType=INTEGER}, #{tipoConfiguracionFk,jdbcType=INTEGER}, #{llave,jdbcType=VARCHAR}, #{valorStr,jdbcType=VARCHAR}, #{valorInt,jdbcType=INTEGER}, #{valorFlt,jdbcType=REAL}, #{valorBol,jdbcType=BIT}
+        )
+        
+        <selectKey keyProperty="configuracionPk" resultType="_int" order="BEFORE">
+            SELECT configuracion_seq.nextval AS configuracion_pk FROM DUAL
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="Configuracion">
+        UPDATE <include refid="tableName"/> SET
+            tipo_configuracion_fk = #{tipoConfiguracionFk,jdbcType=INTEGER}, llave = #{llave,jdbcType=VARCHAR}, valor_str = #{valorStr,jdbcType=VARCHAR}, valor_int = #{valorInt,jdbcType=INTEGER}, valor_flt = #{valorFlt,jdbcType=REAL}, valor_bol = #{valorBol,jdbcType=BIT}
+        <include refid="primaryKeyWherePart"/>
+    </update>
+
+    <delete id="delete" parameterType="Configuracion">
+        DELETE FROM <include refid="tableName"/>
+        <include refid="primaryKeyWherePart"/>
+    </delete>
+    
+</mapper>

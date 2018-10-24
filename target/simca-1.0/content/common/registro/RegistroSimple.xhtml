@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"                
+                template="/WEB-INF/templates/AnonymousTemplate.xhtml">
+
+    <ui:define name="pageTitleText">Solicita el registro a este sitio</ui:define>
+
+    <ui:define name="contentPart">
+        <h:form id="registroForm" prependId="false" >
+            <p:panel header="Registro" style="width:620px; margin-left: auto; margin-right: auto; margin-top: 70px;">
+
+                <p:panel header="Datos del usuario">
+                    <h:panelGrid columns="2" >
+                        <p:outputLabel for="usuario" value="Nombre de usuario (login)" />
+                        <p:inputText id="usuario" value="#{registroSimpleMB.usuario.usuario}" required="true" size="25" maxlength="#{commonDataMB.maxInputTextLength}" >
+                            <f:validator validatorId="mx.org.ift.simca.arq.core.UserNameUniqueValidator" />
+                        </p:inputText>
+                        <h:outputText value="" />
+                        <p:message for="usuario" />
+
+                        <p:outputLabel for="clave" value="Clave (password)" />
+                        <p:password id="clave" value="#{registroSimpleMB.usuario.clave}" required="true" size="25" maxlength="#{commonDataMB.maxInputTextLength}"
+                                    validatorMessage="La clave debe tener por lo menos 5 caracteres"
+                                    feedback="true" promptLabel="Ingrese un password" strongLabel="Complejidad buena" weakLabel="Complejidad debil" goodLabel="Complejidad normal" >
+                            <f:validateLength minimum="5" />
+                        </p:password>
+                        <h:outputText value="" />
+                        <p:message for="clave" />
+
+                        <p:outputLabel for="confirmaClave" value="Confirma clave" />
+                        <p:password id="confirmaClave" value="#{registroSimpleMB.confirmaClave}" required="true" size="25" maxlength="#{commonDataMB.maxInputTextLength}" 
+                                    validatorMessage="La confirmación de la clave debe coincidir con la clave ingresada.">
+                            <f:validator validatorId="mx.org.ift.simca.arq.core.EqualsValidator" />
+                            <f:attribute name="compareToId" value="clave" />
+                        </p:password>
+                        <h:outputText value="" />
+                        <p:message for="confirmaClave" />
+
+                        <p:outputLabel for="correo" value="Correo electrónico" />
+                        <p:inputText id="correo" value="#{registroSimpleMB.usuario.correo}" required="true" size="40" maxlength="#{commonDataMB.maxInputTextLength}" >
+                            <f:validator validatorId="mx.org.ift.simca.arq.core.EmailUniqueValidator" />
+                        </p:inputText>
+                        <h:outputText value="" />
+                        <p:message for="correo" />
+
+                        <p:outputLabel for="preguntaSecreta" value="Pregunta secreta" />
+                        <p:inputText id="preguntaSecreta" value="#{registroSimpleMB.usuario.preguntaSecreta}" required="true" size="40" maxlength="#{commonDataMB.maxInputTextLength}" />
+                        <h:outputText value="" />
+                        <p:message for="preguntaSecreta" />
+
+                        <p:outputLabel for="respuestaSecreta" value="Respuesta a la secreta" />
+                        <p:inputText id="respuestaSecreta" value="#{registroSimpleMB.usuario.respuestaSecreta}" required="true" size="40" maxlength="#{commonDataMB.maxInputTextLength}" />
+                        <h:outputText value="" />
+                        <p:message for="respuestaSecreta" />
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel header="Confirma el Captcha">
+                    <dadt:customCaptcha id="myCaptcha" />
+                    <!-- El ID que reporta el captcha es: captchaText -->
+                    <p:message for=":registroForm:myCaptcha:captchaText" />
+                </p:panel>
+                
+                <p:messages globalOnly="true" autoUpdate="true" />
+                
+                <div>
+                    <p:commandButton value="Registrar" actionListener="#{registroSimpleMB.registra}" oncomplete="showAceptMessage(xhr, status, args);" update="registroForm" />
+                    <p:commandButton value="Cancelar" onclick="location='#{request.contextPath}/#{commonDataMB.defaultFailureUrl}';" global="true" />
+                </div>
+                
+                <br/><br/>
+                
+                <p>
+                    * Dato obligatorio.
+                </p>
+
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="outLayoutPart" >
+        <ui:include src="/WEB-INF/components/Dialogs.xhtml" />
+    </ui:define>
+    
+</ui:composition>

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/templates/LoggedTemplate.xhtml">
+
+    <ui:define name="pageTitleText">Ejercicios</ui:define>
+
+    <ui:define name="contentPart">
+
+        <h:form id="fmaEjercicios">
+            <p:growl id="confirmListConGrowl" 
+                     showDetail="true" 
+                     sticky="false"/>                                       
+
+            <h:outputText 
+                value="RH | Ejercicios" 
+                style="font-weight: bold"/>
+
+            <hr class="ui-separator ui-state-default ui-corner-all separator"></hr>            
+            <h:outputText value=" Listado de Ejercicios" />
+            <br/><br/>
+
+            <h:panelGrid columns="1" cellpadding="10" columnClasses="centered7">
+                <p:dataTable id="tblBitErrCalNom" value="#{consultaDatosMB.listaEjercicios}" style="font-size: small"
+                         var="ejercicio" 
+                         emptyMessage="Realiza una nueva búsqueda" 
+                         rowKey="#{ejercicio.idEjercicio}" 
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90"
+                         paginatorTemplate=" {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                         paginatorPosition="bottom" draggableRows="true">    
+
+                <p:column style="text-align: center; width:100px" headerText="ID Ejercicio"
+                          filterMatchMode="contains"
+                          sortBy="#{ejercicio.idEjercicio}">
+                    <h:outputText value="#{ejercicio.idEjercicio}" />
+                </p:column>
+
+                <p:column style="text-align: center; width:100px" headerText="Nombre"   
+                          filterBy="#{ejercicio.ejercicio}"
+                          filterMatchMode="contains"
+                          sortBy="#{ejercicio.ejercicio}">
+                    <h:outputText value="#{ejercicio.ejercicio}" />
+                </p:column>
+
+
+                <p:column style="text-align: center; width:100px" headerText="Activo"   
+                          filterBy="#{ejercicio.vigente}"
+                          filterMatchMode="contains"
+                          sortBy="#{ejercicio.vigente}">
+                    <h:outputText value="#{ejercicio.vigente}" />
+                </p:column>
+
+            </p:dataTable>                
+            </h:panelGrid>
+            <br/>
+            <div align="left">
+                        <p:commandButton
+                            value="Cerrar"
+                            type="button"
+                            onclick="location = '#{request.contextPath}#{commonDataMB.defaultTargetUrl}';">
+                        </p:commandButton>         
+            </div>
+
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

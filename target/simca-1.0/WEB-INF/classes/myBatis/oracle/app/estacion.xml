@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.persistence.EstacionMapper">
+
+    <resultMap id="estacionMap" type="Estacion" >
+    	<id property="folioElectronico" column="FOLIO_ELECTRONICO" jdbcType="VARCHAR"/>
+    	<id property="idSenial" column="ID_SENIAL" jdbcType="INTEGER"/>
+        <id property="idEstado" column="ID_ESTADO" jdbcType="INTEGER"/>
+        <id property="idPoblacion" column="ID_POBLACION" jdbcType="INTEGER"/>
+        <id property="idClase" column="ID_CLASE" jdbcType="INTEGER"/>
+        <id property="idTipoUsoEstacion" column="ID_TIPO_USO_ESTACION" jdbcType="INTEGER"/>
+        <id property="distintivo" column="DISTINTIVO" jdbcType="VARCHAR"/>
+        <id property="idBanda" column="ID_BANDA" jdbcType="INTEGER"/>
+        <id property="idTipoFrecuencia" column="ID_TIPO_FRECUENCIA" jdbcType="INTEGER"/>
+        <id property="frecuencia" column="FRECUENCIA" jdbcType="INTEGER"/>
+        <id property="fecIniVigencia" column="FEC_INI_VIGENCIA" jdbcType="DATE"/>
+        <id property="fecFinVigencia" column="FEC_FIN_VIGENCIA" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="tableName">estacion</sql>
+
+    <sql id="allColumns">
+        FOLIO_ELECTRONICO, ID_SENIAL, ID_ESTADO, ID_POBLACION, ID_CLASE, ID_TIPO_USO_ESTACION, DISTINTIVO, ID_BANDA, ID_TIPO_FRECUENCIA, FRECUENCIA, FEC_INI_VIGENCIA, FEC_FIN_VIGENCIA
+    </sql>
+    
+    <select id="getAll"
+        parameterType="Estacion"
+        resultMap="estacionMap" >
+        <include refid="selectColumnsFrom"/> 
+    </select>
+    
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+       
+</mapper>

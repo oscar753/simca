@@ -1,0 +1,5 @@
+admin
+mi@dminadmin1
+
+
+mvn archetype:create -DarchetypeGroupId=mx.org.ift.arquetipos.web.pf -DarchetypeArtifactId=archetype-primefaces -DarchetypeVersion=3.0.0 -DgroupId=mx.org.ift.simca -DartifactId=simca -Dversion=1.0

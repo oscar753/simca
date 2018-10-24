@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.arq.core.persistence.UsuarioPerfilMapper">
+
+    <resultMap id="core-usuarioPerfilMap" type="UsuarioPerfil" >
+        <id property="usuarioFk" column="usuario_fk" jdbcType="INTEGER"/>
+        <id property="perfilFk" column="perfil_fk" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="tableName">usuario_perfil</sql>
+
+    <sql id="allColumns">
+        usuario_fk, perfil_fk
+    </sql>
+
+    <sql id="primaryKeyWherePart">
+        WHERE
+        usuario_fk = #{usuarioFk,jdbcType=INTEGER} , perfil_fk = #{perfilFk,jdbcType=INTEGER} 
+    </sql>
+
+    <sql id="selectColumnsFrom">
+        SELECT
+        <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+
+    <select id="getNextSquenceValue"
+            parameterType="java.lang.Integer">
+        select 1
+    </select>
+
+    <select id="getAll"
+            parameterType="UsuarioPerfil"
+            resultMap="core-usuarioPerfilMap" >
+        <include refid="selectColumnsFrom"/> 
+    </select>
+
+    <select id="getById"
+            parameterType="UsuarioPerfil"
+            resultMap="core-usuarioPerfilMap">
+        <include refid="selectColumnsFrom"/> 
+        <include refid="primaryKeyWherePart"/>
+    </select>
+
+    <insert id="insert" parameterType="UsuarioPerfil">
+        INSERT INTO <include refid="tableName"/>(
+        <include refid="allColumns"/>
+        ) VALUES (
+        #{usuarioFk,jdbcType=INTEGER}, #{perfilFk,jdbcType=INTEGER}
+        )
+    </insert>
+
+    <update id="update" parameterType="UsuarioPerfil">
+        UPDATE <include refid="tableName"/> SET
+        
+        <include refid="primaryKeyWherePart"/>
+    </update>
+
+    <delete id="delete" parameterType="UsuarioPerfil">
+        DELETE FROM <include refid="tableName"/>
+        <include refid="primaryKeyWherePart"/>
+    </delete>
+    
+    <delete id="deleteByIdUsuario" parameterType="_integer">
+        DELETE FROM <include refid="tableName"/> 
+        WHERE usuario_fk = #idUsuario
+    </delete>
+
+</mapper>

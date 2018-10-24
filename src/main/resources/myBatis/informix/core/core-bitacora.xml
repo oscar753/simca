@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.arq.core.persistence.BitacoraMapper">
+
+    <resultMap id="bitacoraMap" type="Bitacora" >
+                <id property="bitacoraPk" column="bitacora_pk" jdbcType="INTEGER"/>
+                <result property="tipoBitacoraFk" column="tipo_bitacora_fk" jdbcType="INTEGER"/>
+                <result property="ip" column="ip" jdbcType="VARCHAR"/>
+                <result property="eventDate" column="eventDate" jdbcType="TIMESTAMP"/>
+                <result property="username" column="username" jdbcType="VARCHAR"/>
+                <result property="extraInfo" column="extraInfo" jdbcType="VARCHAR"/>
+            </resultMap>
+
+    <sql id="tableName">bitacora</sql>
+
+    <sql id="allColumns">
+        bitacora_pk, tipo_bitacora_fk, ip, eventDate, username, extraInfo
+    </sql>
+
+    <sql id="primaryKeyWherePart">
+        WHERE
+            bitacora_pk = #{bitacoraPk,jdbcType=INTEGER} 
+    </sql>
+
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+
+    <select id="getNextSquenceValue"
+        parameterType="java.lang.Integer">
+        select 1
+    </select>
+
+    <select id="getAll"
+        parameterType="Bitacora"
+        resultMap="bitacoraMap" >
+        <include refid="selectColumnsFrom"/> 
+    </select>
+
+    <select id="getById"
+        parameterType="Bitacora"
+        resultMap="bitacoraMap">
+        <include refid="selectColumnsFrom"/> 
+        <include refid="primaryKeyWherePart"/>
+    </select>
+
+    <insert id="insert" parameterType="Bitacora" keyProperty="bitacoraPk" useGeneratedKeys="true">
+        INSERT INTO <include refid="tableName"/>(
+            <include refid="allColumns"/>
+        ) VALUES (
+            0, #{tipoBitacoraFk,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{eventDate,jdbcType=TIMESTAMP}, #{username,jdbcType=VARCHAR}, #{extraInfo,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="update" parameterType="Bitacora">
+        UPDATE <include refid="tableName"/> SET
+            tipo_bitacora_fk = #{tipoBitacoraFk,jdbcType=INTEGER}, ip = #{ip,jdbcType=VARCHAR}, eventDate = #{eventDate,jdbcType=TIMESTAMP}, username = #{username,jdbcType=VARCHAR}, extraInfo = #{extraInfo,jdbcType=VARCHAR}
+        <include refid="primaryKeyWherePart"/>
+    </update>
+
+    <delete id="delete" parameterType="Bitacora">
+        DELETE FROM <include refid="tableName"/>
+        <include refid="primaryKeyWherePart"/>
+    </delete>
+    
+    <update id="upeventDate" parameterType="Bitacora">
+        UPDATE <include refid="tableName"/> SET
+            ip = #{ip,jdbcType=VARCHAR}, eventDate = #{eventDate,jdbcType=TIMESTAMP}, username = #{username,jdbcType=VARCHAR}, extraInfo = #{extraInfo,jdbcType=VARCHAR}
+        <include refid="primaryKeyWherePart"/>
+    </update>
+
+    <delete id="clean" parameterType="DateWrapper">
+        DELETE FROM <include refid="tableName"/> 
+        WHERE 
+            eventDate <![CDATA[ < ]]> #{upperLimit,jdbcType=TIMESTAMP}
+    </delete>
+    
+</mapper>

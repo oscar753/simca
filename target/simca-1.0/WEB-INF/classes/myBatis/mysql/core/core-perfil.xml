@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.arq.core.persistence.PerfilMapper">
+
+    <resultMap id="core-perfilMap" type="Perfil" >
+        <id property="perfilPk" column="perfil_pk" jdbcType="INTEGER"/>
+        <result property="codigoPerfil" column="codigo_perfil" jdbcType="VARCHAR"/>
+        <result property="descripcionPerfil" column="descripcion_perfil" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="tableName">perfil</sql>
+
+    <sql id="allColumns">
+        perfil_pk, codigo_perfil, descripcion_perfil
+    </sql>
+
+    <sql id="primaryKeyWherePart">
+        WHERE
+        perfil_pk = #{perfilPk,jdbcType=INTEGER} 
+    </sql>
+
+    <sql id="selectColumnsFrom">
+        SELECT
+        <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+
+    <select id="getNextSquenceValue"
+            parameterType="java.lang.Integer">
+        select 1
+    </select>
+
+    <select id="getAll"
+            parameterType="Perfil"
+            resultMap="core-perfilMap" >
+        <include refid="selectColumnsFrom"/> 
+    </select>
+
+    <select id="getById"
+            parameterType="Perfil"
+            resultMap="core-perfilMap">
+        <include refid="selectColumnsFrom"/> 
+        <include refid="primaryKeyWherePart"/>
+    </select>
+
+    <select id="getUserPerfiles" 
+            resultMap="core-perfilMap" 
+            parameterType="java.lang.String" >
+        SELECT 
+        perfil.perfil_pk, 
+        perfil.codigo_perfil, 
+        perfil.descripcion_perfil
+        FROM 
+        <include refid="tableName"/>, 
+        usuario, 
+        usuario_perfil 
+        WHERE 
+        perfil.perfil_pk = perfil_fk AND 
+        usuario.usuario_pk = usuario_fk AND 
+        usuario.usuario = #{username,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insert" parameterType="Perfil" >
+        INSERT INTO <include refid="tableName"/>(
+        <include refid="allColumns"/>
+        ) VALUES (
+        #{perfilPk,jdbcType=INTEGER}, #{codigoPerfil,jdbcType=VARCHAR}, #{descripcionPerfil,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="update" parameterType="Perfil">
+        UPDATE <include refid="tableName"/> SET
+        codigo_perfil = #{codigoPerfil,jdbcType=VARCHAR}, descripcion_perfil = #{descripcionPerfil,jdbcType=VARCHAR}
+        <include refid="primaryKeyWherePart"/>
+    </update>
+
+    <delete id="delete" parameterType="Perfil">
+        DELETE FROM <include refid="tableName"/>
+        <include refid="primaryKeyWherePart"/>
+    </delete>
+    
+</mapper>

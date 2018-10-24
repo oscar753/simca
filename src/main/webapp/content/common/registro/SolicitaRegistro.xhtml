@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"                
+                template="/WEB-INF/templates/AnonymousTemplate.xhtml">
+
+    <ui:define name="pageTitleText">Solicita el registro a este sitio</ui:define>
+    
+    <ui:define name="contentPart">
+        <f:view>
+            <h:form id="solicitaRegistroForm">
+                <p:panel style="width:420px; margin-left: auto; margin-right: auto; margin-top: 70px;">
+                    <h:panelGrid columns="1">
+                        <h:outputLabel for="correo" value="1) Captura tu Correo electrónico:"/>
+                        <h:inputText id="correo" value="#{solicitaRegistroMB.correo}" size="37" maxlength="#{commonDataMB.maxInputTextLength}" required="true" requiredMessage="El correo es requerido"/>
+                        <p:spacer height="20"/>
+                        <h:outputLabel for="myCaptcha" value="2) Confirma el Captcha:"/>
+                        <dadt:customCaptcha id="myCaptcha" />
+                    </h:panelGrid>
+
+                    <br/>
+
+                    <p:commandButton
+                        value="Solicitar registro"
+                        ajax="false"
+                        actionListener="#{solicitaRegistroMB.solicita}" />
+
+                    <p:spacer width="20px" />
+
+                    <p:commandButton
+                        onclick="location = '#{request.contextPath}/#{commonDataMB.defaultFailureUrl}';"
+                        global="false"
+                        value="Regresar a login" />
+                    <br/><br/>
+
+                    <p:messages id="mensajes" />
+                </p:panel>
+            </h:form>
+
+            <h:form id="confirma" prependId="true">
+                <div id="customContent">
+                    <p:dialog
+                        id="confirmaRegistroId"
+                        onShow="$('#confirmaRegistroId').center();"
+                        header="Aviso"
+                        widgetVar="confirmaRegistro"
+                        modal="true"
+                        resizable="false"
+                        closable="false"
+                        visible="#{solicitaRegistroMB.muestraModalConfirma}"
+                        width="600" >
+                        <br/>
+                        <h:outputText value="Por favor, confirma si el correo dado es el que deseas registrar:"/>
+                        <br/><br/>
+                        <h:outputText id="valor" value="#{solicitaRegistroMB.correo}" />
+                        <br/><br/>
+                        <h:outputText value="Si es correcto, se enviará un correo a esa cuenta para que concluyas el registro." />
+                        <br/><br/>
+
+
+                        <div>
+                            <p:commandButton
+                                value="Si, es correcto" 
+                                actionListener="#{solicitaRegistroMB.preregistra}" 
+                                oncomplete="location='AvisoSolicitaRegistro.jsf'" />
+                            <p:commandButton
+                                type="button"
+                                value="Cancelar" 
+                                onclick="location = 'SolicitaRegistro.jsf';" />
+                        </div>
+
+                        <br/>
+                    </p:dialog>
+                </div>
+            </h:form>
+
+
+        </f:view>
+    </ui:define>
+    
+    <ui:define name="outLayoutPart" >
+        <ui:include src="/WEB-INF/components/Dialogs.xhtml" />
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.persistence.ImagenUsuarioMapper">
+
+    <resultMap id="imagenUsuarioMap" type="ImagenUsuario" >
+                <id property="usuarioUsuarioPk" column="usuario_usuario_pk" jdbcType="INTEGER"/>
+                <id property="imagenImagenPk" column="imagen_imagen_pk" jdbcType="INTEGER"/>
+            </resultMap>
+
+    <sql id="tableName">imagen_usuario</sql>
+
+    <sql id="allColumns">
+        usuario_usuario_pk, imagen_imagen_pk
+    </sql>
+
+    <sql id="primaryKeyWherePart">
+        WHERE
+            usuario_usuario_pk = #{usuarioUsuarioPk,jdbcType=INTEGER} AND imagen_imagen_pk = #{imagenImagenPk,jdbcType=INTEGER} 
+    </sql>
+
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+
+    <select id="getNextSquenceValue"
+        parameterType="java.lang.Integer">
+        select 1
+    </select>
+
+    <select id="getAll"
+        parameterType="ImagenUsuario"
+        resultMap="imagenUsuarioMap" >
+        <include refid="selectColumnsFrom"/> 
+    </select>
+
+    <select id="getById"
+        parameterType="ImagenUsuario"
+        resultMap="imagenUsuarioMap">
+        <include refid="selectColumnsFrom"/> 
+        <include refid="primaryKeyWherePart"/>
+    </select>
+    
+    <select id="getAllByUsuarioPk"
+        parameterType="_int"
+        resultMap="imagenUsuarioMap">
+        <include refid="selectColumnsFrom"/> 
+        WHERE
+            usuario_usuario_pk = #{usuarioUsuarioPk,jdbcType=INTEGER}
+    </select>
+
+    <insert id="insert" parameterType="ImagenUsuario">
+    
+        INSERT INTO <include refid="tableName"/>(
+            <include refid="allColumns"/>
+        ) VALUES (
+            #{usuarioUsuarioPk,jdbcType=INTEGER}, #{imagenImagenPk,jdbcType=INTEGER}
+        )
+    </insert>
+
+    <update id="update" parameterType="ImagenUsuario">
+        UPDATE <include refid="tableName"/> SET
+        usuario_usuario_pk = #{usuarioUsuarioPk,jdbcType=INTEGER}, imagen_imagen_pk = #{imagenImagenPk,jdbcType=INTEGER} 
+        <include refid="primaryKeyWherePart"/>
+    </update>
+
+    <delete id="delete" parameterType="ImagenUsuario">
+        DELETE FROM <include refid="tableName"/>
+        <include refid="primaryKeyWherePart"/>
+    </delete>
+    
+    <delete id="deleteAllFromImagenPk"
+        parameterType="_int">
+        DELETE FROM <include refid="tableName"/>
+        WHERE
+            imagen_imagen_pk = #{imagenImagenPk,jdbcType=INTEGER}
+    </delete>
+    
+</mapper>

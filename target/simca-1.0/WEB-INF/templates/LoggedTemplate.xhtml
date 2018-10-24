@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="BaseTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="menuPart">               
+
+        <h:form id="menuForm">
+            <p:growl 
+                id="messages" 
+                showDetail="true" 
+                sticky="true" />
+
+            <p:idleMonitor timeout="2160000">
+                <p:ajax 
+                    event="idle"  
+                    listener="#{authenticationService.logout()}" 
+                    onstart="bandera()" 
+                    oncomplete="window.location='#{request.contextPath}/content/common/logout.jsf'"/>
+            </p:idleMonitor>
+
+            <p:menu style="width:250px;
+                height: 530px">
+
+                <p:submenu label="Altas, bajas y cambios" 
+                    rendered="#{p:ifGranted('PERFIL_USER')}">
+
+                    <p:menuitem value="Canales de programación" 
+                        url="/content/restricted/canal/canalProgramacion.jsf"
+                        rendered="#{p:ifGranted('PERFIL_ADMIN')}"/>
+                    
+                    <p:menuitem value="Televisión Digital Terrestre" 
+                        url="/content/restricted/usuario/ChangeMyPassword.jsf"
+                        rendered="#{p:ifGranted('PERFIL_ADMIN')}"/>
+                   	
+                   	<p:menuitem value="Radio" 
+                        url="/content/restricted/estacion/estacionProgramacion.jsf"
+                        rendered="#{p:ifGranted('PERFIL_ADMIN')}"/>
+                    
+                    <p:menuitem value="Catálogos varios" 
+                        url="/content/restricted/catalogo/admonCatalogo.jsf"
+                        rendered="#{p:ifGranted('PERFIL_ADMIN')}"/>
+                </p:submenu>
+
+                <p:separator rendered="#{p:ifGranted('PERFIL_USER')}"/>
+
+                <p:submenu label="Reportes" 
+                    rendered="#{p:ifGranted('PERFIL_USER')}">
+
+                    <p:menuitem value="Reportes de radio" 
+                        url="/content/admin/users/ListUser.jsf"
+                        rendered="#{p:ifGranted('PERFIL_ADMIN')}"/>
+                    
+                    <p:menuitem value="Reportes de TDT" 
+                        url="/content/restricted/usuario/ChangeMyPassword.jsf"
+                        rendered="#{p:ifGranted('PERFIL_ADMIN')}"/>
+                   	
+                   	<p:menuitem value="Reportes de canal virtual" 
+                        url="/content/admin/users/ListUser.jsf"
+                        rendered="#{p:ifGranted('PERFIL_ADMIN')}"/>                                        
+                </p:submenu>
+
+                <p:separator rendered="#{p:ifGranted('PERFIL_USER')}"/>
+
+                <p:submenu label="Bitacora"
+                    rendered="#{p:ifGranted('PERFIL_USER')}">
+                    <p:menuitem value="Bitacora"
+                        url="/content/admin/users/ListUser.jsf"
+                        rendered="#{p:ifGranted('PERFIL_ADMIN')}"/>                                                   
+                </p:submenu>
+
+                <p:separator rendered="#{p:ifGranted('PERFIL_USER')}"/>
+                
+                <p:submenu label="Seguridad" 
+                    rendered="#{p:ifGranted('PERFIL_USER')}">
+
+                    <p:menuitem value="Administración de usuarios"
+                        url="/content/admin/users/ListUser.jsf"
+                        rendered="#{p:ifGranted('PERFIL_ADMIN')}"/>
+                    
+                    <p:menuitem value="Administración de roles" 
+                        url="/content/restricted/usuario/ChangeMyPassword.jsf"
+                        rendered="#{p:ifGranted('PERFIL_ADMIN')}"/>                   	                   	                                      
+                </p:submenu>            
+
+                <p:separator rendered="#{p:ifGranted('PERFIL_USER')}"/>
+
+                <p:menuitem value="" url="/content/common/logout.jsf" disabled="true" /> 
+                <p:menuitem value="" url="/content/common/logout.jsf" disabled="true" /> 
+                <p:menuitem value="" url="/content/common/logout.jsf" disabled="true" /> 
+
+                <p:menuitem value="Salir" url="/content/common/logout.jsf" /> 
+                <p:separator />
+            </p:menu>
+        </h:form>
+
+        <p:ajaxStatus 
+            onstart="PF('statusDialog').show()" 
+            onsuccess="PF('statusDialog').hide()" />
+
+        <p:dialog 
+            widgetVar="statusDialog" 
+            modal="true" 
+            draggable="false" 
+            closable="false" 
+            resizable="false" 
+            showHeader="false"
+            appendTo="@(body)">
+            <p:graphicImage url="/resources/images/spinner_ift3.gif"  />
+        </p:dialog>         
+
+        <script>
+            function bandera() {
+                window.localStorage['sessionExpirada'] = true;
+            }
+        </script>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.persistence.ImagenMapper">
+
+    <resultMap id="imagenMap" type="Imagen" >
+                <id property="imagenPk" column="imagen_pk" jdbcType="INTEGER"/>
+                <result property="mimeType" column="mime_type" jdbcType="VARCHAR"/>
+                <result property="nombre" column="nombre" jdbcType="VARCHAR"/>
+                <result property="contenido" column="contenido" jdbcType="LONGVARBINARY"/>
+            </resultMap>
+
+    <sql id="tableName">imagen</sql>
+
+    <sql id="allColumns">
+        imagen_pk, mime_type, nombre, contenido
+    </sql>
+
+    <sql id="primaryKeyWherePart">
+        WHERE
+            imagen_pk = #{imagenPk,jdbcType=INTEGER} 
+    </sql>
+
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+
+    <select id="getNextSquenceValue"
+        parameterType="java.lang.Integer">
+        select 1
+    </select>
+
+    <select id="getAll"
+        parameterType="Imagen"
+        resultMap="imagenMap" >
+        <include refid="selectColumnsFrom"/> 
+    </select>
+
+    <select id="getById"
+        parameterType="Imagen"
+        resultMap="imagenMap">
+        <include refid="selectColumnsFrom"/> 
+        <include refid="primaryKeyWherePart"/>
+    </select>
+
+    <insert id="insert" parameterType="Imagen" >
+        INSERT INTO <include refid="tableName"/>(
+            <include refid="allColumns"/>
+        ) VALUES (
+            #{imagenPk,jdbcType=INTEGER}, #{mimeType,jdbcType=VARCHAR}, #{nombre,jdbcType=VARCHAR}, #{contenido,jdbcType=LONGVARBINARY}
+        )
+        
+        <selectKey keyProperty="imagenPk" resultType="_int" order="BEFORE">
+            SELECT imagen_seq.nextval AS imagen_pk FROM DUAL
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="Imagen">
+        UPDATE <include refid="tableName"/> SET
+        mime_type = #{mimeType,jdbcType=VARCHAR}, nombre = #{nombre,jdbcType=VARCHAR}, contenido = #{contenido,jdbcType=LONGVARBINARY}
+        <include refid="primaryKeyWherePart"/>
+    </update>
+
+    <delete id="delete" parameterType="Imagen">
+        DELETE FROM <include refid="tableName"/>
+        <include refid="primaryKeyWherePart"/>
+    </delete>
+    
+</mapper>

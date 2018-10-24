@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <body>
+        
+        <ui:component>
+
+            <p:dialog
+                id="avisoExitoLogOutId"
+                header="Aviso"
+                widgetVar="avisoExitoLogOut"
+                modal="true"
+                resizable="false"
+                closable="false"
+                width="300" >
+                <h:form prependId="false">
+                    <br/>
+                    <ui:insert name="avisoExitoMsg">
+                        <h:outputText value="La operación ha sido efectuada con éxito"/>
+                    </ui:insert>
+                    <br/><br/>
+
+                    <div id="boton">
+                        <ui:insert name="avisoExitoDlg">
+                            <input
+                                type="button"
+                                value="Aceptar"
+                                onclick="location = '#{request.contextPath}/content/common/logout.jsf';" />
+                        </ui:insert>
+                    </div>
+                    <br/>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog
+                id="avisoExitoId"
+                header="Aviso"
+                widgetVar="avisoExito"
+                modal="true"
+                resizable="false"
+                closable="true"
+                width="300" >
+                <h:form prependId="false">
+                    <br/>
+                    <h:outputText value="La operación ha sido efectuada con éxito"/>
+                    <br/><br/>
+
+                    <div id="boton">
+                        <input
+                            type="button"
+                            value="Aceptar"
+                            onclick="avisoExito.hide();" />
+                    </div>
+                    <br/>
+                </h:form>
+            </p:dialog>
+
+        </ui:component>
+
+    </body>
+</html>
+

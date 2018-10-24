@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.arq.core.persistence.TipoConfiguracionMapper">
+
+    <resultMap id="tipoConfiguracionMap" type="TipoConfiguracion" >
+        <id property="tipoConfiguracionPk" column="tipo_configuracion_pk" jdbcType="INTEGER"/>
+        <result property="nombre" column="nombre" jdbcType="VARCHAR"/>
+        <result property="descripcion" column="descripcion" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="tableName">tipo_configuracion</sql>
+
+    <sql id="allColumns">
+        tipo_configuracion_pk, nombre, descripcion
+    </sql>
+
+    <sql id="primaryKeyWherePart">
+        WHERE
+            tipo_configuracion_pk = #{tipoConfiguracionPk,jdbcType=INTEGER} 
+    </sql>
+
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+
+    <select id="getNextSquenceValue"
+            parameterType="java.lang.Integer">
+        select 1
+    </select>
+
+    <select id="getAll"
+            parameterType="TipoConfiguracion"
+            resultMap="tipoConfiguracionMap" >
+        <include refid="selectColumnsFrom"/> 
+    </select>
+
+    <select id="getById"
+            parameterType="TipoConfiguracion"
+            resultMap="tipoConfiguracionMap">
+        <include refid="selectColumnsFrom"/> 
+        <include refid="primaryKeyWherePart"/>
+    </select>
+
+    <insert id="insert" parameterType="TipoConfiguracion">
+    
+        INSERT INTO <include refid="tableName"/>(
+            <include refid="allColumns"/>
+        ) VALUES (
+            #{tipoConfiguracionPk,jdbcType=INTEGER}, #{nombre,jdbcType=VARCHAR}, #{descripcion,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="update" parameterType="TipoConfiguracion">
+        UPDATE <include refid="tableName"/> SET
+            nombre = #{nombre,jdbcType=VARCHAR}, descripcion = #{descripcion,jdbcType=VARCHAR}
+        <include refid="primaryKeyWherePart"/>
+    </update>
+
+    <delete id="delete" parameterType="TipoConfiguracion">
+        DELETE FROM <include refid="tableName"/>
+        <include refid="primaryKeyWherePart"/>
+    </delete>
+    
+</mapper>

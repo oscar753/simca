@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/templates/LoggedTemplate.xhtml">
+   
+    <ui:define name="contentPart">
+        <h:form id="formAddCanalProg">            
+            <h:outputText value="Altas, bajas y cambios" style="font-weight: bold"/>
+            <hr class="ui-separator ui-state-default ui-corner-all separator"></hr>                        
+            <br/>
+			<h3 style="margin-top:0">Canal de programación</h3>
+			<p:tabView>
+				<p:tab id="tabGenerales" title="Generales">
+					<h:panelGrid columns="4" columnClasses="centered7" id="pnlGriGenerales">
+            			<p:column>
+            				<p:outputLabel value="No:" id="noTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="noTabGnralIn"></p:inputText>
+            			</p:column>
+            			<p:column>
+            				<p:outputLabel value="ID señal:" id="senialTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="senialTabGnralIn"></p:inputText>
+            			</p:column>
+       				</h:panelGrid>	
+				</p:tab>
+			</p:tabView>
+			
+        	<br/>         
+        </h:form>
+    </ui:define>
+</ui:composition>

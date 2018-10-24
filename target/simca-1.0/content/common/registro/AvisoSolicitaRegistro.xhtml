@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/AnonymousTemplate.xhtml">
+    
+    <ui:define name="pageTitleText">Completa registro a este sitio</ui:define>
+    
+    <ui:define name="contentPart">
+        <f:view>
+            <p:panel style="width:440px; margin-left: auto; margin-right: auto; margin-top: 70px;" header="Aviso">
+                <h:outputText value="Se ha enviado un Correo electrónico a tu cuenta registrada."/>
+                <br/><br/>
+                <h:outputText value="En un lapso no mayor a cinco minutos deberás recibir en dicho correo las instrucciones para que concluyas tu registro."/>
+                <br/><br/>
+                <h:outputText value="Si en ese tiempo no has recibido nuestra notificación, por favor revisa tu bandeja de 'Spam' o correo no deseado."/>
+                <br/><br/>
+                <div id="boton">
+                <input
+                    onclick="location='#{request.contextPath}/#{commonDataMB.defaultFailureUrl}';"
+                    type="button"
+                    value="Regresar a login" />
+                </div>
+            </p:panel>
+        </f:view>
+    </ui:define>
+
+    <ui:define name="outLayoutPart" >
+        <ui:include src="/WEB-INF/components/Dialogs.xhtml" />
+    </ui:define>
+    
+</ui:composition>

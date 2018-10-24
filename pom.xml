@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>mx.org.ift.simca</groupId>
+    <artifactId>simca</artifactId>
+    <version>1.0</version>
+    <packaging>war</packaging>
+
+    <name>simca</name>
+
+    <properties>
+        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- VersiÃ³n de Spring-->
+        <org.springframework.version>3.1.4.RELEASE</org.springframework.version>
+        <org.springframework.security.version>3.1.4.RELEASE</org.springframework.security.version>
+        <!-- Version de primefaces -->
+        <org.primefaces.version>6.0</org.primefaces.version>
+        <!-- TestNG -->
+        <org.testng.version>6.4</org.testng.version>
+        <!-- IP2016-->
+        <!-- Dato para identificar el servidor de aplicaciones: Glassfish, WebLogic de Oracle 
+        <netbeans.hint.deploy.server>gfv3ee6</netbeans.hint.deploy.server>-->
+        <netbeans.hint.deploy.server>WebLogic9</netbeans.hint.deploy.server>    
+    </properties>
+  
+    <dependencies>
+        <!-- Primefaces -->
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>${org.primefaces.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>${org.primefaces.version}</version>
+            <scope>provided</scope>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <!-- Listado de temas de prime, dejar sÃ³lo el que estÃ©n usando -->
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>south-street</artifactId>
+            <version>1.0.10</version>
+        </dependency>
+
+        <!-- Dependencia requerida para el fileupload -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3</version>
+        </dependency>
+        
+        <!-- Primefaces Extensions -->
+        <dependency>
+            <groupId>org.primefaces.extensions</groupId>
+            <artifactId>primefaces-extensions</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+
+
+        <!-- JSF -->
+        <!-- Cambiar el scope de provided a compile si no se usa Glassfish -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.faces</artifactId>
+            <version>2.1.23</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.faces</artifactId>
+            <version>2.1.23</version>
+            <scope>provided</scope>
+            <classifier>sources</classifier>
+        </dependency>
+        <!-- Cambiar el scope de provided a compile si no se usa Glassfish -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Cambiar el scope de provided a compile si no se usa Glassfish -->
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
+            <scope>compile</scope>
+        </dependency>
+                
+        <!-- Java EE Api, se sustituyen las javaee-web-api por problemas con spring-test -->
+        <dependency>
+            <groupId>org.glassfish.extras</groupId>
+            <artifactId>glassfish-embedded-all</artifactId>
+            <version>3.1.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.extras</groupId>
+            <artifactId>glassfish-embedded-all</artifactId>
+            <version>3.1.1</version>
+            <scope>provided</scope>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <!-- Spring MyBatis -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.2.3</version>
+        </dependency>
+
+        <!-- Spring Core -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        
+        <!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${org.springframework.security.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${org.springframework.security.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${org.springframework.security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${org.springframework.security.version}</version>
+        </dependency>
+
+        <!-- Spring AOP + AspectJ -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.6.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.6.11</version>
+        </dependency>
+
+        <!-- SLF4J -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.3</version>
+        </dependency>        
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.3</version>
+            <scope>provided</scope>
+            <classifier>sources</classifier>
+        </dependency>        
+        
+        <!-- C3p0 (en caso de usar el pool del servidor de aplicaciones eliminar la dependencia) -->
+        <dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.1.2</version>
+        </dependency>
+        
+        <!-- Drivers para la base de datos, dejar el que se estÃ© usando -->
+        <!-- Conector MySQL -->
+        <!--dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.24</version>
+        </dependency-->
+
+        <!-- Driver para informix -->
+        <!--dependency>
+            <groupId>com.informix.jdbc</groupId>
+            <artifactId>ifxjdbc</artifactId>
+            <version>3.70.FC4DE</version>
+        </dependency-->
+
+        <!-- Driver para oracle -->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0.2.0</version>
+        </dependency>
+        
+        <!-- Para JASYPT -->
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>1.8</version>
+            <scope>compile</scope>
+        </dependency>
+		
+        <!-- Image Engine -->
+        <dependency>
+            <groupId>com.mortennobel</groupId>
+            <artifactId>java-image-scaling</artifactId>
+            <version>0.8.5</version>
+        </dependency>
+
+        <!-- Password Strength -->
+        <dependency>
+            <groupId>edu.vt.middleware</groupId>
+            <artifactId>vt-password</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.vt.middleware</groupId>
+            <artifactId>vt-password</artifactId>
+            <version>3.1.1</version>
+            <scope>provided</scope>
+            <classifier>javadoc</classifier>
+        </dependency>
+
+        <!-- mail -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.3</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>1.8.6</version>
+        </dependency>
+        
+        <!-- Jasper -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-fonts</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
+        <!-- Custom Captcha -->
+        
+        <!-- Para pruebas -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${org.springframework.version} </version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${org.testng.version}</version>
+            <type>jar</type>
+            <scope>test</scope>
+            <optional>true</optional>
+        </dependency>
+                        
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${org.testng.version}</version>
+            <scope>test</scope>
+            <classifier>javadoc</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.16</version>
+        </dependency>
+        
+        <!-- 15/08/2018.INI.MAL.Cliente-Rest -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>3.11.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+        </dependency>
+        <!-- 15/08/2018.FIN.MAL.Cliente-Rest -->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <compilerArguments>
+                        <endorseddirs>${endorsed.dir}</endorseddirs>
+                    </compilerArguments>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.8</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${endorsed.dir}</outputDirectory>
+                            <silent>true</silent>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>javax</groupId>
+                                    <artifactId>javaee-endorsed-api</artifactId>
+                                    <version>6.0</version>
+                                    <type>jar</type>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- Plugin para Generar Reportes -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.3</version>
+            </plugin>
+            
+            <!-- Plugin para soportar la escritura de propiedades de acuerdo al profile seleccionado -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>            
+        </plugins>
+        
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/*.xml</exclude>
+                    <exclude>**/*.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
+    </build>
+
+    <reporting>
+        <plugins>
+            <!-- Crea una copia del cÃ³digo fuente para los reportes -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.3</version>
+            </plugin>
+            
+            <!-- Control de versiones -->
+            <!-- Descomentar sÃ³lo si se tiene configurada la secciÃ³n de scm del proyecto -->
+            <!--            <plugin>
+                <groupId>net.sf</groupId>
+                <artifactId>stat-scm</artifactId>
+                <version>1.2.0</version>
+            </plugin>-->
+            
+            <!-- Genera reportes de "Site" indicados -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.7</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                            <report>issue-tracking</report>
+                            <report>plugins</report>
+                            <report>cim</report>
+                            <report>license</report>
+                            <report>mailing-list</report>
+                            <report>project-team</report>
+                            <report>plugin-management</report>
+                            <report>summary</report>
+                            <report>project-team</report>
+                            <report>dependency-management</report>
+                            <report>distribution-management</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            
+            <!-- Genera reporte que Revisa cobertura de pruebas unitarias -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.6</version>
+
+                <configuration>
+                    <instrumentation>
+                        <ignores>
+                            <ignore>arquitecturas.prototype.mjs.model.*</ignore>
+                            <ignore>arquitecturas.prototype.mjs.persistence.*</ignore>
+                            <ignore>arquitecturas.prototype.mjs.typehandler.*</ignore>
+                            <ignore>mx.org.ift.simca.arq.core.enums.*</ignore>
+                            <ignore>mx.org.ift.simca.arq.core.model.*</ignore>
+                            <ignore>mx.org.ift.simca.arq.core.persistence.*</ignore>
+                        </ignores>
+                        <excludes>
+                            <exclude>arq/core/prototype.mjs/**/*Test.class</exclude>
+                            <exclude>arq/core/prototype.mjs/model/*.class</exclude>
+                            <exclude>arq/core/prototype.mjs/persistence/*.class</exclude>
+                            <exclude>arq/core/prototype.mjs/typehandler/*.class</exclude>
+                            <exclude>arq/core/prototype.mjs/exposition/*.class</exclude>
+                            <exclude>arq/core/enums/*.class</exclude>
+                            <exclude>arq/core/model/*.class</exclude>
+                            <exclude>arq/core/persistence/*.class</exclude>
+                        </excludes>
+                    </instrumentation>
+                </configuration>
+            </plugin>
+
+            <!-- RevisiÃ³n de codigo repetido o no usado -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <targetJdk>1.6</targetJdk>
+                </configuration>
+            </plugin>
+
+            <!-- JavaDoc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <configuration>
+                    <show>private</show>
+                    <nohelp>true</nohelp>
+                </configuration>
+            </plugin>
+            
+            <!-- Genera reporte que Revisa el estilo -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <configLocation>src/main/config/custom_checks.xml</configLocation>
+                </configuration>
+                <!-- ConfiguraciÃ³n para la nueva versiÃ³n -->
+                <!--<version>2.10</version>
+                <configuration>
+                    <configLocation>src/main/config/sun_custom_checks.xml</configLocation>
+                </configuration>-->
+            </plugin>
+                        
+            <!-- Busca bugs en el código -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>2.5.2</version>
+                <configuration>
+                    <excludeFilterFile>src/main/config/bugFilter.xml</excludeFilterFile>
+                </configuration>
+            </plugin>
+
+            <!-- Contador de líneas de código -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>javancss-maven-plugin</artifactId>
+                <version>2.0</version>
+            </plugin>
+        </plugins>
+    </reporting>
+    
+    <repositories>
+        <repository>
+            <url>http://repository.primefaces.org/</url>
+            <id>PrimeFaces-maven-lib</id>
+            <layout>default</layout>
+            <name>Repository for library PrimeFaces-maven-lib</name>
+        </repository>
+        <repository>
+            <id>jasperreports-repo</id>
+            <name>JasperReports Repository</name>
+            <url>http://jasperreports.sourceforge.net/maven2</url>
+        </repository>
+    </repositories>
+    
+    <profiles>
+        <profile>
+            <id>development-oracle11</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <!-- Nombre del profile en tiempo de ejecuciÃ³n para spring -->
+                <profileName>development-oracle11</profileName>
+                <!-- Base de datos -->
+                <profile.jdbc.driverClassName>oracle.jdbc.OracleDriver</profile.jdbc.driverClassName>
+                <profile.jdbc.url>jdbc:oracle:thin:@172.17.42.87:1521:desaora</profile.jdbc.url>
+                <profile.jdbc.username>SIMCA</profile.jdbc.username>
+                <profile.jdbc.password>f6e9dac3ffdb66ff82a3</profile.jdbc.password>
+                <profile.jdbc.jndi>jdbc/dap_pooldev</profile.jdbc.jndi>
+                <!-- MyBatis XML location -->
+                <profile.myBatis.xml.location>myBatis/oracle/**/*.xml</profile.myBatis.xml.location>
+                <!-- Correo -->
+                <profile.mail.active>false</profile.mail.active>
+                <profile.mail.debug>true</profile.mail.debug>
+                <!-- URL del servidor incluyendo el contexto -->
+                <profile.mail.url>http://127.0.0.1:8080/prototype.mjs</profile.mail.url>
+                <!-- Modo del captcha -->
+                <profile.captcha.debug.mode>true</profile.captcha.debug.mode>
+                <!-- AplicaciÃ³n en modo light -->
+                <profile.app.mode.light>false</profile.app.mode.light>
+                <!-- Mensajes en bitÃ¡cora -->
+                <profile.log4j.rootLogger>info, stdout</profile.log4j.rootLogger>
+                <profile.log4j.file>prototype</profile.log4j.file>
+                <!-- Renderado del growl global -->
+                <profile.render.gobal.growl>true</profile.render.gobal.growl>
+                <profile.version.app>DS:20180820-10:00</profile.version.app>
+                <profile.reporte.url>http://svmpegasoclonds/ReportServer/Pages/ReportViewer.aspx?%2fPRUEBAS_DES%2f</profile.reporte.url>			
+            </properties>
+        </profile>
+        <profile>
+            <id>production</id>
+            <properties>
+                <!-- Nombre del profile en tiempo de ejecuciÃ³n para spring -->
+                <profileName>production</profileName>
+                <!-- Base de datos -->
+                <profile.jdbc.driverClassName>com.mysql.jdbc.Driver</profile.jdbc.driverClassName>
+                <profile.jdbc.url>jdbc:mysql://localhost/membership?autoReconnect=true</profile.jdbc.url>
+                <profile.jdbc.username>ENC(oiGOebBn35v/1VOi1YN7qmT9RkvVFtgu)</profile.jdbc.username>
+                <profile.jdbc.password>ENC(RDE/CTh53hWU1vPyxouRPg==)</profile.jdbc.password>
+                <profile.jdbc.jndi>jdbc/membership_pool</profile.jdbc.jndi>
+                <!-- MyBatis XML location -->
+                <profile.myBatis.xml.location>myBatis/mysql/**/*.xml</profile.myBatis.xml.location>
+                <!-- Correo -->
+                <profile.mail.active>true</profile.mail.active>
+                <profile.mail.debug>false</profile.mail.debug>
+                <!-- URL del servidor incluyendo el contexto -->
+                <profile.mail.url>http://localhost:8080/prototype.mjs</profile.mail.url>
+                <!-- Modo del captcha -->
+                <profile.captcha.debug.mode>false</profile.captcha.debug.mode>
+                <!-- AplicaciÃ³n en modo light -->
+                <profile.app.mode.light>false</profile.app.mode.light>
+                <!-- Mensajes en bitÃ¡cora -->
+                <profile.log4j.rootLogger>info, stdout</profile.log4j.rootLogger>
+                <profile.log4j.file>prototype</profile.log4j.file>
+                <!-- Renderado del growl global -->
+                <profile.render.gobal.growl>true</profile.render.gobal.growl>
+                <profile.version.app>Ambiente: Desarrollo 26032018 - 09:40 ver.2.0</profile.version.app>
+                <profile.reporte.url>http://svmpegasoclonds/ReportServer/Pages/ReportViewer.aspx?%2fPRUEBAS_DES%2f</profile.reporte.url>	
+            </properties>
+        </profile>
+    </profiles>  
+</project>

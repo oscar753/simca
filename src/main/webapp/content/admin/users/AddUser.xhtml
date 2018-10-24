@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/templates/LoggedTemplate.xhtml">
+
+    <ui:define name="contentPart">
+
+
+        <h:form id="addUserForm" class="addUserForm" >
+            <h:outputText value="Adminstraci&oacute;n | Usuarios | Nuevo Usuario" styleClass="descripcion_modulo"/>
+            <hr class="ui-separator ui-state-default ui-corner-all separator"></hr>
+
+            <h:panelGrid columns="2" cellpadding="10px" 
+                         columnClasses=",centered5"
+                         style="width: 50%;  text-align: left; ">
+                <h:panelGrid columns="2" cellpadding="10px" columnClasses="centered7">
+                    <p:column>
+                        <h:outputLabel for="usuario" 
+                                       value="#{translatedMessage['restricted.admin.users.common.login']}: "
+                                       style="font-weight: bold"/>
+                    </p:column>
+                    
+                    <p:column>
+                        <p:inputText id="usuario" 
+                                     value="#{usuarioMB.usuarioInfoSelected.usuario.usuario}" 
+                                     maxlength="#{commonDataMB.maxInputTextLength}"
+                                     label="#{translatedMessage['restricted.admin.users.common.login']}"
+                                     required="true"
+                                     requiredMessage="El usuario es requerido."
+                                     style="width: 180px"/>
+                        <h:outputText value=""/>
+                        
+                    </p:column>
+                    
+                </h:panelGrid>
+                <h:panelGrid columnClasses="centered7" cellpadding="1px" >
+                    <h:outputText value="Roles del usuario" style="font-weight: bold"/> 
+                    <p:selectManyCheckbox id="perfiles"
+                                          value="#{usuarioMB.perfilesSelected}"
+                                          required="true"
+                                          requiredMessage="Debe seleccionar al menos un perfil."
+                                          layout="pageDirection">
+                        <f:selectItems var="perfil" 
+                                       value="#{usuarioMB.perfiles}" 
+                                       itemValue="#{perfil.perfilPk}" 
+                                       itemLabel="#{perfil.descripcionPerfil}"
+                                       itemDisabled="#{perfil.perfilPk == 1}"/>
+                    </p:selectManyCheckbox>
+                </h:panelGrid>
+            </h:panelGrid>
+            <br/>
+           
+            <div align="right" style="width: 50%;">
+                        <p:commandButton
+                            value="Guardar"
+                            update="addUserForm"
+                            process="@(.addUserForm) @(.usuario) @(.perfiles)"
+                            actionListener="#{usuarioMB.saveWithConfirm}"
+                            onclick="location = 'ListUser.jsf';"/> 
+                     <div style="width:5px;
+                        height:auto;
+                        display:inline-block;"/>
+                        <p:commandButton
+                            value="Cerrar"
+                            type="button"
+                            onclick="location = 'ListUser.jsf';">
+                        </p:commandButton>            
+            </div>    
+
+
+        </h:form>
+
+
+    </ui:define>
+
+    <ui:define name="avisoExitoMsg">
+        <h:outputText value="El usuario ha sido almacenado correctamente"/>
+    </ui:define>
+
+    <ui:define name="avisoExitoDlg">
+        <input type="button" value="Aceptar" onclick="location = 'ListUser.jsf';" />
+    </ui:define>
+
+    <ui:define name="outLayoutPart" >
+        <ui:include src="/WEB-INF/components/Dialogs.xhtml" />
+    </ui:define>
+</ui:composition>

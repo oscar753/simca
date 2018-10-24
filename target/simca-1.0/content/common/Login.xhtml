@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/AnonymousTemplate.xhtml">
+
+    <ui:define name="pageName">Inicio al sistema</ui:define>
+
+    <ui:define name="contentPart">
+        <h:form id="loginForm" prependId="false">
+
+            <p:growl id="msg" />
+
+            <div style="width:450px; margin-left: auto; margin-right: auto; margin-top: 70px;">
+                <p:panel header="Acceso al sistema">
+					
+                    <h:panelGrid columns="2">
+
+                        <p:outputLabel for="usr" value="#{translatedMessage['login.username']}" />
+                        <p:inputText
+                            id="usr"
+                            value="#{loginMB.usr}"
+                            autocomplete="false"
+                            label="Usuario" 
+                            styleClass="loginEntry"
+                            required="true"
+                            requiredMessage="El usuario es requerido"
+                            maxlength="#{commonDataMB.maxInputTextLength}"/>
+
+                        <p:outputLabel for="pwd" value="#{translatedMessage['login.password']}" />
+                        <p:password
+                            id="pwd" 
+                            value="#{loginMB.pwd}"
+                            label="Clave"
+                            styleClass="loginEntry"
+                            feedback="false"
+                            required="true"
+                            requiredMessage="El password es requerido"
+                            maxlength="#{commonDataMB.maxInputTextLength}"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="1" rendered="false">
+                        <h:panelGroup>
+                            <h:outputText value="#{translatedMessage['login.rememberMe']}" />
+                            <h:selectBooleanCheckbox id="_spring_security_remember_me" />
+                        </h:panelGroup>
+                    </h:panelGrid>
+
+                    <br/>
+                    <br/>
+                    <p:commandButton
+                        id="loginButtonId"
+                        actionListener="#{loginMB.login}"
+                        update="loginForm"
+                        oncomplete="navegate(xhr, status, args, '#{request.contextPath}#{commonDataMB.defaultTargetUrl}');"
+                        value="#{translatedMessage['login.loginButton']}" />
+
+                </p:panel>
+
+                <div style="font-size: 8pt">
+                    <br/>
+                    <br/>
+
+                    <p>* Los campos son requeridos</p>
+                </div>
+            </div>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

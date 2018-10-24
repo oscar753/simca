@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/templates/LoggedTemplate.xhtml">
+   
+    <ui:define name="contentPart">
+        <h:form id="formCanalProg">            
+            <h:outputText value="Altas, bajas y cambios" style="font-weight: bold"/>
+            <hr class="ui-separator ui-state-default ui-corner-all separator"></hr>                        
+            <br/>
+
+		<h:panelGrid columnClasses="centered7">
+            <h:panelGrid id="pgBuscaCP" columns="4" cellpadding="10">
+            	<f:facet name="header">
+            		<div align="left">
+            			<p:outputLabel id="lbHBuscaR" value="Radio" />
+            		</div>            		
+            	</f:facet>
+            
+            	<p:column>
+					<p:outputLabel id="lbDistintivo" value="Distintivo:"/>
+				</p:column>
+				<p:column>
+					<p:inputText id="itDistintivo" value="#{estacionProgramacionMB.distintivo}"></p:inputText>
+				</p:column>
+				<p:column>
+					<p:outputLabel id="lbConcesionario" value="Concesionario:"/>
+				</p:column>
+				<p:column>
+					<p:inputText id="itConcesionario" value="#{estacionProgramacionMB.concesionario}"></p:inputText>
+				</p:column>
+				
+				<p:column>
+					<p:outputLabel id="lbCanalP" value="Canal de programación:"/>
+				</p:column>
+				<p:column>
+					<p:inputText id="itCanalP" value="#{estacionProgramacionMB.canalProg}"></p:inputText>
+				</p:column>
+				
+				<f:facet name="footer">
+            		<div align="right">
+            			<p:commandButton update="pgBuscaCP" value="Limpiar" action="#{estacionProgramacionMB.limpiar()}"></p:commandButton>
+            			<p:spacer width="15" />
+            			<p:commandButton update="tblCanales" value="Realizar búsqueda" action="#{estacionProgramacionMB.buscarEstacion()}"></p:commandButton>
+            		</div>            		
+            	</f:facet>         
+            </h:panelGrid>
+            
+            <p:dataTable id="tblCanales" rows="10"  
+                                             emptyMessage="No hay datos"
+                                             paginator="true"
+                                             paginatorPosition="bottom"
+                                             reflow="true"
+                                             style="font-size: small; width: 100%; float: none;"
+                                             value="#{estacionProgramacionMB.estacionVOList}"
+                                             var="estacion">
+            	<f:facet name="header" >
+                	Canales de programación
+                </f:facet>
+                <p:column  headerText="Distintivo" >
+                	<p:outputLabel id="tblDistintivo" value="#{estacion.distintivo}" />
+                </p:column>
+                <p:column  headerText="Población" >
+                	<p:outputLabel id="tblPoblacion" value="#{estacion.poblacion}" />
+                </p:column>
+                <p:column  headerText="Estado" >
+                	<p:outputLabel id="tblEstado" value="#{estacion.estado}" />
+                </p:column>
+                <p:column  headerText="Tipo de concesión" >
+                	<p:outputLabel id="tblTipo" value="#{estacion.tipo}" />
+                </p:column>
+                <p:column  headerText="Concesionario" >
+                	<p:outputLabel id="tblConcesionario" value="#{estacion.concesionario}" />
+                </p:column>
+                <p:column  headerText="Banda" >
+                	<p:outputLabel id="tblBanda" value="#{estacion.banda}" />
+                </p:column>
+                <p:column  headerText="Frecuencia" >
+                	<p:outputLabel id="tblFrecuencia" value="#{estacion.frecuencia}" />
+                </p:column>
+                <p:column  headerText="" >
+                	<h:commandLink  class="fa fa-edit" id="tblEditar">                   		
+                    </h:commandLink>
+                </p:column>
+           	</p:dataTable>
+       	</h:panelGrid>
+        <br/>         
+        </h:form>
+    </ui:define>
+
+</ui:composition>
