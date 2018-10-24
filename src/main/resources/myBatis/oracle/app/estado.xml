@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.persistence.EstadoMapper">
+
+    <resultMap id="estadoMapper" type="Estado" >
+    	<id property="idEstado" column="ID_ESTADO" jdbcType="INTEGER"/>
+        <id property="estado" column="ESTADO" jdbcType="VARCHAR"/>                
+    </resultMap>
+
+    <sql id="tableName">estado</sql>
+
+    <sql id="allColumns">
+        ID_ESTADO, ESTADO
+    </sql>
+    
+    <select id="getAll"
+        parameterType="Estado"
+        resultMap="estadoMapper" >
+        <include refid="selectColumnsFrom"/> 
+    </select>
+    
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+       
+</mapper>

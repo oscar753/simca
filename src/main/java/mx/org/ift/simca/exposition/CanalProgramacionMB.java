@@ -16,7 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import mx.org.ift.simca.exposition.dto.CanalVO;
+import mx.org.ift.simca.exposition.dto.CanalDTO;
+import mx.org.ift.simca.exposition.dto.CanalVirtualDTO;
 import mx.org.ift.simca.model.Canal;
 import mx.org.ift.simca.service.CanalService;
 
@@ -41,11 +42,12 @@ public class CanalProgramacionMB implements Serializable {
 	private String distintivo;
 	private String concesionario;
 	private String canalProg;
-	private List<CanalVO> canalVOList = new ArrayList<CanalVO>();
+	private List<CanalVirtualDTO> canalesVirtDTO = new ArrayList<CanalVirtualDTO>();
+	
 	
 	@PostConstruct
 	public void init() {
-		canalVOList.clear();
+		canalesVirtDTO.clear();
 		canalProg = "Prueba";
 	}
 
@@ -63,14 +65,15 @@ public class CanalProgramacionMB implements Serializable {
 		}
 		else {
 			for (Canal canal : canalesBD) {
-				CanalVO itemCanal = new CanalVO();
+				CanalVirtualDTO itemCanal = new CanalVirtualDTO();
+				CanalDTO canalDTO = new CanalDTO();
 				
-				itemCanal.setDistintivo(StringUtils.isNotBlank(canal.getDistintivo())?canal.getDistintivo():"");
+				canalDTO.setDistintivo(StringUtils.isNotBlank(canal.getDistintivo())?canal.getDistintivo():"");
+				itemCanal.setCanal(canalDTO);
 				
-				canalVOList.add(itemCanal);				
+				canalesVirtDTO.add(itemCanal);				
 			}
-		}
-		
+		}		
 		
 		System.out.println("FINALIZO");
 	}
@@ -110,20 +113,34 @@ public class CanalProgramacionMB implements Serializable {
 	 */
 	public void setCanalProg(String canalProg) {
 		this.canalProg = canalProg;
+	}	
+
+	/**
+	 * @return the canalService
+	 */
+	public CanalService getCanalService() {
+		return canalService;
 	}
 
 	/**
-	 * @return the canalVOList
+	 * @param canalService the canalService to set
 	 */
-	public List<CanalVO> getCanalVOList() {
-		return canalVOList;
+	public void setCanalService(CanalService canalService) {
+		this.canalService = canalService;
 	}
 
 	/**
-	 * @param canalVOList the canalVOList to set
+	 * @return the canalesVirtDTO
 	 */
-	public void setCanalVOList(List<CanalVO> canalVOList) {
-		this.canalVOList = canalVOList;
+	public List<CanalVirtualDTO> getCanalesVirtDTO() {
+		return canalesVirtDTO;
+	}
+
+	/**
+	 * @param canalesVirtDTO the canalesVirtDTO to set
+	 */
+	public void setCanalesVirtDTO(List<CanalVirtualDTO> canalesVirtDTO) {
+		this.canalesVirtDTO = canalesVirtDTO;
 	}
 
 	/**
@@ -132,5 +149,4 @@ public class CanalProgramacionMB implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
 }

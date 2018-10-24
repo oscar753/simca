@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.persistence.PoblacionMapper">
+
+    <resultMap id="poblacionMapper" type="Poblacion" >
+    	<id property="idEstado" column="ID_ESTADO" jdbcType="INTEGER"/>
+        <id property="idPoblacion" column="ID_POBLACION" jdbcType="INTEGER"/>
+        <id property="poblacion" column="POBLACION" jdbcType="VARCHAR"/>        
+    </resultMap>
+
+    <sql id="tableName">poblacion</sql>
+
+    <sql id="allColumns">
+        ID_ESTADO, ID_POBLACION, POBLACION
+    </sql>
+    
+    <select id="getAll"
+        parameterType="Poblacion"
+        resultMap="poblacionMapper" >
+        <include refid="selectColumnsFrom"/> 
+    </select>
+    
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+       
+</mapper>
