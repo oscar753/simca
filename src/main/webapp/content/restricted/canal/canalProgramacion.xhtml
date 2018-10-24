@@ -54,25 +54,32 @@
                                              paginatorPosition="bottom"
                                              reflow="true"
                                              style="font-size: small; width: 100%; float: none;"
-                                             value="#{canalProgramacionMB.canalVOList}"
+                                             value="#{canalProgramacionMB.canalesVirtDTO}"
                                              var="canal">
             	<f:facet name="header" >
                 	Canales de programación
+                	<p:commandButton 
+                                id="btnAddCanal" 
+                                styleClass="botonpequeno"
+                                title="Agregar"
+                                icon="ui-icon-plusthick"
+                                style="display:inline; float:right; font-size:x-small;"
+                                onclick="location = '#{request.contextPath}/content/restricted/canal/agregaCanalProgramacion.jsf';" />
                 </f:facet>
                 <p:column  headerText="Distintivo" >
-                	<p:outputLabel id="tblDistintivo" value="#{canal.distintivo}" />
+                	<p:outputLabel id="tblDistintivo" value="#{canal.canal.distintivo}" />
                 </p:column>
                 <p:column  headerText="Población" >
-                	<p:outputLabel id="tblPoblacion" value="#{canal.poblacion}" />
+                	<p:outputLabel id="tblPoblacion" value="#{canal.canal.poblacion.descripcion}" />
                 </p:column>
                 <p:column  headerText="Estado" >
-                	<p:outputLabel id="tblEstado" value="#{canal.estado}" />
+                	<p:outputLabel id="tblEstado" value="#{canal.canal.estado.descripcion}" />
                 </p:column>
                 <p:column  headerText="Tipo de concesión" >
-                	<p:outputLabel id="tblTipo" value="#{canal.tipoUso}" />
+                	<p:outputLabel id="tblTipo" value="#{canal.tipoUso.descripcion}" />
                 </p:column>
                 <p:column  headerText="Concesionario" >
-                	<p:outputLabel id="tblConcesionario" value="#{canal.concesionario}" />
+                	<p:outputLabel id="tblConcesionario" value="#{canal.canal.concesionario.descripcion}" />
                 </p:column>
                 <p:column  headerText="Programación" >
                 	<p:outputLabel id="tblProgramacion" value="#{canal.programacion}" />
@@ -83,7 +90,7 @@
                 <p:column  headerText="Distintivo" >
                 	<h:commandLink  class="fa fa-edit" id="tblEditar">                   		
                     </h:commandLink>
-                </p:column>
+                </p:column>               
            	</p:dataTable>
        	</h:panelGrid>
         <br/>         
