@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.persistence.TipoUsoEstacionMapper">
+
+    <resultMap id="tipoUsoEstacionMapper" type="TipoUsoEstacion" >
+    	<id property="idTipoUsoEstacion" column="ID_TIPO_USO_ESTACION" jdbcType="INTEGER"/>
+        <id property="tipoUsoEstacion" column="TIPO_USO_ESTACION" jdbcType="VARCHAR"/>                
+    </resultMap>
+
+    <sql id="tableName">TipoUsoEstacion</sql>
+
+    <sql id="allColumns">
+        ID_TIPO_USO_ESTACION, TIPO_USO_ESTACION
+    </sql>
+    
+    <select id="getAll"
+        parameterType="TipoUsoEstacion"
+        resultMap="tipoUsoEstacionMapper" >
+        <include refid="selectColumnsFrom"/> 
+    </select>
+    
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+       
+</mapper>

@@ -12,10 +12,16 @@ import org.springframework.stereotype.Service;
 import mx.org.ift.simca.exposition.dto.CatalogoDTO;
 import mx.org.ift.simca.model.Estado;
 import mx.org.ift.simca.model.Poblacion;
+import mx.org.ift.simca.model.Banda;
+import mx.org.ift.simca.model.Clase;
 import mx.org.ift.simca.model.TipoUso;
+import mx.org.ift.simca.model.TipoUsoEstacion;
 import mx.org.ift.simca.persistence.EstadoMapper;
 import mx.org.ift.simca.persistence.PoblacionMapper;
+import mx.org.ift.simca.persistence.BandaMapper;
+import mx.org.ift.simca.persistence.ClaseMapper;
 import mx.org.ift.simca.persistence.TipoUsoMapper;
+import mx.org.ift.simca.persistence.TipoUsoEstacionMapper;
 
 /**
  * @author KODE-LAP0077
@@ -36,7 +42,16 @@ public class CatalogoServiceImpl implements CatalogoService {
 	private EstadoMapper estadoMap;
 	
 	@Autowired
+	private BandaMapper bandaMap;
+	
+	@Autowired
+	private ClaseMapper claseMap;
+	
+	@Autowired
 	private TipoUsoMapper tipoUsoMap;
+	
+	@Autowired
+	private TipoUsoEstacionMapper tipoUsoEstacionMap;
 
 	public List<CatalogoDTO> consultaPoblacion() {
 		List<CatalogoDTO> poblacionesResult = new ArrayList<CatalogoDTO>();
@@ -67,6 +82,34 @@ public class CatalogoServiceImpl implements CatalogoService {
 		return estadosResult;
 	}
 
+	public List<CatalogoDTO> consultaBanda() {
+		List<CatalogoDTO> bandasResult = new ArrayList<CatalogoDTO>();
+		
+		List<Banda> bandas = bandaMap.getAll();
+		for (Banda banda : bandas) {
+			CatalogoDTO itemCat = new CatalogoDTO();
+			itemCat.setDescripcion(banda.getBanda());
+			itemCat.setIdentificador(banda.getIdBanda().toString());
+			
+			bandasResult.add(itemCat);
+		}
+		return bandasResult;
+	}
+	
+	public List<CatalogoDTO> consultaClase() {
+		List<CatalogoDTO> clasesResult = new ArrayList<CatalogoDTO>();
+		
+		List<Clase> clases = claseMap.getAll();
+		for (Clase clase : clases) {
+			CatalogoDTO itemCat = new CatalogoDTO();
+			itemCat.setDescripcion(clase.getClase());
+			itemCat.setIdentificador(clase.getIdClase().toString());
+			
+			clasesResult.add(itemCat);
+		}
+		return clasesResult;
+	}
+	
 	public List<CatalogoDTO> consultaTipoUso() {
 		List<CatalogoDTO> tiposUsoResult = new ArrayList<CatalogoDTO>();
 		
@@ -79,6 +122,21 @@ public class CatalogoServiceImpl implements CatalogoService {
 			tiposUsoResult.add(itemCat);
 		}
 		return tiposUsoResult;
+	}
+	
+	public List<CatalogoDTO> consultaTipoUsoEstacion() {
+		List<CatalogoDTO> tiposUsoEstacionResult = new ArrayList<CatalogoDTO>();
+		
+		List<TipoUsoEstacion> tiposUsoEstacion = tipoUsoEstacionMap.getAll();
+		for (TipoUsoEstacion tipoUsoEstacion : tiposUsoEstacion) {
+			CatalogoDTO itemCat = new CatalogoDTO();
+			itemCat.setDescripcion(tipoUsoEstacion.getTipoUsoEstacion());
+			itemCat.setIdentificador(tipoUsoEstacion.getIdTipoUsoEstacion().toString());
+			
+			tiposUsoEstacionResult.add(itemCat);
+		}
+		
+		return tiposUsoEstacionResult;
 	}
 
 }

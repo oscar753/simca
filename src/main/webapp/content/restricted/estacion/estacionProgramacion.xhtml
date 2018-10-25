@@ -54,28 +54,36 @@
                                              paginatorPosition="bottom"
                                              reflow="true"
                                              style="font-size: small; width: 100%; float: none;"
-                                             value="#{estacionProgramacionMB.estacionVOList}"
+                                             value="#{estacionProgramacionMB.estacionDTOList}"
                                              var="estacion">
-            	<f:facet name="header" >
-                	Canales de programación
+            	<f:facet name="header">
+            	<p:outputLabel>Agregar<p:commandButton 
+                                id="btnAddRadio" 
+                                styleClass="botonpequeno"
+                                title="Agregar"
+                                icon="ui-icon-plusthick"
+                                style="display:inline; float:right; font-size:x-small;"
+                                onclick="location = '#{request.contextPath}/content/restricted/estacion/agregaEstacionProgramacion.jsf';" />
+                                </p:outputLabel>
+            	
                 </f:facet>
                 <p:column  headerText="Distintivo" >
                 	<p:outputLabel id="tblDistintivo" value="#{estacion.distintivo}" />
                 </p:column>
                 <p:column  headerText="Población" >
-                	<p:outputLabel id="tblPoblacion" value="#{estacion.poblacion}" />
+                	<p:outputLabel id="tblPoblacion" value="#{estacion.poblacion.descripcion}" />
                 </p:column>
                 <p:column  headerText="Estado" >
-                	<p:outputLabel id="tblEstado" value="#{estacion.estado}" />
+                	<p:outputLabel id="tblEstado" value="#{estacion.estado.descripcion}" />
                 </p:column>
                 <p:column  headerText="Tipo de concesión" >
-                	<p:outputLabel id="tblTipo" value="#{estacion.tipo}" />
+                	<p:outputLabel id="tblTipo" value="#{estacion.tipoUsoEstacion.descripcion}" />
                 </p:column>
                 <p:column  headerText="Concesionario" >
-                	<p:outputLabel id="tblConcesionario" value="#{estacion.concesionario}" />
+                	<p:outputLabel id="tblConcesionario" value="#{estacion.grupoRadio.concesionario.descripcion}" />
                 </p:column>
                 <p:column  headerText="Banda" >
-                	<p:outputLabel id="tblBanda" value="#{estacion.banda}" />
+                	<p:outputLabel id="tblBanda" value="#{estacion.banda.descripcion}" />
                 </p:column>
                 <p:column  headerText="Frecuencia" >
                 	<p:outputLabel id="tblFrecuencia" value="#{estacion.frecuencia}" />

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.persistence.ClaseMapper">
+
+    <resultMap id="claseMapper" type="Clase" >
+    	<id property="idClase" column="ID_CLASE" jdbcType="INTEGER"/>
+        <id property="clase" column="CLASE" jdbcType="VARCHAR"/>                
+    </resultMap>
+
+    <sql id="tableName">clase</sql>
+
+    <sql id="allColumns">
+        ID_CLASE, CLASE
+    </sql>
+    
+    <select id="getAll"
+        parameterType="Clase"
+        resultMap="claseMapper" >
+        <include refid="selectColumnsFrom"/>
+    </select>
+    
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+       
+</mapper>

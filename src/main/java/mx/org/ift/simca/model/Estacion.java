@@ -10,127 +10,56 @@ public class Estacion implements Serializable {
 	 */
 	private static final long serialVersionUID = 8580230360450842942L;
 
-	private String folioElectronico;
-	
-	private Long idSenial;
-
-	private Long idEstado;
-	
-	private Long idPoblacion;
-	
-	private Long idClase;
-	
-	private Long idTipoUsoEstacion;
-	
 	private String distintivo;
-	
-	private Long idBanda;
-	
-	private Long idTipoFrecuencia;
-	
+	private String poblacion;
+	private String estado;
+	private String tipoUsoEstacion;
+	private String concesionario;
+	private String banda;
 	private Long frecuencia;
-
-	private Date fecIniVigencia;
 	
-	private Date fecFinVigencia;
-
-	
-	public String getFolioElectronico() {
-		return folioElectronico;
-	}
-
-	public void setFolioElectronico(String folioElectronico) {
-		this.folioElectronico = folioElectronico;
-	}
-
-	public Long getIdSenial() {
-		return idSenial;
-	}
-
-	public void setIdSenial(Long idSenial) {
-		this.idSenial = idSenial;
-	}
-
-	public Long getIdEstado() {
-		return idEstado;
-	}
-
-	public void setIdEstado(Long idEstado) {
-		this.idEstado = idEstado;
-	}
-
-	public Long getIdPoblacion() {
-		return idPoblacion;
-	}
-
-	public void setIdPoblacion(Long idPoblacion) {
-		this.idPoblacion = idPoblacion;
-	}
-
-	public Long getIdClase() {
-		return idClase;
-	}
-
-	public void setIdClase(Long idClase) {
-		this.idClase = idClase;
-	}
-
-	public Long getIdTipoUsoEstacion() {
-		return idTipoUsoEstacion;
-	}
-
-	public void setIdTipoUsoEstacion(Long idTipoUsoEstacion) {
-		this.idTipoUsoEstacion = idTipoUsoEstacion;
-	}
-
 	public String getDistintivo() {
 		return distintivo;
 	}
-
 	public void setDistintivo(String distintivo) {
 		this.distintivo = distintivo;
 	}
-
-	public Long getIdBanda() {
-		return idBanda;
+	public String getPoblacion() {
+		return poblacion;
 	}
-
-	public void setIdBanda(Long idBanda) {
-		this.idBanda = idBanda;
+	public void setPoblacion(String poblacion) {
+		this.poblacion = poblacion;
 	}
-
-	public Long getIdTipoFrecuencia() {
-		return idTipoFrecuencia;
+	public String getEstado() {
+		return estado;
 	}
-
-	public void setIdTipoFrecuencia(Long idTipoFrecuencia) {
-		this.idTipoFrecuencia = idTipoFrecuencia;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
-
+	public String getTipoUsoEstacion() {
+		return tipoUsoEstacion;
+	}
+	public void setTipoUsoEstacion(String tipoUsoEstacion) {
+		this.tipoUsoEstacion = tipoUsoEstacion;
+	}
+	public String getConcesionario() {
+		return concesionario;
+	}
+	public void setConcesionario(String concesionario) {
+		this.concesionario = concesionario;
+	}
+	public String getBanda() {
+		return banda;
+	}
+	public void setBanda(String banda) {
+		this.banda = banda;
+	}
 	public Long getFrecuencia() {
 		return frecuencia;
 	}
-
 	public void setFrecuencia(Long frecuencia) {
 		this.frecuencia = frecuencia;
 	}
-
-	public Date getFecIniVigencia() {
-		return fecIniVigencia;
-	}
-
-	public void setFecIniVigencia(Date fecIniVigencia) {
-		this.fecIniVigencia = fecIniVigencia;
-	}
-
-	public Date getFecFinVigencia() {
-		return fecFinVigencia;
-	}
-
-	public void setFecFinVigencia(Date fecFinVigencia) {
-		this.fecFinVigencia = fecFinVigencia;
-	}
-	
 	
 	
 }

@@ -1,0 +1,177 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/templates/LoggedTemplate.xhtml">
+   
+    <ui:define name="contentPart">
+        <h:form id="formAddEstacionProg">            
+            <h:outputText value="Altas, bajas y cambios" style="font-weight: bold"/>
+            <hr class="ui-separator ui-state-default ui-corner-all separator"></hr>                        
+            <br/>
+			<h:panelGrid columnClasses="centered7" id="pnlGriAddCanal">				
+				<f:facet name="header">
+            		<div align="left">
+            			<p:outputLabel id="addCanalOu" value="Radio" />
+            		</div>            		
+            	</f:facet>
+				<h:column>
+				<p:tabView>
+					<p:tab id="tabGenerales" title="Generales 1">
+					<h:panelGrid columns="4" id="tabGriGenerales" cellpadding="10">
+            			<p:column>
+            				<p:outputLabel value="No:" id="noTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="noTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.numero}"></p:inputText>
+            			</p:column>
+            			<p:column>
+            				<p:outputLabel value="Folio RPC/UMCA:" id="rpcTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="rpcTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.folioRPCUMCA}"></p:inputText>
+            			</p:column>
+            			
+            			<p:column>
+            				<p:outputLabel value="Población:" id="poblacionTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="poblacionTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.canal.poblacion.descripcion}"></p:inputText>
+            			</p:column>
+            			<p:column>
+            				<p:outputLabel value="Estado:" id="estadoTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="estadoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.canal.estado.descripcion}"></p:inputText>
+            			</p:column>
+            			
+            			<p:column>
+            				<p:outputLabel value="Estación clase:" id="estacionClaseTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="usoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.tipoUso.descripcion}"></p:inputText>
+            			</p:column>
+            			<p:column>
+            				<p:outputLabel value="Tipo de uso:" id="usoTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="usoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.tipoUso.descripcion}"></p:inputText>
+            			</p:column>
+            			
+            			<p:column>
+            				<p:outputLabel value="Concesionario:" id="concesionarioTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="concesionarioTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.canal.concesionario.descripcion}"></p:inputText>
+            			</p:column>
+            			<p:column>
+            				<p:outputLabel value="Distintivo:" id="distintivoTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="distintivoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.canal.distintivo}"></p:inputText>
+            			</p:column>
+            			
+            			<p:column>
+            				<p:outputLabel value="Banda:" id="bandaTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="chdTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.chd}"></p:inputText>
+            			</p:column>
+            			<p:column>
+            				<p:outputLabel value="Frecuencia en FM (Mhz):" id="frecuenciaFMTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="virtualTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.canalVirtual}"></p:inputText>
+            			</p:column>
+            			
+            			<p:column>
+            				<p:outputLabel value="Frecuencia en AM (Khz):" id="frecuenciaAMTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="prograTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.programacion}"></p:inputText>
+            			</p:column>
+            			<p:column>
+            				<p:outputLabel value="Vigencia Inicio:" id="vigenciaIniTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="grupoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.grupo}"></p:inputText>
+            			</p:column>
+            			
+            			<p:column>
+            				<p:outputLabel value="Vigencia Vencimiento:" id="vigenciaFinTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="mcmoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.mcmo}"></p:inputText>
+            			</p:column>
+            			<p:column>
+            				<p:outputLabel value="Tipo frecuencia:" id="tipoFrecuenciaTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="medioTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.medio}"></p:inputText>
+            			</p:column>
+            			
+            			<p:column>
+            				<p:outputLabel value="Tipo de estación:" id="tipoEstacionTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="mcmoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.mcmo}"></p:inputText>
+            			</p:column>
+            			<p:column>
+            				<p:outputLabel value="Nombre de programación:" id="nombreProgTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="medioTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.medio}"></p:inputText>
+            			</p:column>
+            			
+            			<p:column>
+            				<p:outputLabel value="¿Multiprograma?:" id="multiprogramaTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="medioTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.medio}"></p:inputText>
+            			</p:column>
+       				</h:panelGrid>
+       				
+       				<hr class="ui-separator ui-state-default ui-corner-all separator"></hr>
+				
+				
+					<h:panelGrid columns="4" id="tabAddCober" cellpadding="10">
+						<f:facet name="header">
+            				<div align="left">
+            					<p:outputLabel id="addCoberturaOu" value="Agregar cobertura:" />
+            				</div>            		
+            			</f:facet>
+            			
+            			<p:column>
+            				<p:outputLabel value="Estado:" id="estadoTabCober"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:selectOneMenu id="estadoTabCoberSel" value="#{addCanalProgramMB.claveEstado}" 
+                                                      filter="true" filterMatchMode="startsWith">
+
+                            <f:selectItems var="estado" value="#{addCanalProgramMB.estadosDTO}"
+                                           itemValue="#{estado.identificador}" 
+                                           itemLabel="#{estado.descripcion}"/>
+                            </p:selectOneMenu>            				
+            			</p:column>
+            			<p:column>
+            				<p:outputLabel value="Municipio:" id="municipioTabCober"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="municipioTabCoberIn"></p:inputText>
+            			</p:column>
+            			
+            			<f:facet name="footer">
+            				<div align="right">
+            					<p:commandButton value="Agregar"></p:commandButton>            			
+            				</div>            		
+            			</f:facet>
+					</h:panelGrid>		
+					</p:tab>
+				</p:tabView>																	
+				</h:column>
+			</h:panelGrid>
+        	<br/>         
+        </h:form>
+    </ui:define>
+</ui:composition>

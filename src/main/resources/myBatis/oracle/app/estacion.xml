@@ -6,19 +6,29 @@
 
 <mapper namespace="mx.org.ift.simca.persistence.EstacionMapper">
 
+<!--     <resultMap id="estacionMap" type="Estacion" > -->
+<!--     	<id property="folioElectronico" column="FOLIO_ELECTRONICO" jdbcType="VARCHAR"/> -->
+<!--     	<id property="idSenial" column="ID_SENIAL" jdbcType="INTEGER"/> -->
+<!--         <id property="idEstado" column="ID_ESTADO" jdbcType="INTEGER"/> -->
+<!--         <id property="idPoblacion" column="ID_POBLACION" jdbcType="INTEGER"/> -->
+<!--         <id property="idClase" column="ID_CLASE" jdbcType="INTEGER"/> -->
+<!--         <id property="idTipoUsoEstacion" column="ID_TIPO_USO_ESTACION" jdbcType="INTEGER"/> -->
+<!--         <id property="distintivo" column="DISTINTIVO" jdbcType="VARCHAR"/> -->
+<!--         <id property="idBanda" column="ID_BANDA" jdbcType="INTEGER"/> -->
+<!--         <id property="idTipoFrecuencia" column="ID_TIPO_FRECUENCIA" jdbcType="INTEGER"/> -->
+<!--         <id property="frecuencia" column="FRECUENCIA" jdbcType="INTEGER"/> -->
+<!--         <id property="fecIniVigencia" column="FEC_INI_VIGENCIA" jdbcType="DATE"/> -->
+<!--         <id property="fecFinVigencia" column="FEC_FIN_VIGENCIA" jdbcType="DATE"/> -->
+<!--     </resultMap> -->
+    
     <resultMap id="estacionMap" type="Estacion" >
-    	<id property="folioElectronico" column="FOLIO_ELECTRONICO" jdbcType="VARCHAR"/>
-    	<id property="idSenial" column="ID_SENIAL" jdbcType="INTEGER"/>
-        <id property="idEstado" column="ID_ESTADO" jdbcType="INTEGER"/>
-        <id property="idPoblacion" column="ID_POBLACION" jdbcType="INTEGER"/>
-        <id property="idClase" column="ID_CLASE" jdbcType="INTEGER"/>
-        <id property="idTipoUsoEstacion" column="ID_TIPO_USO_ESTACION" jdbcType="INTEGER"/>
-        <id property="distintivo" column="DISTINTIVO" jdbcType="VARCHAR"/>
-        <id property="idBanda" column="ID_BANDA" jdbcType="INTEGER"/>
-        <id property="idTipoFrecuencia" column="ID_TIPO_FRECUENCIA" jdbcType="INTEGER"/>
+    	<id property="distintivo" column="DISTINTIVO" jdbcType="VARCHAR"/>
+    	<id property="poblacion" column="POBLACION" jdbcType="VARCHAR"/>
+        <id property="estado" column="ESTADO" jdbcType="VARCHAR"/>
+        <id property="tipoUsoEstacion" column="TIPO_USO_ESTACION" jdbcType="VARCHAR"/>
+        <id property="concesionario" column="NOM_CONCESIONARIO" jdbcType="VARCHAR"/>
+        <id property="banda" column="BANDA" jdbcType="VARCHAR"/>
         <id property="frecuencia" column="FRECUENCIA" jdbcType="INTEGER"/>
-        <id property="fecIniVigencia" column="FEC_INI_VIGENCIA" jdbcType="DATE"/>
-        <id property="fecFinVigencia" column="FEC_FIN_VIGENCIA" jdbcType="DATE"/>
     </resultMap>
 
     <sql id="tableName">estacion</sql>
@@ -28,8 +38,23 @@
     </sql>
     
     <select id="getAll"
+    	parameterType="Estacion"
+        resultMap="estacionMap">
+    	SELECT ETN.DISTINTIVO, POB.POBLACION, EST.ESTADO, TUE.TIPO_USO_ESTACION, CON.NOM_CONCESIONARIO, BAN.BANDA, ETN.FRECUENCIA
+		FROM ESTACION ETN, ESTADO EST, POBLACION POB, TIPO_USO_ESTACION TUE, GRUPO_RADIO GPR, CONCESIONARIO CON, BANDA BAN
+		WHERE 1=1
+		AND EST.ID_ESTADO = ETN.ID_ESTADO
+		AND POB.ID_POBLACION = ETN.ID_POBLACION
+		AND EST.ID_ESTADO = POB.ID_ESTADO
+		AND TUE.ID_TIPO_USO_ESTACION = ETN.ID_TIPO_USO_ESTACION
+		AND GPR.FOLIO_ELECTRÓNICO = ETN.FOLIO_ELECTRONICO
+		AND CON.ID_CONCESIONARIO = GPR.ID_CONCESIONARIO
+		AND BAN.ID_BANDA = ETN.ID_BANDA
+    </select>
+    
+    <select id="getAll2"
         parameterType="Estacion"
-        resultMap="estacionMap" >
+        resultMap="estacionMap">
         <include refid="selectColumnsFrom"/> 
     </select>
     

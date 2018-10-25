@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import mx.org.ift.simca.exposition.dto.EstacionVO;
+import mx.org.ift.simca.exposition.dto.CatalogoDTO;
+import mx.org.ift.simca.exposition.dto.EstacionDTO;
+import mx.org.ift.simca.exposition.dto.GrupoRadioDTO;
 import mx.org.ift.simca.model.Estacion;
 import mx.org.ift.simca.service.EstacionService;
 
@@ -34,11 +36,11 @@ public class EstacionProgramacionMB implements Serializable{
 	private String distintivo;
 	private String concesionario;
 	private String canalProg;
-	private List<EstacionVO> estacionVOList = new ArrayList<EstacionVO>();
+	private List<EstacionDTO> estacionDTOList = new ArrayList<EstacionDTO>();
 	
 	@PostConstruct
 	public void init() {
-		estacionVOList.clear();
+		estacionDTOList.clear();
 		canalProg = "Prueba";
 	}
 	
@@ -49,18 +51,46 @@ public class EstacionProgramacionMB implements Serializable{
 	}
 	
 	public void buscarEstacion() {				
-		List<Estacion> canalesBD = estacionService.buscarEstacionProgramacion(distintivo, concesionario, canalProg);
+		List<Estacion> estacionBD = estacionService.buscarEstacionProgramacion(distintivo, concesionario, canalProg);
+		estacionDTOList.clear();
 		
-		if  (canalesBD.isEmpty()) {
-			LOG.info("No se encontraron canales");
+		if  (estacionBD.isEmpty()) {
+			LOG.info("No se encontraron estaciones");
 		}
 		else {
-			for (Estacion canal : canalesBD) {
-				EstacionVO itemCanal = new EstacionVO();
+			EstacionDTO itemEstacionDTO = new EstacionDTO();
+			CatalogoDTO catalogoDTO = new CatalogoDTO();
+			GrupoRadioDTO grupoRadio = new GrupoRadioDTO();
+			
+			for (Estacion estacion : estacionBD) {
+				itemEstacionDTO = new EstacionDTO();
+				grupoRadio = new GrupoRadioDTO();
 				
-				itemCanal.setDistintivo(StringUtils.isNotBlank(canal.getDistintivo())?canal.getDistintivo():"");
+				itemEstacionDTO.setDistintivo(StringUtils.isNotBlank(estacion.getDistintivo())?estacion.getDistintivo():"");
 				
-				estacionVOList.add(itemCanal);				
+				catalogoDTO.setDescripcion(StringUtils.isNotBlank(estacion.getPoblacion())?estacion.getPoblacion():"");
+				itemEstacionDTO.setPoblacion(catalogoDTO);
+				
+				catalogoDTO = new CatalogoDTO();
+				catalogoDTO.setDescripcion(StringUtils.isNotBlank(estacion.getEstado())?estacion.getEstado():"");
+				itemEstacionDTO.setEstado(catalogoDTO);
+				
+				catalogoDTO = new CatalogoDTO();
+				catalogoDTO.setDescripcion(StringUtils.isNotBlank(estacion.getTipoUsoEstacion())?estacion.getTipoUsoEstacion():"");
+				itemEstacionDTO.setTipoUsoEstacion(catalogoDTO);
+				
+				catalogoDTO = new CatalogoDTO();
+				catalogoDTO.setDescripcion(StringUtils.isNotBlank(estacion.getConcesionario())?estacion.getConcesionario():"");
+				grupoRadio.setConcesionario(catalogoDTO);
+				itemEstacionDTO.setGrupoRadio(grupoRadio);
+				
+				catalogoDTO = new CatalogoDTO();
+				catalogoDTO.setDescripcion(StringUtils.isNotBlank(estacion.getBanda())?estacion.getBanda():"");
+				itemEstacionDTO.setBanda(catalogoDTO);
+				
+				itemEstacionDTO.setFrecuencia(estacion.getFrecuencia() != null ? estacion.getFrecuencia().toString():"");
+				
+				estacionDTOList.add(itemEstacionDTO);
 			}
 		}
 		
@@ -94,12 +124,12 @@ public class EstacionProgramacionMB implements Serializable{
 		this.canalProg = canalProg;
 	}
 
-	public List<EstacionVO> getEstacionVOList() {
-		return estacionVOList;
+	public List<EstacionDTO> getEstacionDTOList() {
+		return estacionDTOList;
 	}
 
-	public void setEstacionVOList(List<EstacionVO> estacionVOList) {
-		this.estacionVOList = estacionVOList;
+	public void setEstacionDTOList(List<EstacionDTO> estacionDTOList) {
+		this.estacionDTOList = estacionDTOList;
 	}
 	
 }
