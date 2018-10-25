@@ -14,12 +14,14 @@ import mx.org.ift.simca.model.Estado;
 import mx.org.ift.simca.model.Poblacion;
 import mx.org.ift.simca.model.Banda;
 import mx.org.ift.simca.model.Clase;
+import mx.org.ift.simca.model.Concesionario;
 import mx.org.ift.simca.model.TipoUso;
 import mx.org.ift.simca.model.TipoUsoEstacion;
 import mx.org.ift.simca.persistence.EstadoMapper;
 import mx.org.ift.simca.persistence.PoblacionMapper;
 import mx.org.ift.simca.persistence.BandaMapper;
 import mx.org.ift.simca.persistence.ClaseMapper;
+import mx.org.ift.simca.persistence.ConcesionarioMapper;
 import mx.org.ift.simca.persistence.TipoUsoMapper;
 import mx.org.ift.simca.persistence.TipoUsoEstacionMapper;
 
@@ -52,6 +54,9 @@ public class CatalogoServiceImpl implements CatalogoService {
 	
 	@Autowired
 	private TipoUsoEstacionMapper tipoUsoEstacionMap;
+	
+	@Autowired
+	private ConcesionarioMapper concesionarioMap;
 
 	public List<CatalogoDTO> consultaPoblacion() {
 		List<CatalogoDTO> poblacionesResult = new ArrayList<CatalogoDTO>();
@@ -137,6 +142,22 @@ public class CatalogoServiceImpl implements CatalogoService {
 		}
 		
 		return tiposUsoEstacionResult;
+	}
+
+
+	public List<CatalogoDTO> consultaConcesionario() {
+		List<CatalogoDTO> concesionariosResult = new ArrayList<CatalogoDTO>();
+		
+		List<Concesionario> concesionarios = concesionarioMap.getAll();
+		for (Concesionario concesionario : concesionarios) {
+			CatalogoDTO itemCat = new CatalogoDTO();
+			itemCat.setIdentificador(concesionario.getIdConcesionario().toString());
+			itemCat.setDescripcion(concesionario.getNomConcesionario());
+			
+			concesionariosResult.add(itemCat);
+		}
+		
+		return concesionariosResult;
 	}
 
 }

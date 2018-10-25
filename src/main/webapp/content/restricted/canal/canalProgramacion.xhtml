@@ -29,7 +29,13 @@
 					<p:outputLabel id="lbConcesionario" value="Concesionario:"/>
 				</p:column>
 				<p:column>
-					<p:inputText id="itConcesionario" value="#{canalProgramacionMB.concesionario}"></p:inputText>
+					<p:selectOneMenu id="concesionarioSel" value="#{canalProgramacionMB.claveConcesionario}" 
+                                                      filter="true" filterMatchMode="startsWith">
+
+                                        <f:selectItems var="concesionario" value="#{canalProgramacionMB.concesionariosDTO}"
+                                                       itemValue="#{concesionario.identificador}" 
+                                                       itemLabel="#{concesionario.descripcion}"/>
+                            </p:selectOneMenu> 					
 				</p:column>
 				
 				<p:column>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.persistence.ConcesionarioMapper">
+
+    <resultMap id="concesionarioMapper" type="Concesionario" >
+    	<id property="idConcesionario" column="ID_CONCESIONARIO" jdbcType="INTEGER"/>
+        <id property="nomConcesionario" column="NOM_CONCESIONARIO" jdbcType="VARCHAR"/>                
+    </resultMap>
+
+    <sql id="tableName">Concesionario</sql>
+
+    <sql id="allColumns">
+        ID_CONCESIONARIO, NOM_CONCESIONARIO
+    </sql>
+    
+    <select id="getAll"
+        parameterType="Concesionario"
+        resultMap="concesionarioMapper" >
+        <include refid="selectColumnsFrom"/> 
+    </select>
+    
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+       
+</mapper>

@@ -18,8 +18,10 @@ import org.springframework.stereotype.Controller;
 
 import mx.org.ift.simca.exposition.dto.CanalDTO;
 import mx.org.ift.simca.exposition.dto.CanalVirtualDTO;
+import mx.org.ift.simca.exposition.dto.CatalogoDTO;
 import mx.org.ift.simca.model.Canal;
 import mx.org.ift.simca.service.CanalService;
+import mx.org.ift.simca.service.CatalogoService;
 
 /**
  * @author KODE-LAP0077
@@ -39,16 +41,23 @@ public class CanalProgramacionMB implements Serializable {
 	@Autowired
 	private CanalService canalService;
 	
+	@Autowired
+	private CatalogoService catalogoService;
+	
 	private String distintivo;
 	private String concesionario;
 	private String canalProg;
+	private String claveConcesionario;
 	private List<CanalVirtualDTO> canalesVirtDTO = new ArrayList<CanalVirtualDTO>();
+	private List<CatalogoDTO> concesionariosDTO = new ArrayList<CatalogoDTO>(); 
 	
 	
 	@PostConstruct
 	public void init() {
-		canalesVirtDTO.clear();
-		canalProg = "Prueba";
+		canalesVirtDTO.clear();	
+		concesionariosDTO.clear();
+		
+		concesionariosDTO=catalogoService.consultaConcesionario();
 	}
 
 	public void limpiar() {
@@ -116,20 +125,6 @@ public class CanalProgramacionMB implements Serializable {
 	}	
 
 	/**
-	 * @return the canalService
-	 */
-	public CanalService getCanalService() {
-		return canalService;
-	}
-
-	/**
-	 * @param canalService the canalService to set
-	 */
-	public void setCanalService(CanalService canalService) {
-		this.canalService = canalService;
-	}
-
-	/**
 	 * @return the canalesVirtDTO
 	 */
 	public List<CanalVirtualDTO> getCanalesVirtDTO() {
@@ -149,4 +144,33 @@ public class CanalProgramacionMB implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	/**
+	 * @return the concesionariosDTO
+	 */
+	public List<CatalogoDTO> getConcesionariosDTO() {
+		return concesionariosDTO;
+	}
+
+	/**
+	 * @param concesionariosDTO the concesionariosDTO to set
+	 */
+	public void setConcesionariosDTO(List<CatalogoDTO> concesionariosDTO) {
+		this.concesionariosDTO = concesionariosDTO;
+	}
+
+	/**
+	 * @return the claveConcesionario
+	 */
+	public String getClaveConcesionario() {
+		return claveConcesionario;
+	}
+
+	/**
+	 * @param claveConcesionario the claveConcesionario to set
+	 */
+	public void setClaveConcesionario(String claveConcesionario) {
+		this.claveConcesionario = claveConcesionario;
+	}
+	
 }

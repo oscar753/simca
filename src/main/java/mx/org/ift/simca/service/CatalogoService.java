@@ -25,4 +25,6 @@ public interface CatalogoService extends Serializable{
 	List<CatalogoDTO> consultaTipoUso();
 	
 	List<CatalogoDTO> consultaTipoUsoEstacion();
+	
+	List<CatalogoDTO> consultaConcesionario();
 }

@@ -129,8 +129,7 @@
        				</h:panelGrid>
        				
        				<hr class="ui-separator ui-state-default ui-corner-all separator"></hr>
-				
-				
+							
 					<h:panelGrid columns="4" id="tabAddCober" cellpadding="10">
 						<f:facet name="header">
             				<div align="left">
@@ -162,10 +161,314 @@
             					<p:commandButton value="Agregar"></p:commandButton>            			
             				</div>            		
             			</f:facet>
-					</h:panelGrid>		
+					</h:panelGrid>
+					
+					<p:dataTable id="tblCoberturas" rows="10"  
+                                             emptyMessage="No hay datos"
+                                             paginator="true"
+                                             paginatorPosition="bottom"
+                                             reflow="true"
+                                             style="font-size: small; width: 100%; float: none;"
+                                             value="#{addCanalProgramMB.coberturasDTO}"
+                                             var="cobertura">
+            			<f:facet name="header" >
+                			Coberturas                		
+                		</f:facet>
+		                <p:column  headerText="Estado" >
+		                	<p:outputLabel id="esdoCoberLb" value="#{cobertura.estado.descripcion}" />
+		                </p:column>
+		                <p:column  headerText="Municipio" >
+		                	<p:outputLabel id="municipioCoberLb" value="#{cobertura.municipio.descripcion}" />
+		                </p:column>
+		                <p:column  headerText="Acciones" >
+		                	
+		                </p:column>                               
+           			</p:dataTable>
 					</p:tab>
-				</p:tabView>																	
+					
+					<p:tab id="tabMultiprog" title="Multiprogramación">
+						<h:panelGrid id="pnlMultiprog" cellpadding="10" columns="4">
+						
+							<p:column >
+								<p:outputLabel id="multiprogLb" value="¿Multiprograma?"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="multiprogIn"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="calidadMultiLb" value="Calidad:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="calidadMultiIn"></p:inputText>
+							</p:column>
+						
+							<p:column>
+								<p:outputLabel id="tasaMultiLb" value="Tasa de transferencia:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="tasaMultiIn"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="metododMultiLb" value="Método de compresión:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="metododMultiIn"></p:inputText>
+							</p:column>
+						
+							<p:column>
+								<p:outputLabel id="terceroMultiLb" value="Tercero a quien brinda acceso:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="terceroMultiIn"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="estatusMultiLb" value="Estatus:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="estatusMultiIn"></p:inputText>
+							</p:column>
+							
+							<p:column>
+								<p:outputLabel id="primerMultiLb" value="Primer toma de nota:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="primerMultiIn"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="resolMultiLb" value="Resolución multi(Fuente):"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="resolMultiIn"></p:inputText>
+							</p:column>
+							
+							<p:column>
+								<p:outputLabel id="resMulMultiLb" value="Resolución multiprogramación:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="resMulMultiIn"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="oficioMultiLb" value="Fecha de oficio de notificación:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="oficioMultiIn"></p:inputText>
+							</p:column>
+							
+							<p:column>
+								<p:outputLabel id="modifMultiLb" value="Modificaciones:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="modifMultiIn"></p:inputText>
+							</p:column>
+							<p:column>								
+							</p:column>
+							<p:column>								
+							</p:column>
+							
+							<p:column>
+								<p:outputLabel id="resConceMultiLb" value="Respuesta al concesionario:"></p:outputLabel>
+							</p:column>
+							<p:column colspan="3">
+								<p:inputTextarea id="resConceMultiIn" cols="3"></p:inputTextarea>
+							</p:column>
+							
+							<p:column>
+								<p:outputLabel id="modificaMulMultiLb" value="Estatus de modificación:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="modificaMulMultiIn"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="priPoblaMultiLb" value="Primera población:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="priPoblaMultiIn"></p:inputText>
+							</p:column>
+							
+							<p:column>
+								<p:outputLabel id="poblaListMultiLb" value="Población en listado"></p:outputLabel>
+							</p:column>
+								<p:inputText id="poblaListMultiIn"></p:inputText>
+							<p:column>								
+							</p:column>
+							<p:column>								
+							</p:column>
+							<p:column>								
+							</p:column>
+						</h:panelGrid>
+					</p:tab>
+					
+					<p:tab id="tabCanalVirtual" title="Información canal virtual">
+						<h:panelGrid id="pnlCanalVirtual" cellpadding="10" columns="4">
+						
+							<p:column >
+								<p:outputLabel id="fronteMultiLb" value="Linea fronteriza:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="fronteMultiIn"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="fccMultiLb" value="En opinion con FCC:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="fccMultiIn"></p:inputText>
+							</p:column>
+						
+							<p:column>
+								<p:outputLabel id="priAsigMultiLb" value="Primera asignación:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="priAsigMultiIn"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="notCVMultiLb" value="Notificación CV:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="notCVMultiIn"></p:inputText>
+							</p:column>
+						
+							<p:column>
+								<p:outputLabel id="fechOfiMultiLb" value="Fecha de oficio de notificación:"></p:outputLabel>
+							</p:column>
+								<p:inputText id="fechOfiMultiIn"></p:inputText>
+							<p:column>								
+							</p:column>
+							<p:column>								
+							</p:column>
+							<p:column>								
+							</p:column>
+						</h:panelGrid>
+					</p:tab>
+					
+					<p:tab id="tabOtrasBases" title="Otras bases">
+						<h:panelGrid id="pnlOtrasBases" cellpadding="10" columns="4">
+						
+							<p:column >
+								<p:outputLabel id="bdIneMultiLb" value="BD INE:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="bdIneMultiIn"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="vmIneMultiLb" value="Centro VM INE:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="vmIneMultiIn"></p:inputText>
+							</p:column>
+						
+							<p:column>
+								<p:outputLabel id="canalIneMultiLb" value="Nombre canal INE:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="canalIneMultiIn"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="comercialIneMultiLb" value="Nombre comercial INE:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="comercialIneMultiIn"></p:inputText>
+							</p:column>
+							
+							<p:column >
+								<p:outputLabel id="monitorIneMultiLb" value="Tipo de monitoreo INE:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="monitorIneMultiIn"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="bdAudistaMultiLb" value="BD AUDISTA:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="bdAudistaMultiIn"></p:inputText>
+							</p:column>
+						
+							<p:column>
+								<p:outputLabel id="canalAudistaMultiLb" value="Nombre canal AUDISTA:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="canalAudistaMultiIn"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="prograAudistaMultiLb" value="Programación AUDISTA:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="prograAudistaMultiIn"></p:inputText>
+							</p:column>
+							
+							<p:column >
+								<p:outputLabel id="localAudistaMultiLb" value="Localidad AUDISTA:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="localAudistaMultiIn"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="monitorExtMultiLb" value="Monitoreo servicio externo:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="monitorExtMultiIn"></p:inputText>
+							</p:column>
+						
+							<p:column>
+								<p:outputLabel id="localExtMultiLb" value="Localidad servicio externo:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="localExtMultiIn"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="comercialExtMultiLb" value="Nombre comercial servicio externo:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="comercialExtMultiIn"></p:inputText>
+							</p:column>
+							
+							<p:column>
+								<p:outputLabel id="infantilMultiLb" value="Tiene programación infantil:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="infantilMultiIn"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="accesiMultiLb" value="Obligaciones accesibilidad:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="accesiMultiIn"></p:inputText>
+							</p:column>
+							
+							<p:column>
+								<p:outputLabel id="mecanismoMultiLb" value="Mecanismos de accesibilidad:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="mecanismoMultiIn"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="medioPuMultiLb" value="Medio público:"></p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="medioPuMultiIn"></p:inputText>
+							</p:column>
+						
+							<p:column>
+								<p:outputLabel id="ipfMultiLb" value="Institución Publica Federal:"></p:outputLabel>
+							</p:column>
+								<p:inputText id="ipfMultiIn"></p:inputText>
+							<p:column>								
+							</p:column>
+							<p:column>								
+							</p:column>
+							<p:column>								
+							</p:column>
+						</h:panelGrid>
+					</p:tab>
+				</p:tabView>																							
 				</h:column>
+				
+				<f:facet name="footer">
+					<div align="right">
+						<p:commandButton id="cancelAddCanal" value="Cancelar"></p:commandButton>
+						<p:spacer width="15" />
+						<p:commandButton id="guardarAddCanal" value="Guardar"></p:commandButton>
+					</div>
+				</f:facet>
 			</h:panelGrid>
         	<br/>         
         </h:form>

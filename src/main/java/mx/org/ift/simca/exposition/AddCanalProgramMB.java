@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 
 import mx.org.ift.simca.exposition.dto.CanalVirtualDTO;
 import mx.org.ift.simca.exposition.dto.CatalogoDTO;
+import mx.org.ift.simca.exposition.dto.CoberturaDTO;
 import mx.org.ift.simca.service.CatalogoService;
 
 /**
@@ -40,6 +41,7 @@ public class AddCanalProgramMB implements Serializable {
 	private List<CatalogoDTO> estadosDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> tiposUsoDTO = new ArrayList<CatalogoDTO>();	
 	private CanalVirtualDTO canalVirtualDTO = new CanalVirtualDTO();
+	private List<CoberturaDTO> coberturasDTO = new ArrayList<CoberturaDTO>();
 	
 	@Autowired
 	private CatalogoService catalogoService;
@@ -118,6 +120,20 @@ public class AddCanalProgramMB implements Serializable {
 	 */
 	public void setClaveEstado(String claveEstado) {
 		this.claveEstado = claveEstado;
+	}
+
+	/**
+	 * @return the coberturasDTO
+	 */
+	public List<CoberturaDTO> getCoberturasDTO() {
+		return coberturasDTO;
+	}
+
+	/**
+	 * @param coberturasDTO the coberturasDTO to set
+	 */
+	public void setCoberturasDTO(List<CoberturaDTO> coberturasDTO) {
+		this.coberturasDTO = coberturasDTO;
 	}
 	
 }
