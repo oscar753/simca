@@ -38,21 +38,6 @@
     </sql>
     
     <select id="getAll"
-    	parameterType="Estacion"
-        resultMap="estacionMap">
-    	SELECT ETN.DISTINTIVO, POB.POBLACION, EST.ESTADO, TUE.TIPO_USO_ESTACION, CON.NOM_CONCESIONARIO, BAN.BANDA, ETN.FRECUENCIA
-		FROM ESTACION ETN, ESTADO EST, POBLACION POB, TIPO_USO_ESTACION TUE, GRUPO_RADIO GPR, CONCESIONARIO CON, BANDA BAN
-		WHERE 1=1
-		AND EST.ID_ESTADO = ETN.ID_ESTADO
-		AND POB.ID_POBLACION = ETN.ID_POBLACION
-		AND EST.ID_ESTADO = POB.ID_ESTADO
-		AND TUE.ID_TIPO_USO_ESTACION = ETN.ID_TIPO_USO_ESTACION
-		AND GPR.FOLIO_ELECTRÓNICO = ETN.FOLIO_ELECTRONICO
-		AND CON.ID_CONCESIONARIO = GPR.ID_CONCESIONARIO
-		AND BAN.ID_BANDA = ETN.ID_BANDA
-    </select>
-    
-    <select id="getAll2"
         parameterType="Estacion"
         resultMap="estacionMap">
         <include refid="selectColumnsFrom"/> 
@@ -62,6 +47,40 @@
         SELECT
             <include refid="allColumns"/>
         FROM <include refid="tableName"/>
+    </sql>
+    
+    <select id="buscarEstacionProgramacion"
+    	parameterType="map"
+        resultMap="estacionMap">
+    	SELECT
+    		<include refid="searchColumns"/>
+		FROM
+			<include refid="searchTableName"/>
+		WHERE 1=1
+		AND EST.ID_ESTADO = ETN.ID_ESTADO
+		AND POB.ID_POBLACION = ETN.ID_POBLACION
+		AND EST.ID_ESTADO = POB.ID_ESTADO
+		AND TUE.ID_TIPO_USO_ESTACION = ETN.ID_TIPO_USO_ESTACION
+		AND GPR.FOLIO_ELECTRÓNICO = ETN.FOLIO_ELECTRONICO
+		AND CON.ID_CONCESIONARIO = GPR.ID_CONCESIONARIO
+		AND BAN.ID_BANDA = ETN.ID_BANDA
+		<if test="distintivo != null">
+			AND ETN.DISTINTIVO = #{distintivo, jdbcType=VARCHAR}
+		</if>
+		<if test="concesionario != null">
+			AND CON.NOM_CONCESIONARIO = #{concesionario, jdbcType=VARCHAR}
+		</if>
+		<if test="canalProg != null">
+			AND ETN.FRECUENCIA = #{canalProg, jdbcType=INTEGER}
+		</if>
+    </select>
+    
+    <sql id="searchColumns">
+        ETN.DISTINTIVO, POB.POBLACION, EST.ESTADO, TUE.TIPO_USO_ESTACION, CON.NOM_CONCESIONARIO, BAN.BANDA, ETN.FRECUENCIA
+    </sql>
+    
+    <sql id="searchTableName">
+    	ESTACION ETN, ESTADO EST, POBLACION POB, TIPO_USO_ESTACION TUE, GRUPO_RADIO GPR, CONCESIONARIO CON, BANDA BAN
     </sql>
        
 </mapper>

@@ -5,6 +5,8 @@ package mx.org.ift.simca.persistence;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import mx.org.ift.simca.arq.core.support.IMapper;
 import mx.org.ift.simca.model.Estacion;
 
@@ -21,6 +23,10 @@ public interface EstacionMapper extends IMapper<Estacion>{
 	 * @param canalProg
 	 * @return
 	 */
-	List<Estacion> buscarEstacionProgramacion(String distintivo, String concesionario, String canalProg);
+	List<Estacion> buscarEstacionProgramacion(
+			@Param("distintivo") String distintivo,
+			@Param("concesionario") String concesionario,
+			@Param("canalProg") String canalProg
+			);
 	
 }

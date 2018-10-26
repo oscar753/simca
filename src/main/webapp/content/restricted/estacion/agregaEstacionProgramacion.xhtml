@@ -10,125 +10,125 @@
             <h:outputText value="Altas, bajas y cambios" style="font-weight: bold"/>
             <hr class="ui-separator ui-state-default ui-corner-all separator"></hr>                        
             <br/>
-			<h:panelGrid columnClasses="centered7" id="pnlGriAddCanal">				
+			<h:panelGrid columnClasses="centered7" id="pnlGriAddEstacion">				
 				<f:facet name="header">
             		<div align="left">
-            			<p:outputLabel id="addCanalOu" value="Radio" />
+            			<p:outputLabel id="addEstacionOu" value="Radio" />
             		</div>            		
             	</f:facet>
 				<h:column>
 				<p:tabView>
-					<p:tab id="tabGenerales" title="Generales 1">
-					<h:panelGrid columns="4" id="tabGriGenerales" cellpadding="10">
+					<p:tab id="tabGenerales1" title="Generales 1">
+					<h:panelGrid columns="4" id="tabGriGenerales1" cellpadding="10">
             			<p:column>
             				<p:outputLabel value="No:" id="noTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="noTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.numero}"></p:inputText>
+            				<p:inputText id="noTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.numero}"></p:inputText>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Folio RPC/UMCA:" id="rpcTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="rpcTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.folioRPCUMCA}"></p:inputText>
+            				<p:inputText id="rpcTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.folioRPCUMCA}"></p:inputText>
             			</p:column>
             			
             			<p:column>
             				<p:outputLabel value="Población:" id="poblacionTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="poblacionTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.canal.poblacion.descripcion}"></p:inputText>
+            				<p:inputText id="poblacionTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.poblacion.descripcion}"></p:inputText>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Estado:" id="estadoTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="estadoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.canal.estado.descripcion}"></p:inputText>
+            				<p:inputText id="estadoTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.estado.descripcion}"></p:inputText>
             			</p:column>
             			
             			<p:column>
             				<p:outputLabel value="Estación clase:" id="estacionClaseTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="usoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.tipoUso.descripcion}"></p:inputText>
+            				<p:inputText id="estacionClaseTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.tipoClase.descripcion}"></p:inputText>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Tipo de uso:" id="usoTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="usoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.tipoUso.descripcion}"></p:inputText>
+            				<p:inputText id="usoTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.tipoUso.descripcion}"></p:inputText>
             			</p:column>
             			
             			<p:column>
             				<p:outputLabel value="Concesionario:" id="concesionarioTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="concesionarioTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.canal.concesionario.descripcion}"></p:inputText>
+            				<p:inputText id="concesionarioTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.concesionario.descripcion}"></p:inputText>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Distintivo:" id="distintivoTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="distintivoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.canal.distintivo}"></p:inputText>
+            				<p:inputText id="distintivoTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.distintivo}"></p:inputText>
             			</p:column>
             			
             			<p:column>
             				<p:outputLabel value="Banda:" id="bandaTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="chdTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.chd}"></p:inputText>
+            				<p:inputText id="chdTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.banda.descripcion}"></p:inputText>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Frecuencia en FM (Mhz):" id="frecuenciaFMTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="virtualTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.canalVirtual}"></p:inputText>
+            				<p:inputText id="frecuenciaFMTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.frecuenciaFM}"></p:inputText>
             			</p:column>
             			
             			<p:column>
             				<p:outputLabel value="Frecuencia en AM (Khz):" id="frecuenciaAMTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="prograTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.programacion}"></p:inputText>
+            				<p:inputText id="frecuenciaAMTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.frecuenciaAM}"></p:inputText>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Vigencia Inicio:" id="vigenciaIniTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="grupoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.grupo}"></p:inputText>
+            				<p:inputText id="vigenciaIniTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.vigenciaIni}"></p:inputText>
             			</p:column>
             			
             			<p:column>
             				<p:outputLabel value="Vigencia Vencimiento:" id="vigenciaFinTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="mcmoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.mcmo}"></p:inputText>
+            				<p:inputText id="vigenciaFinTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.vigenciaFin}"></p:inputText>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Tipo frecuencia:" id="tipoFrecuenciaTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="medioTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.medio}"></p:inputText>
+            				<p:inputText id="tipoFrecuenciaTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.tipoFrecuencia}"></p:inputText>
             			</p:column>
             			
             			<p:column>
             				<p:outputLabel value="Tipo de estación:" id="tipoEstacionTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="mcmoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.mcmo}"></p:inputText>
+            				<p:inputText id="tipoEstacionTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.tipoEstacion}"></p:inputText>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Nombre de programación:" id="nombreProgTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="medioTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.medio}"></p:inputText>
+            				<p:inputText id="nombreProgTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.nombreProg}"></p:inputText>
             			</p:column>
             			
             			<p:column>
-            				<p:outputLabel value="¿Multiprograma?:" id="multiprogramaTabGnral"></p:outputLabel>
+            				<p:outputLabel value="¿Multiprograma?" id="multiprogramaTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="medioTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.medio}"></p:inputText>
+            				<p:inputText id="multiprogramaTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.multiprograma}"></p:inputText>
             			</p:column>
        				</h:panelGrid>
        				
@@ -146,10 +146,10 @@
             				<p:outputLabel value="Estado:" id="estadoTabCober"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:selectOneMenu id="estadoTabCoberSel" value="#{addCanalProgramMB.claveEstado}" 
+            				<p:selectOneMenu id="estadoTabCoberSel" value="#{addEstacionProgramMB.claveEstado}" 
                                                       filter="true" filterMatchMode="startsWith">
 
-                            <f:selectItems var="estado" value="#{addCanalProgramMB.estadosDTO}"
+                            <f:selectItems var="estado" value="#{addEstacionProgramMB.estadosDTO}"
                                            itemValue="#{estado.identificador}" 
                                            itemLabel="#{estado.descripcion}"/>
                             </p:selectOneMenu>            				

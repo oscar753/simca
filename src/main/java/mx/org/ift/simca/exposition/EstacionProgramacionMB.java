@@ -64,7 +64,6 @@ public class EstacionProgramacionMB implements Serializable{
 			
 			for (Estacion estacion : estacionBD) {
 				itemEstacionDTO = new EstacionDTO();
-				grupoRadio = new GrupoRadioDTO();
 				
 				itemEstacionDTO.setDistintivo(StringUtils.isNotBlank(estacion.getDistintivo())?estacion.getDistintivo():"");
 				

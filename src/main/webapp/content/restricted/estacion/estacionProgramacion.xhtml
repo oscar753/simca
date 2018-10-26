@@ -6,13 +6,13 @@
                 template="/WEB-INF/templates/LoggedTemplate.xhtml">
    
     <ui:define name="contentPart">
-        <h:form id="formCanalProg">            
+        <h:form id="formEstacionProg">            
             <h:outputText value="Altas, bajas y cambios" style="font-weight: bold"/>
             <hr class="ui-separator ui-state-default ui-corner-all separator"></hr>                        
             <br/>
 
 		<h:panelGrid columnClasses="centered7">
-            <h:panelGrid id="pgBuscaCP" columns="4" cellpadding="10">
+            <h:panelGrid id="pgBuscaEP" columns="4" cellpadding="10">
             	<f:facet name="header">
             		<div align="left">
             			<p:outputLabel id="lbHBuscaR" value="Radio" />
@@ -41,14 +41,14 @@
 				
 				<f:facet name="footer">
             		<div align="right">
-            			<p:commandButton update="pgBuscaCP" value="Limpiar" action="#{estacionProgramacionMB.limpiar()}"></p:commandButton>
+            			<p:commandButton update="pgBuscaEP" value="Limpiar" action="#{estacionProgramacionMB.limpiar()}"></p:commandButton>
             			<p:spacer width="15" />
-            			<p:commandButton update="tblCanales" value="Realizar búsqueda" action="#{estacionProgramacionMB.buscarEstacion()}"></p:commandButton>
+            			<p:commandButton update="tblEstaciones" value="Realizar búsqueda" action="#{estacionProgramacionMB.buscarEstacion()}"></p:commandButton>
             		</div>            		
             	</f:facet>         
             </h:panelGrid>
             
-            <p:dataTable id="tblCanales" rows="10"  
+            <p:dataTable id="tblEstaciones" rows="10"  
                                              emptyMessage="No hay datos"
                                              paginator="true"
                                              paginatorPosition="bottom"
@@ -58,7 +58,7 @@
                                              var="estacion">
             	<f:facet name="header">
             	<p:outputLabel>Agregar<p:commandButton 
-                                id="btnAddRadio" 
+                                id="btnAddEstacion" 
                                 styleClass="botonpequeno"
                                 title="Agregar"
                                 icon="ui-icon-plusthick"

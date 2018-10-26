@@ -38,11 +38,18 @@ public class EstacionServiceImpl implements EstacionService {
 		LOGGER.info("Metodo para buscar los canales de programacion de radio");
 		
 		List<Estacion> estacionResult = new ArrayList<Estacion>();
-		
-		if (StringUtils.isBlank(distintivo) && StringUtils.isBlank(concesionario) && StringUtils.isBlank(canalProg)) {
-			estacionResult = estacionMapper.getAll();
+
+		try {
+			estacionResult = estacionMapper.buscarEstacionProgramacion(
+					StringUtils.isBlank(distintivo)?null:distintivo,
+					StringUtils.isBlank(concesionario)?null:concesionario,
+					StringUtils.isBlank(canalProg)?null:canalProg);
+			
+			return estacionResult;
 		}
-		
-		return estacionResult;
+		catch(Exception e) {
+			System.out.println("Error en la clase buscarEstacionProgramacion: " + e.getMessage());
+			return estacionResult;
+		}
 	}
 }
