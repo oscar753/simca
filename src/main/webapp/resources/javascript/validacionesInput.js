@@ -19,7 +19,10 @@ $(document).on("keyup", ".mayusculas input", function () {
     $(this).val($(this).val().toUpperCase());
 });
 
-
+function myFilter(itemLabel, filterValue) {
+	if(itemLabel.includes(filterValue) && filterValue.length > 2)
+		return true;
+}
 
 
 

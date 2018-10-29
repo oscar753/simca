@@ -34,15 +34,15 @@ public class EstacionServiceImpl implements EstacionService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EstacionServiceImpl.class);
 	
-	public List<Estacion> buscarEstacionProgramacion(String distintivo, String concesionario, String canalProg) {		
+	public List<Estacion> buscarEstacionProgramacion(String distintivo, String idConcesionario, String canalProg) {		
 		LOGGER.info("Metodo para buscar los canales de programacion de radio");
 		
 		List<Estacion> estacionResult = new ArrayList<Estacion>();
-
+		System.out.println("Distintivo:" + distintivo + " idConcesionario: "+ idConcesionario + " canalProg: " + canalProg);
 		try {
 			estacionResult = estacionMapper.buscarEstacionProgramacion(
 					StringUtils.isBlank(distintivo)?null:distintivo,
-					StringUtils.isBlank(concesionario)?null:concesionario,
+					StringUtils.isBlank(idConcesionario)?null:idConcesionario,
 					StringUtils.isBlank(canalProg)?null:canalProg);
 			
 			return estacionResult;

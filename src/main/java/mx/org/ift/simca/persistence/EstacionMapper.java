@@ -19,13 +19,13 @@ public interface EstacionMapper extends IMapper<Estacion>{
 	/**
 	 * Obtien los canales de acuerdo a los parametros enviados.
 	 * @param distintivo
-	 * @param concesionario
+	 * @param idConcesionario
 	 * @param canalProg
 	 * @return
 	 */
 	List<Estacion> buscarEstacionProgramacion(
 			@Param("distintivo") String distintivo,
-			@Param("concesionario") String concesionario,
+			@Param("idConcesionario") String idConcesionario,
 			@Param("canalProg") String canalProg
 			);
 	

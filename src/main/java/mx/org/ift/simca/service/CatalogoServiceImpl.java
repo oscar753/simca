@@ -72,6 +72,21 @@ public class CatalogoServiceImpl implements CatalogoService {
 		
 		return poblacionesResult;
 	}
+	
+	public List<CatalogoDTO> consultaPoblacionEstado(int idEstado) {
+		List<CatalogoDTO> poblacionesResult = new ArrayList<CatalogoDTO>();
+		
+		List<Poblacion> poblaciones =  poblacionMap.obtenPoblacionEstado(idEstado);
+		for (Poblacion poblacion : poblaciones) {
+			CatalogoDTO itemCat = new CatalogoDTO();
+			itemCat.setDescripcion(poblacion.getPoblacion());
+			itemCat.setIdentificador(poblacion.getIdPoblacion().toString());
+			
+			poblacionesResult.add(itemCat);
+		}
+		
+		return poblacionesResult;
+	}
 
 	public List<CatalogoDTO> consultaEstado() {
 		List<CatalogoDTO> estadosResult = new ArrayList<CatalogoDTO>();

@@ -34,7 +34,8 @@ public class AddEstacionProgramMB implements Serializable {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(AddEstacionProgramMB.class);
 	
-	private String claveEstado;
+	private int idEstado;
+	private String idPoblacion;
 	
 	private List<CatalogoDTO> poblacionesDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> estadosDTO = new ArrayList<CatalogoDTO>();
@@ -48,6 +49,13 @@ public class AddEstacionProgramMB implements Serializable {
 	public void init() {
 		LOG.info("/**** Se inicializa MB para agregar ****/");
 		estadosDTO = catalogoService.consultaEstado();
+	}
+	
+	public void onEstadoChange() {
+		if(idEstado > 0) {
+			System.out.println("Se llenan poblaciones con el estado" + idEstado);
+			poblacionesDTO = catalogoService.consultaPoblacionEstado(idEstado);
+		}
 	}
 	
 	/**
@@ -106,18 +114,23 @@ public class AddEstacionProgramMB implements Serializable {
 		this.tiposUsoEstacionDTO = tiposUsoEstacionDTO;
 	}
 
-	/**
-	 * @return the claveEstado
-	 */
-	public String getClaveEstado() {
-		return claveEstado;
+
+
+	public int getIdEstado() {
+		return idEstado;
 	}
 
-	/**
-	 * @param claveEstado the claveEstado to set
-	 */
-	public void setClaveEstado(String claveEstado) {
-		this.claveEstado = claveEstado;
+	public void setIdEstado(int idEstado) {
+		this.idEstado = idEstado;
 	}
+
+	public String getIdPoblacion() {
+		return idPoblacion;
+	}
+
+	public void setIdPoblacion(String idPoblacion) {
+		this.idPoblacion = idPoblacion;
+	}
+	
 	
 }
