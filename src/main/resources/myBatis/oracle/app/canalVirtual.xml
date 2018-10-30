@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.persistence.CanalVirtualMapper">
+
+	<resultMap type="CanalVirtual" id="canalVitualMapAll">		
+		<id property="numCanalVirtual" column="NO_CANAL_VIRTUAL" jdbcType="INTEGER"/>
+		<id property="programacion" column="PROGRAMACION" jdbcType="VARCHAR"/>
+		<id property="idCanalVirtual" column="ID_CANAL_VIRTUAL" jdbcType="DOUBLE"/>		
+		<association property="canal" column="ID_CANAL" resultMap="mx.org.ift.simca.persistence.CanalMapper.canalMapAll"></association>	
+		<association property="tipoUso" column="ID_TIPO_USO" resultMap="mx.org.ift.simca.persistence.TipoUsoMapper.tipoUsoMapper"></association>
+	</resultMap>
+	
+	<resultMap type="CanalVirtual" id="canalVitualMap">		
+		<id property="numCanalVirtual" column="NO_CANAL_VIRTUAL" jdbcType="INTEGER"/>
+		<id property="programacion" column="PROGRAMACION" jdbcType="VARCHAR"/>
+		<id property="idCanalVirtual" column="ID_CANAL_VIRTUAL" jdbcType="DOUBLE"/>				
+	</resultMap>   
+
+    <sql id="tableName">CANAL_VIRTUAL</sql>
+
+	<sql id="tableSearch">CANAL CAN, CANAL_VIRTUAL VIR, POBLACION POB, ESTADO EST, CONCESIONARIO CON, TIPO_USO TU</sql>
+
+    <sql id="allColumns">
+        NO_CANAL_VIRTUAL, PROGRAMACION, ID_CANAL_VIRTUAL
+    </sql>
+   
+     <sql id="colsDinamico">
+        VIR.NO_CANAL_VIRTUAL, VIR.PROGRAMACION, VIR.ID_CANAL_VIRTUAL, CAN.ID_CANAL, CAN.DISTINTIVO, POB.ID_ESTADO, POB.ID_POBLACION, POB.POBLACION, EST.ID_ESTADO, EST.ESTADO, CON.ID_CONCESIONARIO, CON.NOM_CONCESIONARIO, TU.ID_TIPO_USO, TU.TIPO_USO
+    </sql>
+    
+    <select id="getAll"
+        parameterType="CanalVirtual"
+        resultMap="canalVitualMap">
+        <include refid="selectColumnsFrom"/> 
+    </select>        
+    
+    <select id="getDinamico" parameterType="CanalVirtual"
+        resultMap="canalVitualMapAll">
+    	<include refid="selectDinamico"></include>
+    </select>
+    
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+   
+    <sql id="selectDinamico">
+    	SELECT
+            <include refid="colsDinamico"/>
+        FROM <include refid="tableSearch"/>
+        WHERE CAN.ID_CANAL=VIR.ID_CANAL  
+        AND CAN.ID_POBLACION=POB.ID_POBLACION 
+        AND CAN.ID_ESTADO=EST.ID_ESTADO 
+        AND CAN.ID_CONCESIONARIO=CON.ID_CONCESIONARIO 
+        AND VIR.ID_TIPO_USO=TU.ID_TIPO_USO
+        <if test="idConcesionario != null">
+			AND CAN.ID_CONCESIONARIO = #{idConcesionario, jdbcType=INTEGER}
+		</if>
+		<if test="distintivo != null">
+			AND CAN.DISTINTIVO = #{distintivo, jdbcType=VARCHAR}
+		</if>
+		<if test="canalProg != null">
+			AND VIR.PROGRAMACION = #{canalProg, jdbcType=VARCHAR}
+		</if>
+    </sql>
+</mapper>

@@ -29,6 +29,12 @@ public class Canal implements Serializable {
 	private Long idConcesionario;
 	
 	private String grupo;
+	
+	private Poblacion poblacion;
+	
+	private Estado estado;
+	
+	private Concesionario concesionario;
 
 	/**
 	 * @return the idCanal
@@ -127,5 +133,48 @@ public class Canal implements Serializable {
 	public void setGrupo(String grupo) {
 		this.grupo = grupo;
 	}
+
+	/**
+	 * @return the poblacion
+	 */
+	public Poblacion getPoblacion() {
+		return poblacion;
+	}
+
+	/**
+	 * @param poblacion the poblacion to set
+	 */
+	public void setPoblacion(Poblacion poblacion) {
+		this.poblacion = poblacion;
+	}
+
+	/**
+	 * @return the estado
+	 */
+	public Estado getEstado() {
+		return estado;
+	}
+
+	/**
+	 * @param estado the estado to set
+	 */
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
+
+	/**
+	 * @return the concesionario
+	 */
+	public Concesionario getConcesionario() {
+		return concesionario;
+	}
+
+	/**
+	 * @param concesionario the concesionario to set
+	 */
+	public void setConcesionario(Concesionario concesionario) {
+		this.concesionario = concesionario;
+	}
+	
 	
 }

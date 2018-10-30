@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import mx.org.ift.simca.exposition.dto.CanalDTO;
-import mx.org.ift.simca.exposition.dto.CanalVirtualDTO;
 import mx.org.ift.simca.exposition.dto.CatalogoDTO;
-import mx.org.ift.simca.model.Canal;
+import mx.org.ift.simca.model.CanalVirtual;
 import mx.org.ift.simca.service.CanalService;
 import mx.org.ift.simca.service.CatalogoService;
 
@@ -44,98 +42,81 @@ public class CanalProgramacionMB implements Serializable {
 	@Autowired
 	private CatalogoService catalogoService;
 	
-	private String distintivo;
-	private String concesionario;
-	private String canalProg;
-	private String claveConcesionario;
-	private List<CanalVirtualDTO> canalesVirtDTO = new ArrayList<CanalVirtualDTO>();
-	private List<CatalogoDTO> concesionariosDTO = new ArrayList<CatalogoDTO>(); 
+	private final String sinSeleccion = "0";
 	
+	private String claveProg;
+	private String claveConcesionario;
+	private String claveDistintivo;
+	
+	private List<CanalVirtual> canalesBD = new ArrayList<CanalVirtual>();
+	private List<CanalVirtual> programasBD = new ArrayList<CanalVirtual>();
+	private List<CatalogoDTO> concesionariosDTO = new ArrayList<CatalogoDTO>(); 
+	private List<CanalDTO> distintivosDTO = new ArrayList<CanalDTO>();
 	
 	@PostConstruct
 	public void init() {
-		canalesVirtDTO.clear();	
+		canalesBD.clear();	
+		programasBD.clear();
 		concesionariosDTO.clear();
+		distintivosDTO.clear();
 		
 		concesionariosDTO=catalogoService.consultaConcesionario();
+		distintivosDTO = canalService.buscarDistintivo();
+		programasBD = canalService.buscarNomPrograma();
 	}
 
 	public void limpiar() {
-		canalProg = "";
-		concesionario = "";
-		distintivo = "";
+		claveProg = "0";
+		claveConcesionario = "0";
+		claveDistintivo = "0";
+		canalesBD.clear();	
 	}
 	
-	public void buscarCanal() {				
-		List<Canal> canalesBD = canalService.buscarCanalProgramacion(distintivo, concesionario, canalProg);
+	public void buscarCanal() {	
+		canalesBD.clear();
+		
+		if (claveConcesionario.equals(sinSeleccion)) {
+			claveConcesionario = null;
+		}
+		if (claveDistintivo.equals(sinSeleccion)) {
+			claveDistintivo = null;
+		}
+		if (claveProg.equals(sinSeleccion)) {
+			claveProg = null;
+		}
+		
+		canalesBD = canalService.buscarCanalProgramacion(claveDistintivo, claveConcesionario, claveProg);
 		
 		if  (canalesBD.isEmpty()) {
 			LOG.info("No se encontraron canales");
 		}
-		else {
-			for (Canal canal : canalesBD) {
-				CanalVirtualDTO itemCanal = new CanalVirtualDTO();
-				CanalDTO canalDTO = new CanalDTO();
-				
-				canalDTO.setDistintivo(StringUtils.isNotBlank(canal.getDistintivo())?canal.getDistintivo():"");
-				itemCanal.setCanal(canalDTO);
-				
-				canalesVirtDTO.add(itemCanal);				
-			}
-		}		
-		
-		System.out.println("FINALIZO");
 	}
-	
-	/**
-	 * @return the distintivo
-	 */
-	public String getDistintivo() {
-		return distintivo;
-	}
-	/**
-	 * @param distintivo the distintivo to set
-	 */
-	public void setDistintivo(String distintivo) {
-		this.distintivo = distintivo;
-	}
-	/**
-	 * @return the concesionario
-	 */
-	public String getConcesionario() {
-		return concesionario;
-	}
-	/**
-	 * @param concesionario the concesionario to set
-	 */
-	public void setConcesionario(String concesionario) {
-		this.concesionario = concesionario;
-	}
-	/**
-	 * @return the canalProg
-	 */
-	public String getCanalProg() {
-		return canalProg;
-	}
-	/**
-	 * @param canalProg the canalProg to set
-	 */
-	public void setCanalProg(String canalProg) {
-		this.canalProg = canalProg;
-	}	
+			
 
 	/**
-	 * @return the canalesVirtDTO
+	 * @return the claveProg
 	 */
-	public List<CanalVirtualDTO> getCanalesVirtDTO() {
-		return canalesVirtDTO;
+	public String getClaveProg() {
+		return claveProg;
+	}
+	/**
+	 * @param claveProg the claveProg to set
+	 */
+	public void setClaveProg(String claveProg) {
+		this.claveProg = claveProg;
 	}
 
 	/**
-	 * @param canalesVirtDTO the canalesVirtDTO to set
+	 * @return the programasBD
 	 */
-	public void setCanalesVirtDTO(List<CanalVirtualDTO> canalesVirtDTO) {
-		this.canalesVirtDTO = canalesVirtDTO;
+	public List<CanalVirtual> getProgramasBD() {
+		return programasBD;
+	}
+	/**
+	 * @param programasBD the programasBD to set
+	 */
+	public void setProgramasBD(List<CanalVirtual> programasBD) {
+		this.programasBD = programasBD;
 	}
 
 	/**
@@ -172,5 +153,48 @@ public class CanalProgramacionMB implements Serializable {
 	public void setClaveConcesionario(String claveConcesionario) {
 		this.claveConcesionario = claveConcesionario;
 	}
+
+	/**
+	 * @return the distintivosDTO
+	 */
+	public List<CanalDTO> getDistintivosDTO() {
+		return distintivosDTO;
+	}
+
+	/**
+	 * @param distintivosDTO the distintivosDTO to set
+	 */
+	public void setDistintivosDTO(List<CanalDTO> distintivosDTO) {
+		this.distintivosDTO = distintivosDTO;
+	}
+
+	/**
+	 * @return the claveDistintivo
+	 */
+	public String getClaveDistintivo() {
+		return claveDistintivo;
+	}
+
+	/**
+	 * @param claveDistintivo the claveDistintivo to set
+	 */
+	public void setClaveDistintivo(String claveDistintivo) {
+		this.claveDistintivo = claveDistintivo;
+	}
+
+	/**
+	 * @return the canalesBD
+	 */
+	public List<CanalVirtual> getCanalesBD() {
+		return canalesBD;
+	}
+
+	/**
+	 * @param canalesBD the canalesBD to set
+	 */
+	public void setCanalesBD(List<CanalVirtual> canalesBD) {
+		this.canalesBD = canalesBD;
+	}
+	
 	
 }

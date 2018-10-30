@@ -6,6 +6,14 @@
 
 <mapper namespace="mx.org.ift.simca.persistence.CanalMapper">
 
+	<resultMap type="Canal" id="canalMapAll">
+		<id property="idCanal" column="ID_CANAL" jdbcType="INTEGER"/>
+		<id property="distintivo" column="DISTINTIVO" jdbcType="VARCHAR"/>
+		<association property="poblacion" column="ID_POBLACION" resultMap="mx.org.ift.simca.persistence.PoblacionMapper.poblacionMapper"/>
+		<association property="estado" column="ID_ESTADO" resultMap="mx.org.ift.simca.persistence.EstadoMapper.estadoMapper"/>
+		<association property="concesionario" column="ID_CONCESIONARIO" resultMap="mx.org.ift.simca.persistence.ConcesionarioMapper.concesionarioMapper"></association>
+	</resultMap>
+
     <resultMap id="canalMap" type="Canal" >
     	<id property="idCanal" column="ID_CANAL" jdbcType="INTEGER"/>
         <id property="folioRFC" column="FOLIO_RPC" jdbcType="VARCHAR"/>
@@ -16,16 +24,37 @@
         <id property="grupo" column="GRUPO" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <sql id="tableName">canal</sql>
+    <sql id="tableName">CANAL</sql>
+
+	<sql id="tableSearch">CANAL CAN, POBLACION POB, ESTADO EST, CONCESIONARIO CON</sql>
 
     <sql id="allColumns">
         ID_CANAL, FOLIO_RPC, DISTINTIVO, ID_ESTADO, ID_POBLACION, ID_CONCESIONARIO, GRUPO
     </sql>
     
+    <sql id="colsDistintivo">
+        ID_CANAL, DISTINTIVO
+    </sql>
+    
+     <sql id="colsDinamico">
+        CAN.ID_CANAL, CAN.DISTINTIVO, POB.ID_ESTADO, POB.ID_POBLACION, POB.POBLACION, EST.ID_ESTADO, EST.ESTADO, CON.ID_CONCESIONARIO, CON.NOM_CONCESIONARIO
+    </sql>
+    
     <select id="getAll"
         parameterType="Canal"
-        resultMap="canalMap" >
+        resultMap="canalMap">
         <include refid="selectColumnsFrom"/> 
+    </select>
+    
+    <select id="getDistintivo"
+        parameterType="Canal"
+        resultMap="canalMap">
+        <include refid="selectDistintivo"/> 
+    </select>
+    
+    <select id="getDinamico" parameterType="Canal"
+        resultMap="canalMapAll">
+    	<include refid="selectDinamico"></include>
     </select>
     
     <sql id="selectColumnsFrom">
@@ -33,5 +62,22 @@
             <include refid="allColumns"/>
         FROM <include refid="tableName"/>
     </sql>
+    
+    <sql id="selectDistintivo">
+        SELECT
+            <include refid="colsDistintivo"/>
+        FROM <include refid="tableName"/>
+    </sql>
        
+    <sql id="selectDinamico">
+    	SELECT
+            <include refid="colsDinamico"/>
+        FROM <include refid="tableSearch"/>
+        WHERE CAN.ID_POBLACION=POB.ID_POBLACION 
+        AND CAN.ID_ESTADO=EST.ID_ESTADO 
+        AND CAN.ID_CONCESIONARIO=CON.ID_CONCESIONARIO 
+        <if test="idConcesionario != null">
+			AND CAN.ID_CONCESIONARIO = #{idConcesionario, jdbcType=INTEGER}
+		</if>
+    </sql>
 </mapper>

@@ -11,7 +11,7 @@
         <id property="tipoUso" column="TIPO_USO" jdbcType="VARCHAR"/>                
     </resultMap>
 
-    <sql id="tableName">TipoUso</sql>
+    <sql id="tableName">TIPO_USO</sql>
 
     <sql id="allColumns">
         ID_TIPO_USO, TIPO_USO

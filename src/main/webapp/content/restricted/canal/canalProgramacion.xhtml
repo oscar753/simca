@@ -11,7 +11,7 @@
             <hr class="ui-separator ui-state-default ui-corner-all separator"></hr>                        
             <br/>
 
-		<h:panelGrid columnClasses="centered7">
+		<h:panelGrid id="pnCanalProg" columnClasses="centered7">
             <h:panelGrid id="pgBuscaCP" columns="4" cellpadding="10">
             	<f:facet name="header">
             		<div align="left">
@@ -23,26 +23,38 @@
 					<p:outputLabel id="lbDistintivo" value="Distintivo:"/>
 				</p:column>
 				<p:column>
-					<p:inputText id="itDistintivo" value="#{canalProgramacionMB.distintivo}"></p:inputText>
+					<p:selectOneMenu id="distintivoSel" value="#{canalProgramacionMB.claveDistintivo}" 
+                                     filter="true" filterMatchMode="startsWith" style="min-width:250px" autoWidth="false" >
+                        <f:selectItem itemLabel="Selecciona un distintivo" itemValue="0"></f:selectItem>
+                    	<f:selectItems var="distintivo" value="#{canalProgramacionMB.distintivosDTO}"
+                                       itemValue="#{distintivo.distintivo}" 
+                                       itemLabel="#{distintivo.distintivo}"/>
+                	</p:selectOneMenu>
 				</p:column>
 				<p:column>
 					<p:outputLabel id="lbConcesionario" value="Concesionario:"/>
 				</p:column>
 				<p:column>
 					<p:selectOneMenu id="concesionarioSel" value="#{canalProgramacionMB.claveConcesionario}" 
-                                                      filter="true" filterMatchMode="startsWith">
-
-                                        <f:selectItems var="concesionario" value="#{canalProgramacionMB.concesionariosDTO}"
-                                                       itemValue="#{concesionario.identificador}" 
-                                                       itemLabel="#{concesionario.descripcion}"/>
-                            </p:selectOneMenu> 					
+                                     filter="true" filterMatchMode="startsWith" style="min-width:500px" autoWidth="false">
+                        <f:selectItem itemLabel="Selecciona un concesionario" itemValue="0"></f:selectItem>
+                    	<f:selectItems var="concesionario" value="#{canalProgramacionMB.concesionariosDTO}"
+                                       itemValue="#{concesionario.identificador}" 
+                                       itemLabel="#{concesionario.descripcion}"/>
+                	</p:selectOneMenu> 					
 				</p:column>
 				
 				<p:column>
 					<p:outputLabel id="lbCanalP" value="Canal de programación:"/>
 				</p:column>
 				<p:column>
-					<p:inputText id="itCanalP" value="#{canalProgramacionMB.canalProg}"></p:inputText>
+					<p:selectOneMenu id="programaSel" value="#{canalProgramacionMB.claveProg}" 
+                                     filter="true" filterMatchMode="startsWith" style="min-width:250px" autoWidth="false">
+                        <f:selectItem itemLabel="Selecciona una programación" itemValue="0"></f:selectItem>
+                    	<f:selectItems var="programa" value="#{canalProgramacionMB.programasBD}"
+                                       itemValue="#{programa.programacion}" 
+                                       itemLabel="#{programa.programacion}"/>
+                	</p:selectOneMenu>					
 				</p:column>
 				
 				<f:facet name="footer">
@@ -60,7 +72,7 @@
                                              paginatorPosition="bottom"
                                              reflow="true"
                                              style="font-size: small; width: 100%; float: none;"
-                                             value="#{canalProgramacionMB.canalesVirtDTO}"
+                                             value="#{canalProgramacionMB.canalesBD}"
                                              var="canal">
             	<f:facet name="header" >
                 	Canales de programación
@@ -76,26 +88,26 @@
                 	<p:outputLabel id="tblDistintivo" value="#{canal.canal.distintivo}" />
                 </p:column>
                 <p:column  headerText="Población" >
-                	<p:outputLabel id="tblPoblacion" value="#{canal.canal.poblacion.descripcion}" />
+                	<p:outputLabel id="tblPoblacion" value="#{canal.canal.poblacion.poblacion}" />
                 </p:column>
                 <p:column  headerText="Estado" >
-                	<p:outputLabel id="tblEstado" value="#{canal.canal.estado.descripcion}" />
+                	<p:outputLabel id="tblEstado" value="#{canal.canal.estado.estado}" />
                 </p:column>
                 <p:column  headerText="Tipo de concesión" >
-                	<p:outputLabel id="tblTipo" value="#{canal.tipoUso.descripcion}" />
+                	<p:outputLabel id="tblTipo" value="#{canal.tipoUso.tipoUso}" />
                 </p:column>
                 <p:column  headerText="Concesionario" >
-                	<p:outputLabel id="tblConcesionario" value="#{canal.canal.concesionario.descripcion}" />
+                	<p:outputLabel id="tblConcesionario" value="#{canal.canal.concesionario.nomConcesionario}" />
                 </p:column>
                 <p:column  headerText="Programación" >
                 	<p:outputLabel id="tblProgramacion" value="#{canal.programacion}" />
                 </p:column>
                 <p:column  headerText="Canal virtual" >
-                	<p:outputLabel id="tblCanalVir" value="#{canal.canalVirtual}" />
+                	<p:outputLabel id="tblCanalVir" value="#{canal.idCanalVirtual}" />
                 </p:column>
                 <p:column  headerText="Distintivo" >
-                	<h:commandLink  class="fa fa-edit" id="tblEditar">                   		
-                    </h:commandLink>
+                	<p:commandButton  icon="fa fa-fw fa-edit" id="tblEditar">                   		
+                    </p:commandButton>
                 </p:column>               
            	</p:dataTable>
        	</h:panelGrid>
