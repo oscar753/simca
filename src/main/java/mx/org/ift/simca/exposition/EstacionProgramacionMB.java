@@ -3,6 +3,7 @@ package mx.org.ift.simca.exposition;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 
@@ -17,6 +18,7 @@ import mx.org.ift.simca.exposition.dto.CatalogoDTO;
 import mx.org.ift.simca.exposition.dto.EstacionDTO;
 import mx.org.ift.simca.exposition.dto.GrupoRadioDTO;
 import mx.org.ift.simca.model.Estacion;
+import mx.org.ift.simca.service.CatalogoService;
 import mx.org.ift.simca.service.EstacionService;
 
 @Controller
@@ -33,25 +35,32 @@ public class EstacionProgramacionMB implements Serializable{
 	@Autowired	
 	private EstacionService estacionService;
 	
+	@Autowired
+	private CatalogoService catalogoService;
+	
 	private String distintivo;
 	private String concesionario;
 	private String canalProg;
+	private String idConcesionario;
 	private List<EstacionDTO> estacionDTOList = new ArrayList<EstacionDTO>();
+	private List<CatalogoDTO> concesionariosDTO = new ArrayList<CatalogoDTO>(); 
 	
 	@PostConstruct
 	public void init() {
 		estacionDTOList.clear();
-		canalProg = "Prueba";
+		concesionariosDTO.clear();
+		concesionariosDTO=catalogoService.consultaConcesionario();
 	}
 	
 	public void limpiar() {
 		canalProg = "";
 		concesionario = "";
+		idConcesionario = "";
 		distintivo = "";
 	}
 	
-	public void buscarEstacion() {				
-		List<Estacion> estacionBD = estacionService.buscarEstacionProgramacion(distintivo, concesionario, canalProg);
+	public void buscarEstacion() {
+		List<Estacion> estacionBD = estacionService.buscarEstacionProgramacion(distintivo, idConcesionario, canalProg);
 		estacionDTOList.clear();
 		
 		if  (estacionBD.isEmpty()) {
@@ -95,7 +104,15 @@ public class EstacionProgramacionMB implements Serializable{
 		
 		
 		System.out.println("FINALIZO");
+			
+	}
+	
+	public boolean myFilter(Object valuo, Object filter, Locale locale) {
+		System.out.println(":::Entrando a myFilter:::");
+		String filterText = (filter == null) ? null : filter.toString().trim();
+		System.out.println(filterText);
 		
+		return true;
 		
 	}
 
@@ -129,6 +146,22 @@ public class EstacionProgramacionMB implements Serializable{
 
 	public void setEstacionDTOList(List<EstacionDTO> estacionDTOList) {
 		this.estacionDTOList = estacionDTOList;
+	}
+	
+	public List<CatalogoDTO> getConcesionariosDTO() {
+		return concesionariosDTO;
+	}
+	
+	public void setConcesionariosDTO(List<CatalogoDTO> concesionariosDTO) {
+		this.concesionariosDTO = concesionariosDTO;
+	}
+	
+	public String getIdConcesionario() {
+		return idConcesionario;
+	}
+	
+	public void setIdConcesionario(String idConcesionario) {
+		this.idConcesionario = idConcesionario;
 	}
 	
 }

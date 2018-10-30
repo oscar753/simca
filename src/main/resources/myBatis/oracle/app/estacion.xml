@@ -67,8 +67,8 @@
 		<if test="distintivo != null">
 			AND ETN.DISTINTIVO = #{distintivo, jdbcType=VARCHAR}
 		</if>
-		<if test="concesionario != null">
-			AND CON.NOM_CONCESIONARIO = #{concesionario, jdbcType=VARCHAR}
+		<if test="idConcesionario != null">
+			AND CON.ID_CONCESIONARIO = #{idConcesionario, jdbcType=INTEGER}
 		</if>
 		<if test="canalProg != null">
 			AND ETN.FRECUENCIA = #{canalProg, jdbcType=INTEGER}

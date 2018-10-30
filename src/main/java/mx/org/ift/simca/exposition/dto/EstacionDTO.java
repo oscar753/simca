@@ -1,6 +1,7 @@
 package mx.org.ift.simca.exposition.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class EstacionDTO implements Serializable {
 
@@ -18,6 +19,18 @@ public class EstacionDTO implements Serializable {
 	private CatalogoDTO poblacion;
 	private CatalogoDTO estado;
 	private GrupoRadioDTO grupoRadio;
+	
+	private String folioRPCUMCA;
+	private CatalogoDTO tipoClase;
+	private CatalogoDTO concesionario;
+	private String frecuenciaAM;
+	private String frecuenciaFM;
+	private Date vigenciaIni;
+	private Date vigenciaFin;
+	private CatalogoDTO tipoFrecuencia;
+	private CatalogoDTO tipoEstacion;
+	private String nombreProgramacion;
+	private String multiprograma;
 	
 	public String getNumero() {
 		return numero;
@@ -66,6 +79,72 @@ public class EstacionDTO implements Serializable {
 	}
 	public void setGrupoRadio(GrupoRadioDTO grupoRadio) {
 		this.grupoRadio = grupoRadio;
+	}
+	public String getFolioRPCUMCA() {
+		return folioRPCUMCA;
+	}
+	public void setFolioRPCUMCA(String folioRPCUMCA) {
+		this.folioRPCUMCA = folioRPCUMCA;
+	}
+	public CatalogoDTO getTipoClase() {
+		return tipoClase;
+	}
+	public void setTipoClase(CatalogoDTO tipoClase) {
+		this.tipoClase = tipoClase;
+	}
+	public CatalogoDTO getConcesionario() {
+		return concesionario;
+	}
+	public void setConcesionario(CatalogoDTO concesionario) {
+		this.concesionario = concesionario;
+	}
+	public String getFrecuenciaAM() {
+		return frecuenciaAM;
+	}
+	public void setFrecuenciaAM(String frecuenciaAM) {
+		this.frecuenciaAM = frecuenciaAM;
+	}
+	public String getFrecuenciaFM() {
+		return frecuenciaFM;
+	}
+	public void setFrecuenciaFM(String frecuenciaFM) {
+		this.frecuenciaFM = frecuenciaFM;
+	}
+	public Date getVigenciaIni() {
+		return vigenciaIni;
+	}
+	public void setVigenciaIni(Date vigenciaIni) {
+		this.vigenciaIni = vigenciaIni;
+	}
+	public Date getVigenciaFin() {
+		return vigenciaFin;
+	}
+	public void setVigenciaFin(Date vigenciaFin) {
+		this.vigenciaFin = vigenciaFin;
+	}
+	public CatalogoDTO getTipoFrecuencia() {
+		return tipoFrecuencia;
+	}
+	public void setTipoFrecuencia(CatalogoDTO tipoFrecuencia) {
+		this.tipoFrecuencia = tipoFrecuencia;
+	}
+	public CatalogoDTO getTipoEstacion() {
+		return tipoEstacion;
+	}
+	public void setTipoEstacion(CatalogoDTO tipoEstacion) {
+		this.tipoEstacion = tipoEstacion;
+	}
+	public String getNombreProgramacion() {
+		return nombreProgramacion;
+	}
+	public void setNombreProgramacion(String nombreProgramacion) {
+		this.nombreProgramacion = nombreProgramacion;
+	}
+	public String getMultiprograma() {
+		return multiprograma;
+	}
+	public void setMultiprograma(String multiprograma) {
+		this.multiprograma = multiprograma;
 	}
 	
 	

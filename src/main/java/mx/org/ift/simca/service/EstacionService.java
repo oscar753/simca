@@ -9,10 +9,10 @@ public interface EstacionService extends Serializable {
 	/**
 	 * 
 	 * @param distintivo
-	 * @param concesionario
+	 * @param idConcesionario
 	 * @param canalProg
 	 * @return
 	 */
-	List<Estacion> buscarEstacionProgramacion(String distintivo, String concesionario, String canalProg);
+	List<Estacion> buscarEstacionProgramacion(String distintivo, String idConcesionario, String canalProg);
 
 }

@@ -18,6 +18,10 @@
         ID_ESTADO, ID_POBLACION, POBLACION
     </sql>
     
+    <sql id="collumnsPoblacion">
+        ID_ESTADO, ID_POBLACION, POBLACION
+    </sql>
+    
     <select id="getAll"
         parameterType="Poblacion"
         resultMap="poblacionMapper" >
@@ -29,5 +33,15 @@
             <include refid="allColumns"/>
         FROM <include refid="tableName"/>
     </sql>
+    
+    <select id="obtenPoblacionEstado"
+        parameterType="Poblacion"
+        resultMap="poblacionMapper" >
+        <include refid="selectColumnsFrom"/>
+        WHERE 1=1
+    	<if test="idEstado != null">
+			AND ID_ESTADO = #{idEstado, jdbcType=INTEGER}
+		</if>
+    </select>
        
 </mapper>

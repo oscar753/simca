@@ -566,6 +566,13 @@ span.cien-porciento input{
 	padding: 3px 5px !important;
 }
 
+.ui-selectonemenu{
+     width: 100% !important;
+}
+.ui-selectonemenu-label{
+     width: 100% !important;
+} 
+
 .descripcion_modulo {
     font-size: medium!important;
     color: #79787a!important;
