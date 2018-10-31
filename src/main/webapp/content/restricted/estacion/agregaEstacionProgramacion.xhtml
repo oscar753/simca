@@ -6,7 +6,8 @@
                 template="/WEB-INF/templates/LoggedTemplate.xhtml">
    
     <ui:define name="contentPart">
-        <h:form id="formAddEstacionProg">            
+        <p:growl id="growl" showDetail="true" sticky="true" />  
+        <h:form id="formAddEstacionProg">
             <h:outputText value="Altas, bajas y cambios" style="font-weight: bold"/>
             <hr class="ui-separator ui-state-default ui-corner-all separator"></hr>                        
             <br/>
@@ -21,25 +22,26 @@
 					<p:tab id="tabGenerales1" title="Generales 1">
 					<h:panelGrid columns="4" id="tabGriGenerales1" cellpadding="10">
             			<p:column>
-            				<p:outputLabel style="float:right" value="No:" id="noTabGnral"></p:outputLabel>
+            				<p:outputLabel for="noTabGnralIn" value="No:" id="noTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="noTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.numero}"></p:inputText>
+            				<p:message for="noTabGnralIn" display="icon"/>
             			</p:column>
             			<p:column>
-            				<p:outputLabel style="float:right" value="Folio RPC/UMCA:" id="rpcTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Folio RPC/UMCA:" id="rpcTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="rpcTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.folioRPCUMCA}"></p:inputText>
             			</p:column>
 				
             			<p:column>
-            				<p:outputLabel style="float:right" value="Estado:" id="estadoTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Estado:" id="estadoTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:selectOneMenu id="estadoTabGnralSel" value="#{addEstacionProgramMB.idEstado}"
 											 autoWidth="false" filter="true" filterMatchMode="custom" filterFunction="myFilter">
-								<p:ajax listener="#{addEstacionProgramMB.onEstadoChange}" update="poblacionTabGnralIn" />			 
+								<p:ajax listener="#{addEstacionProgramMB.onEstadoChange}" update="poblacionTabGnralSel" />			 
 								<f:selectItem itemLabel="Seleccione..." itemValue=""/>
 			                    <f:selectItems var="estado" value="#{addEstacionProgramMB.estadosDTO}"
 			                                   itemValue="#{estado.identificador}" 
@@ -47,11 +49,11 @@
 		                    </p:selectOneMenu>
             			</p:column>
             			<p:column>
-            				<p:outputLabel style="float:right" value="Población:" id="poblacionTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Población:" id="poblacionTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-							<p:selectOneMenu id="poblacionTabGnralIn" value="#{addEstacionProgramMB.idPoblacion}"
-											 autoWidth="false" filter="true" filterMatchMode="custom" filterFunction="myFilter">
+							<p:selectOneMenu id="poblacionTabGnralSel" value="#{addEstacionProgramMB.idPoblacion}"
+											 autoWidth="false" filter="true">
 											 			 
 								<f:selectItem itemLabel="Seleccione..." itemValue=""/>
 			                    <f:selectItems var="poblacion" value="#{addEstacionProgramMB.poblacionesDTO}"
@@ -61,85 +63,120 @@
             			</p:column>
             			
             			<p:column>
-            				<p:outputLabel style="float:right" value="Estación clase:" id="estacionClaseTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Estación clase:" id="estacionClaseTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="estacionClaseTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.tipoClase.descripcion}"></p:inputText>
+							<p:selectOneMenu id="estacionClaseTabGnralSel" value="#{addEstacionProgramMB.idClase}"
+											 autoWidth="false" filter="true" filterMatchMode="custom" filterFunction="myFilter">
+											 			 
+								<f:selectItem itemLabel="Seleccione..." itemValue=""/>
+			                    <f:selectItems var="clase" value="#{addEstacionProgramMB.clasesDTO}"
+			                                   itemValue="#{clase.identificador}" 
+			                                   itemLabel="#{clase.descripcion}"/>
+		                    </p:selectOneMenu>
             			</p:column>
             			<p:column>
-            				<p:outputLabel style="float:right" value="Tipo de uso:" id="usoTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Tipo de uso:" id="usoTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="usoTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.tipoUsoEstacion.descripcion}"></p:inputText>
+            				<p:selectOneMenu id="usoTabGnralSel" value="#{addEstacionProgramMB.idTipoUsoEstacion}"
+											 autoWidth="false" filter="true" filterMatchMode="custom" filterFunction="myFilter">
+											 			 
+								<f:selectItem itemLabel="Seleccione..." itemValue=""/>
+			                    <f:selectItems var="tipoUsoEstacion" value="#{addEstacionProgramMB.tiposUsoEstacionDTO}"
+			                                   itemValue="#{tipoUsoEstacion.identificador}" 
+			                                   itemLabel="#{tipoUsoEstacion.descripcion}"/>
+		                    </p:selectOneMenu>
             			</p:column>
             			
             			<p:column>
-            				<p:outputLabel value="Concesionario:" id="concesionarioTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Concesionario:" id="concesionarioTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="concesionarioTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.concesionario.descripcion}"></p:inputText>
+            				<p:selectOneMenu id="concesionarioTabGnralSel" value="#{addEstacionProgramMB.idConcesionario}"
+											 autoWidth="false" filter="true" filterMatchMode="custom" filterFunction="myFilter">
+											 			 
+								<f:selectItem itemLabel="Seleccione..." itemValue=""/>
+			                    <f:selectItems var="concesionario" value="#{addEstacionProgramMB.concesionariosDTO}"
+			                                   itemValue="#{concesionario.identificador}" 
+			                                   itemLabel="#{concesionario.descripcion}"/>
+		                    </p:selectOneMenu>
             			</p:column>
             			<p:column>
-            				<p:outputLabel value="Distintivo:" id="distintivoTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Distintivo:" id="distintivoTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="distintivoTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.distintivo}"></p:inputText>
             			</p:column>
             			
             			<p:column>
-            				<p:outputLabel value="Banda:" id="bandaTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Banda:" id="bandaTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="chdTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.banda.descripcion}"></p:inputText>
+            				<p:selectOneMenu id="bandaTabGnralSel" value="#{addEstacionProgramMB.idBanda}"
+											 autoWidth="false" filter="true" filterMatchMode="custom" filterFunction="myFilter">
+											 			 
+								<f:selectItem itemLabel="Seleccione..." itemValue=""/>
+			                    <f:selectItems var="banda" value="#{addEstacionProgramMB.bandasDTO}"
+			                                   itemValue="#{banda.identificador}" 
+			                                   itemLabel="#{banda.descripcion}"/>
+		                    </p:selectOneMenu>
             			</p:column>
             			<p:column>
-            				<p:outputLabel value="Frecuencia en FM (Mhz):" id="frecuenciaFMTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Frecuencia en FM (Mhz):" id="frecuenciaFMTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="frecuenciaFMTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.frecuenciaFM}"></p:inputText>
             			</p:column>
             			
             			<p:column>
-            				<p:outputLabel value="Frecuencia en AM (Khz):" id="frecuenciaAMTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Frecuencia en AM (Khz):" id="frecuenciaAMTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="frecuenciaAMTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.frecuenciaAM}"></p:inputText>
             			</p:column>
             			<p:column>
-            				<p:outputLabel value="Vigencia Inicio:" id="vigenciaIniTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Vigencia Inicio:" id="vigenciaIniTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="vigenciaIniTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.vigenciaIni}"></p:inputText>
-            			</p:column>
-            			
-            			<p:column>
-            				<p:outputLabel value="Vigencia Vencimiento:" id="vigenciaFinTabGnral"></p:outputLabel>
-            			</p:column>
-            			<p:column>
-            				<p:inputText id="vigenciaFinTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.vigenciaFin}"></p:inputText>
-            			</p:column>
-            			<p:column>
-            				<p:outputLabel value="Tipo frecuencia:" id="tipoFrecuenciaTabGnral"></p:outputLabel>
-            			</p:column>
-            			<p:column>
-            				<p:inputText id="tipoFrecuenciaTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.tipoFrecuencia}"></p:inputText>
+            				<p:calendar id="vigenciaIniTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.vigenciaIni}" pattern="dd-MM-yyyy" mask="true"/>
             			</p:column>
             			
             			<p:column>
-            				<p:outputLabel value="Tipo de estación:" id="tipoEstacionTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Vigencia Vencimiento:" id="vigenciaFinTabGnral" style="float:right"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:calendar id="vigenciaFinTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.vigenciaFin}" pattern="dd-MMM-yyyy" mask="true"/>
+            			</p:column>
+            			<p:column>
+            				<p:outputLabel value="Tipo frecuencia:" id="tipoFrecuenciaTabGnral" style="float:right"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+		                    <p:selectOneMenu id="tipoFrecuenciaTabGnralSel" value="#{addEstacionProgramMB.idTipoFrecuencia}"
+											 autoWidth="false" filter="true">
+											 			 
+								<f:selectItem itemLabel="Seleccione..." itemValue=""/>
+			                    <f:selectItems var="tipoFrecuencia" value="#{addEstacionProgramMB.tiposFrecuenciaDTO}"
+			                                   itemValue="#{tipoFrecuencia.identificador}" 
+			                                   itemLabel="#{tipoFrecuencia.descripcion}"/>
+		                    </p:selectOneMenu>
+            			</p:column>
+            			
+            			<p:column>
+            				<p:outputLabel value="Tipo de estación:" id="tipoEstacionTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="tipoEstacionTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.tipoEstacion}"></p:inputText>
             			</p:column>
             			<p:column>
-            				<p:outputLabel value="Nombre de programación:" id="nombreProgTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Nombre de programación:" id="nombreProgTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="nombreProgTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.nombreProgramacion}"></p:inputText>
             			</p:column>
             			
             			<p:column>
-            				<p:outputLabel value="¿Multiprograma?:" id="multiprogramaTabGnral"></p:outputLabel>
+            				<p:outputLabel value="¿Multiprograma?:" id="multiprogramaTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="multiprogramaTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.multiprograma}"></p:inputText>
@@ -157,126 +194,155 @@
             			</f:facet>
             			
             			<p:column>
-            				<p:outputLabel value="Estado:" id="estadoTabCober"></p:outputLabel>
+            				<p:outputLabel value="Estado:" id="estadoTabCober" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:selectOneMenu id="estadoTabCoberSel" value="#{addEstacionProgramMB.idEstado}" 
+            				<p:selectOneMenu id="estadoTabCoberSel" value="#{addEstacionProgramMB.idEstadoCober}" 
                                                       filter="true" filterMatchMode="startsWith">
-
-                            <f:selectItems var="estado" value="#{addEstacionProgramMB.estadosDTO}"
-                                           itemValue="#{estado.identificador}" 
-                                           itemLabel="#{estado.descripcion}"/>
+							<p:ajax listener="#{addEstacionProgramMB.onEstadoCoberChange}" update="municipioTabCoberSel"/>
+							<f:selectItem itemLabel="Seleccione..." itemValue=""/>
+                            <f:selectItems var="estadoCober" value="#{addEstacionProgramMB.estadosCoberDTO}"
+                                           itemValue="#{estadoCober.identificador}" 
+                                           itemLabel="#{estadoCober.descripcion}"/>
                             </p:selectOneMenu>            				
             			</p:column>
             			<p:column>
-            				<p:outputLabel value="Municipio:" id="municipioTabCober"></p:outputLabel>
+            				<p:outputLabel value="Municipio:" id="municipioTabCober" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="municipioTabCoberIn"></p:inputText>
+							<p:selectOneMenu id="municipioTabCoberSel" value="#{addEstacionProgramMB.idMunicipioCober}"
+											 autoWidth="false" filter="true">
+							<f:selectItem itemLabel="Seleccione..." itemValue=""/>
+		                    <f:selectItems var="municipioCober" value="#{addEstacionProgramMB.municipiosCoberDTO}"
+		                                   itemValue="#{municipioCober.identificador}" 
+		                                   itemLabel="#{municipioCober.descripcion}"/>
+		                    </p:selectOneMenu>
             			</p:column>
             			
             			<f:facet name="footer">
             				<div align="right">
-            					<p:commandButton value="Agregar"></p:commandButton>            			
+            					<p:commandButton value="Agregar" actionListener="#{addEstacionProgramMB.agregarCobertura}" update="@(.dataClass), :growl"></p:commandButton>            			
             				</div>            		
             			</f:facet>
 					</h:panelGrid>
+					<p:dataTable id="tblCoberturas" widgetVar="tblCoberturas" rows="10"  
+                                             emptyMessage="No hay datos"
+                                             paginator="true"
+                                             paginatorPosition="bottom"
+                                             reflow="true"
+                                             style="font-size: small; width: 100%; float: none;"
+                                             value="#{addEstacionProgramMB.coberturasRadioDTO}"
+                                             var="cobertura"
+                                             styleClass="dataClass">
+            			<f:facet name="header" >
+                			Coberturas                		
+                		</f:facet>
+		                <p:column headerText="Estado">
+		                	<p:outputLabel id="estadoCoberLb" value="#{cobertura.estado.descripcion}"/>
+		                </p:column>
+		                <p:column headerText="Municipio">
+		                	<p:outputLabel id="municipioCoberLb" value="#{cobertura.municipio.descripcion}"/>
+		                </p:column>
+		                <p:column headerText="Acciones">
+		                	<p:rowEditor />
+		                </p:column>                               
+           			</p:dataTable>
 					</p:tab>
 					<p:tab id="tabGenerales2" title="Generales 2">
 					<h:panelGrid columns="4" id="tabGriGenerales2" cellpadding="10">
 						<p:column>
-            				<p:outputLabel value="BD INE:" id="bdineTabGnral"></p:outputLabel>
+            				<p:outputLabel value="BD INE:" id="bdineTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="bdineTabGnralIn"></p:inputText>
             			</p:column>
             			<p:column>
-            				<p:outputLabel value="Centro VM INE:" id="centroVMINETabGnral"></p:outputLabel>
+            				<p:outputLabel value="Centro VM INE:" id="centroVMINETabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="centroVMINETabGnralIn"></p:inputText>
             			</p:column>
             			
             			<p:column>
-            				<p:outputLabel value="Nombre canal INE:" id="canalINETabGnral"></p:outputLabel>
+            				<p:outputLabel value="Nombre canal INE:" id="canalINETabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="canalINETabGnralIn"></p:inputText>
             			</p:column>
             			<p:column>
-            				<p:outputLabel value="Nombre comercial INE:" id="nomComINETabGnral"></p:outputLabel>
+            				<p:outputLabel value="Nombre comercial INE:" id="nomComINETabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="nomComINETabGnralIn"></p:inputText>
             			</p:column>
             			
             			<p:column>
-            				<p:outputLabel value="Tipo de monitoreo INE:" id="tipoMonitoreoINETabGnral"></p:outputLabel>
+            				<p:outputLabel value="Tipo de monitoreo INE:" id="tipoMonitoreoINETabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="tipoMonitoreoINETabGnralIn"></p:inputText>
             			</p:column>
             			<p:column>
-            				<p:outputLabel value="BD AUDITSA:" id="bdAuditsaTabGnral"></p:outputLabel>
+            				<p:outputLabel value="BD AUDITSA:" id="bdAuditsaTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="bdAuditsaTabGnralIn"></p:inputText>
             			</p:column>
             			
             			<p:column>
-            				<p:outputLabel value="Nombre canal AUDITSA:" id="nombreCanalAuditsaTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Nombre canal AUDITSA:" id="nombreCanalAuditsaTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="nombreCanalAuditsaTabGnralIn"></p:inputText>
             			</p:column>
             			<p:column>
-            				<p:outputLabel value="Programación AUDITSA:" id="programAuditsaTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Programación AUDITSA:" id="programAuditsaTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="programAuditsaTabGnralIn"></p:inputText>
             			</p:column>
             			
             			<p:column>
-            				<p:outputLabel value="Localidad servicio externo:" id="locServExtTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Localidad servicio externo:" id="locServExtTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="locServExtTabGnralIn"></p:inputText>
             			</p:column>
             			<p:column>
-            				<p:outputLabel value="Nombre comercial servicio externo:" id="nomComServExtTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Nombre comercial servicio externo:" id="nomComServExtTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="nomComServExtTabGnralIn"></p:inputText>
             			</p:column>
             			
             			<p:column>
-            				<p:outputLabel value="¿Tiene Programación Infantil?:" id="programInfantilTabGnral"></p:outputLabel>
+            				<p:outputLabel value="¿Tiene Programación Infantil?:" id="programInfantilTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="programInfantilTabGnralIn"></p:inputText>
             			</p:column>
             			<p:column>
-            				<p:outputLabel value="Obligaciones accesibilidad:" id="obligAccesTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Obligaciones accesibilidad:" id="obligAccesTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="obligAccesTabGnralIn"></p:inputText>
             			</p:column>
             			
             			<p:column>
-            				<p:outputLabel value="Mecanismos de accesibilidad:" id="mecanAccesTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Mecanismos de accesibilidad:" id="mecanAccesTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="mecanAccesTabGnralIn"></p:inputText>
             			</p:column>
             			<p:column>
-            				<p:outputLabel value="Medio público:" id="medioPublicoTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Medio público:" id="medioPublicoTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="medioPublicoTabGnralIn"></p:inputText>
             			</p:column>
             			
             			<p:column>
-            				<p:outputLabel value="Institución Pública Federal:" id="instPubFedTabGnral"></p:outputLabel>
+            				<p:outputLabel value="Institución Pública Federal:" id="instPubFedTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="instPubFedTabGnralIn"></p:inputText>
@@ -285,6 +351,14 @@
 					</p:tab>
 				</p:tabView>																	
 				</h:column>
+				
+				<f:facet name="footer">
+					<div align="right">
+						<p:commandButton id="cancelAddCanal" value="Cancelar"></p:commandButton>
+						<p:spacer width="15" />
+						<p:commandButton id="guardarAddCanal" value="Guardar" actionListener="#{addEstacionProgramMB.agregarEstacion}"></p:commandButton>
+					</div>
+				</f:facet>
 			</h:panelGrid>
         	<br/>         
         </h:form>

@@ -10,20 +10,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mx.org.ift.simca.exposition.dto.CatalogoDTO;
-import mx.org.ift.simca.model.Estado;
-import mx.org.ift.simca.model.Poblacion;
 import mx.org.ift.simca.model.Banda;
 import mx.org.ift.simca.model.Clase;
 import mx.org.ift.simca.model.Concesionario;
+import mx.org.ift.simca.model.Estado;
+import mx.org.ift.simca.model.Poblacion;
+import mx.org.ift.simca.model.TipoFrecuencia;
 import mx.org.ift.simca.model.TipoUso;
 import mx.org.ift.simca.model.TipoUsoEstacion;
-import mx.org.ift.simca.persistence.EstadoMapper;
-import mx.org.ift.simca.persistence.PoblacionMapper;
 import mx.org.ift.simca.persistence.BandaMapper;
 import mx.org.ift.simca.persistence.ClaseMapper;
+import mx.org.ift.simca.persistence.CoberturaRadioMapper;
 import mx.org.ift.simca.persistence.ConcesionarioMapper;
-import mx.org.ift.simca.persistence.TipoUsoMapper;
+import mx.org.ift.simca.persistence.EstadoMapper;
+import mx.org.ift.simca.persistence.PoblacionMapper;
+import mx.org.ift.simca.persistence.TipoFrecuenciaMapper;
 import mx.org.ift.simca.persistence.TipoUsoEstacionMapper;
+import mx.org.ift.simca.persistence.TipoUsoMapper;
 
 /**
  * @author KODE-LAP0077
@@ -56,7 +59,13 @@ public class CatalogoServiceImpl implements CatalogoService {
 	private TipoUsoEstacionMapper tipoUsoEstacionMap;
 	
 	@Autowired
+	private TipoFrecuenciaMapper tipoFrecuenciaMap;
+	
+	@Autowired
 	private ConcesionarioMapper concesionarioMap;
+	
+	@Autowired
+	private CoberturaRadioMapper coberturaRadioMap;
 
 	public List<CatalogoDTO> consultaPoblacion() {
 		List<CatalogoDTO> poblacionesResult = new ArrayList<CatalogoDTO>();
@@ -158,7 +167,21 @@ public class CatalogoServiceImpl implements CatalogoService {
 		
 		return tiposUsoEstacionResult;
 	}
-
+	
+	public List<CatalogoDTO> consultaTipoFrecuencia() {
+		List<CatalogoDTO> tipoFrecuenciaResult = new ArrayList<CatalogoDTO>();
+		
+		List<TipoFrecuencia> tiposFrecuencia = tipoFrecuenciaMap.getAll();
+		for (TipoFrecuencia tipoFrecuencia : tiposFrecuencia) {
+			CatalogoDTO itemCat = new CatalogoDTO();
+			itemCat.setDescripcion(tipoFrecuencia.getTipoFrecuencia());
+			itemCat.setIdentificador(tipoFrecuencia.getIdTipoFrecuencia().toString());
+			
+			tipoFrecuenciaResult.add(itemCat);
+		}
+		
+		return tipoFrecuenciaResult;
+	}
 
 	public List<CatalogoDTO> consultaConcesionario() {
 		List<CatalogoDTO> concesionariosResult = new ArrayList<CatalogoDTO>();

@@ -2,6 +2,7 @@ package mx.org.ift.simca.exposition.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class EstacionDTO implements Serializable {
 
@@ -31,6 +32,7 @@ public class EstacionDTO implements Serializable {
 	private CatalogoDTO tipoEstacion;
 	private String nombreProgramacion;
 	private String multiprograma;
+	private List<CoberturaRadioDTO> coberturasRadioDTO;
 	
 	public String getNumero() {
 		return numero;
@@ -145,6 +147,12 @@ public class EstacionDTO implements Serializable {
 	}
 	public void setMultiprograma(String multiprograma) {
 		this.multiprograma = multiprograma;
+	}
+	public List<CoberturaRadioDTO> getCoberturasRadioDTO() {
+		return coberturasRadioDTO;
+	}
+	public void setCoberturasRadioDTO(List<CoberturaRadioDTO> coberturasRadioDTO) {
+		this.coberturasRadioDTO = coberturasRadioDTO;
 	}
 	
 	

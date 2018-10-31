@@ -11,7 +11,7 @@
         <id property="clase" column="CLASE" jdbcType="VARCHAR"/>                
     </resultMap>
 
-    <sql id="tableName">clase</sql>
+    <sql id="tableName">CLASE</sql>
 
     <sql id="allColumns">
         ID_CLASE, CLASE
