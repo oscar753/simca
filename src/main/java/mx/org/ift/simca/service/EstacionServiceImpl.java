@@ -34,22 +34,35 @@ public class EstacionServiceImpl implements EstacionService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EstacionServiceImpl.class);
 	
-	public List<Estacion> buscarEstacionProgramacion(String distintivo, String idConcesionario, String canalProg) {		
+	public List<Estacion> buscarEstacionProgramacion(String distintivo, String idConcesionario, String canalProg) {
 		LOGGER.info("Metodo para buscar los canales de programacion de radio");
 		
 		List<Estacion> estacionResult = new ArrayList<Estacion>();
-		System.out.println("Distintivo:" + distintivo + " idConcesionario: "+ idConcesionario + " canalProg: " + canalProg);
+		System.out.println("Distintivo: " + distintivo + " idConcesionario: "+ idConcesionario + " canalProg: " + canalProg);
 		try {
 			estacionResult = estacionMapper.buscarEstacionProgramacion(
 					StringUtils.isBlank(distintivo)?null:distintivo,
 					StringUtils.isBlank(idConcesionario)?null:idConcesionario,
 					StringUtils.isBlank(canalProg)?null:canalProg);
-			
+			System.out.println(estacionResult.size());
 			return estacionResult;
 		}
 		catch(Exception e) {
 			System.out.println("Error en la clase buscarEstacionProgramacion: " + e.getMessage());
 			return estacionResult;
 		}
+	}
+	
+	public List<Estacion> buscarDistintivosRadio(){
+		LOGGER.info("Metodo para buscar los distintivos de estaciones de radio");
+		
+		List<Estacion> distintivosResult = estacionMapper.getDistintivosRadio();
+		try {
+			
+		}
+		catch(Exception e) {
+			
+		}
+		return distintivosResult;
 	}
 }

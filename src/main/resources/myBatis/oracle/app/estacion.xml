@@ -6,30 +6,27 @@
 
 <mapper namespace="mx.org.ift.simca.persistence.EstacionMapper">
 
-<!--     <resultMap id="estacionMap" type="Estacion" > -->
-<!--     	<id property="folioElectronico" column="FOLIO_ELECTRONICO" jdbcType="VARCHAR"/> -->
-<!--     	<id property="idSenial" column="ID_SENIAL" jdbcType="INTEGER"/> -->
-<!--         <id property="idClase" column="ID_CLASE" jdbcType="INTEGER"/> -->
-<!--         <id property="idTipoUsoEstacion" column="ID_TIPO_USO_ESTACION" jdbcType="INTEGER"/> -->
-<!--         <id property="distintivo" column="DISTINTIVO" jdbcType="VARCHAR"/> -->
-<!--         <id property="idBanda" column="ID_BANDA" jdbcType="INTEGER"/> -->
-<!--         <id property="idTipoFrecuencia" column="ID_TIPO_FRECUENCIA" jdbcType="INTEGER"/> -->
-<!--         <id property="frecuencia" column="FRECUENCIA" jdbcType="INTEGER"/> -->
-<!--         <id property="fecIniVigencia" column="FEC_INI_VIGENCIA" jdbcType="DATE"/> -->
-<!--         <id property="fecFinVigencia" column="FEC_FIN_VIGENCIA" jdbcType="DATE"/> -->
-<!--     </resultMap> -->
+    <resultMap id="distintivoMap" type="Estacion" >
+        <id property="distintivo" column="DISTINTIVO" jdbcType="VARCHAR"/>
+    </resultMap>
     
     <resultMap id="estacionMap" type="Estacion" >
+<!--     	<id property="folioElectronico" column="FOLIO_ELECTRONICO" jdbcType="VARCHAR"/> -->
+    	<id property="idSenial" column="ID_SENIAL" jdbcType="INTEGER"/>
     	<id property="distintivo" column="DISTINTIVO" jdbcType="VARCHAR"/>
-    	<id property="poblacion" column="POBLACION" jdbcType="VARCHAR"/>
-        <id property="estado" column="ESTADO" jdbcType="VARCHAR"/>
-        <id property="tipoUsoEstacion" column="TIPO_USO_ESTACION" jdbcType="VARCHAR"/>
-        <id property="concesionario" column="NOM_CONCESIONARIO" jdbcType="VARCHAR"/>
-        <id property="banda" column="BANDA" jdbcType="VARCHAR"/>
-        <id property="frecuencia" column="FRECUENCIA" jdbcType="INTEGER"/>
+        <id property="frecuencia" column="FRECUENCIA" jdbcType="VARCHAR"/>
+<!--         <id property="vigenciaIni" column="FEC_INI_VIGENCIA" jdbcType="DATE"/> -->
+<!--         <id property="vigenciaFin" column="FEC_FIN_VIGENCIA" jdbcType="DATE"/> -->
+		<association property="poblacion" column="ID_POBLACION" resultMap="mx.org.ift.simca.persistence.PoblacionMapper.poblacionMapper"/>
+		<association property="estado" column="ID_ESTADO" resultMap="mx.org.ift.simca.persistence.EstadoMapper.estadoMapper"/>
+    	<association property="clase" column="ID_CLASE" resultMap="mx.org.ift.simca.persistence.ClaseMapper.claseMapper"/>
+    	<association property="tipoUsoEstacion" column="ID_TIPO_USO_ESTACION" resultMap="mx.org.ift.simca.persistence.TipoUsoEstacionMapper.tipoUsoEstacionMapper"></association>
+    	<association property="banda" column="ID_BANDA" resultMap="mx.org.ift.simca.persistence.BandaMapper.bandaMapper"></association>
+    	<association property="tipoFrecuencia" column="ID_TIPO_FRECUENCIA" resultMap="mx.org.ift.simca.persistence.TipoFrecuenciaMapper.tipoFrecuenciaMapper"></association>
+        <association property="grupoRadio" column="FOLIO_ELECTRONICO" resultMap="mx.org.ift.simca.persistence.GrupoRadioMapper.grupoRadioMapper"></association>
     </resultMap>
 
-    <sql id="tableName">estacion</sql>
+    <sql id="tableName">ESTACION</sql>
 
     <sql id="allColumns">
         FOLIO_ELECTRONICO, ID_SENIAL, ID_CLASE, ID_TIPO_USO_ESTACION, DISTINTIVO, ID_BANDA, ID_TIPO_FRECUENCIA, FRECUENCIA, FEC_INI_VIGENCIA, FEC_FIN_VIGENCIA
@@ -37,8 +34,14 @@
     
     <select id="getAll"
         parameterType="Estacion"
-        resultMap="estacionMap">
+        resultMap="distintivoMap">
         <include refid="selectColumnsFrom"/> 
+    </select>
+    
+    <select id="getDistintivosRadio"
+        parameterType="Estacion"
+        resultMap="distintivoMap">
+        <include refid="selectDistintivo"/> 
     </select>
     
     <sql id="selectColumnsFrom">
@@ -48,11 +51,20 @@
     </sql>
     
     <sql id="searchColumns">
-    	ETN.DISTINTIVO, POB.POBLACION, EST.ESTADO, TUE.TIPO_USO_ESTACION, CON.NOM_CONCESIONARIO, BAN.BANDA, ETN.FRECUENCIA
+    	ETN.ID_SENIAL, ETN.DISTINTIVO, ETN.FRECUENCIA,
+    	ETN.FEC_INI_VIGENCIA, ETN.FEC_FIN_VIGENCIA,
+    	POB.ID_ESTADO, POB.ID_POBLACION, POB.POBLACION,
+    	EST.ID_ESTADO, EST.ESTADO, CLA.ID_CLASE, CLA.CLASE, TUE.ID_TIPO_USO_ESTACION, TUE.TIPO_USO_ESTACION, BAN.ID_BANDA, BAN.BANDA,
+    	TFR.ID_TIPO_FRECUENCIA, TFR.TIPO_FRECUENCIA, 
+    	GPR.FOLIO_ELECTRONICO, CON.ID_CONCESIONARIO, CON.NOM_CONCESIONARIO
+    </sql>
+    
+    <sql id="colsDistintivo">
+        DISTINTIVO
     </sql>
     
     <sql id="searchTableName">
-    	ESTACION ETN, COBERTURA_RADIO CRD, ESTADO EST, POBLACION POB, TIPO_USO_ESTACION TUE, GRUPO_RADIO GPR, CONCESIONARIO CON, BANDA BAN
+    	ESTACION ETN, COBERTURA_RADIO CRD, ESTADO EST, POBLACION POB, TIPO_USO_ESTACION TUE, GRUPO_RADIO GPR, CONCESIONARIO CON, BANDA BAN, CLASE CLA, TIPO_FRECUENCIA TFR
     </sql>
     
     <select id="buscarEstacionProgramacion"
@@ -71,6 +83,8 @@
 		AND GPR.FOLIO_ELECTRONICO = ETN.FOLIO_ELECTRONICO
 		AND CON.ID_CONCESIONARIO = GPR.ID_CONCESIONARIO
 		AND BAN.ID_BANDA = ETN.ID_BANDA
+        AND ETN.ID_CLASE = CLA.ID_CLASE
+        AND ETN.ID_TIPO_FRECUENCIA = TFR.ID_TIPO_FRECUENCIA
 		<if test="distintivo != null">
 			AND ETN.DISTINTIVO = #{distintivo, jdbcType=VARCHAR}
 		</if>
@@ -81,5 +95,11 @@
 			AND ETN.FRECUENCIA = #{canalProg, jdbcType=INTEGER}
 		</if>
     </select>
+    
+    <sql id="selectDistintivo">
+        SELECT
+            <include refid="colsDistintivo"/>
+        FROM <include refid="tableName"/>
+    </sql>
        
 </mapper>

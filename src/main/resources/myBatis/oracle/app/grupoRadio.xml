@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.persistence.GrupoRadioMapper">
+
+	<resultMap id="grupoRadioMapper" type="GrupoRadio">
+		<id property="folioElectronico" column="FOLIO_ELECTRONICO" jdbcType="VARCHAR" />
+		<association property="concesionario" column="ID_CONCESIONARIO" resultMap="mx.org.ift.simca.persistence.ConcesionarioMapper.concesionarioMapper"></association>
+	</resultMap>
+
+	<sql id="tableName">GRUPO_RADIO</sql>
+
+	<sql id="allColumns">
+		FOLIO_ELECTRONICO, ID_CONCESIONARIO
+	</sql>
+
+	<select id="getAll" parameterType="GrupoRadio" resultMap="grupoRadioMapper">
+		<include refid="selectDinamic" />
+	</select>
+
+	<sql id="selectColumnsFrom">
+		SELECT
+		<include refid="allColumns" />
+		FROM
+		<include refid="tableName" />
+	</sql>
+	
+	<sql id="selectDinamic">
+		SELECT
+			GPR.FOLIO_ELECTRONICO, CON.ID_CONCESIONARIO, CON.NOM_CONCESIONARIO
+		FROM
+			GRUPO_RADIO GPR, CONCESIONARIO CON
+		WHERE GPR.ID_CONCESIONARIO = CON.ID_CONCESIONARIO
+	</sql>
+
+</mapper>
