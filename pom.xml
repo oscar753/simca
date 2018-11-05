@@ -587,10 +587,15 @@
                 <profileName>development-oracle11</profileName>
                 <!-- Base de datos -->
                 <profile.jdbc.driverClassName>oracle.jdbc.OracleDriver</profile.jdbc.driverClassName>
+                
+                <!-- profile.jdbc.url>jdbc:oracle:thin:@172.19.34.21:1521:oraift</profile.jdbc.url>                
+                <profile.jdbc.username>simca</profile.jdbc.username>
+                <profile.jdbc.password>simca2018</profile.jdbc.password-->               
+                
                 <profile.jdbc.url>jdbc:oracle:thin:@172.17.42.87:1521:desaora</profile.jdbc.url>
                 <profile.jdbc.username>SIMCA</profile.jdbc.username>
                 <profile.jdbc.password>f6e9dac3ffdb66ff82a3</profile.jdbc.password>
-                <profile.jdbc.jndi>jdbc/dap_pooldev</profile.jdbc.jndi>
+                
                 <!-- MyBatis XML location -->
                 <profile.myBatis.xml.location>myBatis/oracle/**/*.xml</profile.myBatis.xml.location>
                 <!-- Correo -->

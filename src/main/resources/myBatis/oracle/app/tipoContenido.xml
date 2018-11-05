@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.persistence.TipoContenidoMapper">
+
+    <resultMap id="tipoContenidoMapper" type="TipoContenido" >
+    	<id property="idTipoContenido" column="ID_TIPO_CONTENIDO" jdbcType="INTEGER"/>
+        <id property="tipoContenido" column="TIPO_CONTENIDO" jdbcType="VARCHAR"/>                
+    </resultMap>
+
+    <sql id="tableName">TIPO_CONTENIDO</sql>
+
+    <sql id="allColumns">
+        ID_TIPO_CONTENIDO, TIPO_CONTENIDO
+    </sql>
+    
+    <select id="getAll"
+        parameterType="TipoContenido"
+        resultMap="tipoContenidoMapper" >
+        <include refid="selectColumnsFrom"/> 
+    </select>
+    
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+       
+</mapper>

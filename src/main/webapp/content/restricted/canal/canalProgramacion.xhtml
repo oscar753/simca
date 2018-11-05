@@ -24,19 +24,19 @@
 				</p:column>
 				<p:column>
 					<p:selectOneMenu id="distintivoSel" value="#{canalProgramacionMB.claveDistintivo}" 
-                                     filter="true" filterMatchMode="startsWith" style="min-width:250px" autoWidth="false" >
+                                     filter="true" filterMatchMode="startsWith" autoWidth="false" >
                         <f:selectItem itemLabel="Selecciona un distintivo" itemValue="0"></f:selectItem>
                     	<f:selectItems var="distintivo" value="#{canalProgramacionMB.distintivosDTO}"
                                        itemValue="#{distintivo.distintivo}" 
                                        itemLabel="#{distintivo.distintivo}"/>
                 	</p:selectOneMenu>
-				</p:column>
+				</p:column>				
 				<p:column>
 					<p:outputLabel id="lbConcesionario" value="Concesionario:"/>
 				</p:column>
 				<p:column>
 					<p:selectOneMenu id="concesionarioSel" value="#{canalProgramacionMB.claveConcesionario}" 
-                                     filter="true" filterMatchMode="startsWith" style="min-width:500px" autoWidth="false">
+                                     filter="true" filterMatchMode="startsWith" autoWidth="false">
                         <f:selectItem itemLabel="Selecciona un concesionario" itemValue="0"></f:selectItem>
                     	<f:selectItems var="concesionario" value="#{canalProgramacionMB.concesionariosDTO}"
                                        itemValue="#{concesionario.identificador}" 
@@ -49,7 +49,7 @@
 				</p:column>
 				<p:column>
 					<p:selectOneMenu id="programaSel" value="#{canalProgramacionMB.claveProg}" 
-                                     filter="true" filterMatchMode="startsWith" style="min-width:250px" autoWidth="false">
+                                     filter="true" filterMatchMode="startsWith" style="min-width:150px" autoWidth="false">
                         <f:selectItem itemLabel="Selecciona una programación" itemValue="0"></f:selectItem>
                     	<f:selectItems var="programa" value="#{canalProgramacionMB.programasBD}"
                                        itemValue="#{programa.programacion}" 

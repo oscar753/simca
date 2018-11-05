@@ -24,7 +24,7 @@
             				<p:outputLabel value="No:" id="noTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="noTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.numero}"></p:inputText>
+            				<p:inputText id="noTabGnralIn" value="#{addCanalProgramMB.canalVirtual.idCanal}"></p:inputText>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="ID señal:" id="senialTabGnral"></p:outputLabel>
@@ -37,39 +37,70 @@
             				<p:outputLabel value="Folio RPC/UMCA:" id="rpcTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="rpcTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.folioRPCUMCA}"></p:inputText>
+            				<p:inputText id="rpcTabGnralIn" value="#{addCanalProgramMB.canal.folioRPC}"></p:inputText>
             			</p:column>
-            			<p:column>
-            				<p:outputLabel value="Población:" id="poblacionTabGnral"></p:outputLabel>
-            			</p:column>
-            			<p:column>
-            				<p:inputText id="poblacionTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.canal.poblacion.descripcion}"></p:inputText>
-            			</p:column>
-            			
             			<p:column>
             				<p:outputLabel value="Estado:" id="estadoTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="estadoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.canal.estado.descripcion}"></p:inputText>
+            				<p:selectOneMenu id="estadoTabGnralIn" value="#{addCanalProgramMB.claveEstado}" 
+                                                      filter="true" filterMatchMode="startsWith" autoWidth="false">
+                                        <p:ajax listener="#{addCanalProgramMB.poblacionEst}" update="poblacionTabGnralIn" />
+										<f:selectItem itemLabel="Selecciona un estado" itemValue="0"></f:selectItem>
+                                        <f:selectItems var="estado" value="#{addCanalProgramMB.estadosDTO}"
+                                                       itemValue="#{estado.identificador}" 
+                                                       itemLabel="#{estado.descripcion}"/>
+                            </p:selectOneMenu>		
             			</p:column>
+            			
+            			<p:column>
+            				<p:outputLabel value="Población:" id="poblacionTabGnral"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:selectOneMenu id="poblacionTabGnralIn" value="#{addCanalProgramMB.clavePoblacion}" 
+                                                      filter="true" filterMatchMode="startsWith" autoWidth="false">                                        
+										<f:selectItem itemLabel="Selecciona una población" itemValue="0"></f:selectItem>
+                                        <f:selectItems var="poblacion" value="#{addCanalProgramMB.poblacionesDTO}"
+                                                       itemValue="#{poblacion.identificador}" 
+                                                       itemLabel="#{poblacion.descripcion}"/>
+                            </p:selectOneMenu>            				
+            			</p:column>            			            			
             			<p:column>
             				<p:outputLabel value="Tipo de uso:" id="usoTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="usoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.tipoUso.descripcion}"></p:inputText>
+            				<p:selectOneMenu id="usoTabGnralIn" value="#{addCanalProgramMB.claveUso}" 
+                                                      filter="true" filterMatchMode="startsWith" autoWidth="false">                                        
+										<f:selectItem itemLabel="Selecciona un tipo de uso" itemValue="0"></f:selectItem>
+                                        <f:selectItems var="uso" value="#{addCanalProgramMB.tiposUsoDTO}"
+                                                       itemValue="#{uso.identificador}" 
+                                                       itemLabel="#{uso.descripcion}"/>
+                            </p:selectOneMenu>            				
             			</p:column>
             			
             			<p:column>
             				<p:outputLabel value="Contenido:" id="contenidoTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="contenidoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.contenido.descripcion}"></p:inputText>
+            				<p:selectOneMenu id="contenidoTabGnralIn" value="#{addCanalProgramMB.claveContenido}" 
+                                                      filter="true" filterMatchMode="startsWith" autoWidth="false">                                        
+										<f:selectItem itemLabel="Selecciona un tipo de contenido" itemValue="0"></f:selectItem>
+                                        <f:selectItems var="contenido" value="#{addCanalProgramMB.tiposContenidoDTO}"
+                                                       itemValue="#{contenido.identificador}" 
+                                                       itemLabel="#{contenido.descripcion}"/>
+                            </p:selectOneMenu>            				
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Concesionario:" id="concesionarioTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="concesionarioTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.canal.concesionario.descripcion}"></p:inputText>
+            				<p:selectOneMenu id="concesionarioTabGnralIn" value="#{addCanalProgramMB.claveConcesionario}" 
+                                                      filter="true" filterMatchMode="startsWith" autoWidth="false">                                        
+										<f:selectItem itemLabel="Selecciona un concesionario" itemValue="0"></f:selectItem>
+                                        <f:selectItems var="concesionario" value="#{addCanalProgramMB.concesionariosDTO}"
+                                                       itemValue="#{concesionario.identificador}" 
+                                                       itemLabel="#{concesionario.descripcion}"/>
+                            </p:selectOneMenu>             				
             			</p:column>
             			
             			<p:column>

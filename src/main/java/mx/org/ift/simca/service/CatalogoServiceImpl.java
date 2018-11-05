@@ -198,4 +198,9 @@ public class CatalogoServiceImpl implements CatalogoService {
 		return concesionariosResult;
 	}
 
+	public List<CatalogoDTO> consultaTipoContenido() {
+		
+		return null;
+	}
+
 }

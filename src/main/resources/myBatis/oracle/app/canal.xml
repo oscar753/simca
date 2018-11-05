@@ -16,7 +16,7 @@
 
     <resultMap id="canalMap" type="Canal" >
     	<id property="idCanal" column="ID_CANAL" jdbcType="INTEGER"/>
-        <id property="folioRFC" column="FOLIO_RPC" jdbcType="VARCHAR"/>
+        <id property="folioRPC" column="FOLIO_RPC" jdbcType="VARCHAR"/>
         <id property="distintivo" column="DISTINTIVO" jdbcType="VARCHAR"/>
         <id property="idEstado" column="ID_ESTADO" jdbcType="INTEGER"/>
         <id property="idPoblacion" column="ID_POBLACION" jdbcType="INTEGER"/>

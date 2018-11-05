@@ -4,10 +4,14 @@
 package mx.org.ift.simca.exposition;
 
 import java.io.Serializable;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +22,8 @@ import org.springframework.stereotype.Controller;
 import mx.org.ift.simca.exposition.dto.CanalVirtualDTO;
 import mx.org.ift.simca.exposition.dto.CatalogoDTO;
 import mx.org.ift.simca.exposition.dto.CoberturaDTO;
+import mx.org.ift.simca.model.Canal;
+import mx.org.ift.simca.model.CanalVirtual;
 import mx.org.ift.simca.service.CatalogoService;
 
 /**
@@ -36,12 +42,21 @@ public class AddCanalProgramMB implements Serializable {
 	private static final Logger LOG = LoggerFactory.getLogger(AddCanalProgramMB.class);
 	
 	private String claveEstado;
+	private String clavePoblacion;
+	private String claveUso;
+	private String claveContenido;
+	private String claveConcesionario;
 	
 	private List<CatalogoDTO> poblacionesDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> estadosDTO = new ArrayList<CatalogoDTO>();
-	private List<CatalogoDTO> tiposUsoDTO = new ArrayList<CatalogoDTO>();	
+	private List<CatalogoDTO> tiposUsoDTO = new ArrayList<CatalogoDTO>();
+	private List<CatalogoDTO> tiposContenidoDTO = new ArrayList<CatalogoDTO>();
+	private List<CatalogoDTO> concesionariosDTO = new ArrayList<CatalogoDTO>();
+	
 	private CanalVirtualDTO canalVirtualDTO = new CanalVirtualDTO();
 	private List<CoberturaDTO> coberturasDTO = new ArrayList<CoberturaDTO>();
+	private Canal canal;
+	private CanalVirtual canalVirtual;
 	
 	@Autowired
 	private CatalogoService catalogoService;
@@ -49,7 +64,32 @@ public class AddCanalProgramMB implements Serializable {
 	@PostConstruct
 	public void init() {
 		LOG.info("/**** Se inicializa MB para agregar ****/");
+//		try {
+//			Canal canal = new Canal();
+//			canal.setIdCanal(1L);
+//			canal.setIdConcesionario(2L);
+//			canal.setDistintivo("Prueba");
+//			
+//			JAXBContext jaxbContext = JAXBContext.newInstance(Canal.class);
+//			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+//			StringWriter sw = new StringWriter();
+//			jaxbMarshaller.marshal(canal, sw);
+//			String xmlString = sw.toString();
+//			LOG.info(xmlString);
+//		} catch (JAXBException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		canal = new Canal();
+		canalVirtual = new CanalVirtual();
+		poblacionesDTO = catalogoService.consultaTipoUso();
 		estadosDTO = catalogoService.consultaEstado();
+		tiposContenidoDTO = catalogoService.consultaTipoContenido();
+		concesionariosDTO = catalogoService.consultaConcesionario();
+	}
+	
+	public void poblacionEst() {
+		poblacionesDTO = catalogoService.consultaPoblacionEstado(new Integer(claveEstado));
 	}
 	
 	/**
@@ -135,5 +175,118 @@ public class AddCanalProgramMB implements Serializable {
 	public void setCoberturasDTO(List<CoberturaDTO> coberturasDTO) {
 		this.coberturasDTO = coberturasDTO;
 	}
+
+	/**
+	 * @return the clavePoblacion
+	 */
+	public String getClavePoblacion() {
+		return clavePoblacion;
+	}
+
+	/**
+	 * @param clavePoblacion the clavePoblacion to set
+	 */
+	public void setClavePoblacion(String clavePoblacion) {
+		this.clavePoblacion = clavePoblacion;
+	}
+
+	/**
+	 * @return the canal
+	 */
+	public Canal getCanal() {
+		return canal;
+	}
+
+	/**
+	 * @param canal the canal to set
+	 */
+	public void setCanal(Canal canal) {
+		this.canal = canal;
+	}
+
+	/**
+	 * @return the canalVirtual
+	 */
+	public CanalVirtual getCanalVirtual() {
+		return canalVirtual;
+	}
+
+	/**
+	 * @param canalVirtual the canalVirtual to set
+	 */
+	public void setCanalVirtual(CanalVirtual canalVirtual) {
+		this.canalVirtual = canalVirtual;
+	}
+
+	/**
+	 * @return the claveUso
+	 */
+	public String getClaveUso() {
+		return claveUso;
+	}
+
+	/**
+	 * @param claveUso the claveUso to set
+	 */
+	public void setClaveUso(String claveUso) {
+		this.claveUso = claveUso;
+	}
+
+	/**
+	 * @return the claveContenido
+	 */
+	public String getClaveContenido() {
+		return claveContenido;
+	}
+
+	/**
+	 * @param claveContenido the claveContenido to set
+	 */
+	public void setClaveContenido(String claveContenido) {
+		this.claveContenido = claveContenido;
+	}
+
+	/**
+	 * @return the tiposContenidoDTO
+	 */
+	public List<CatalogoDTO> getTiposContenidoDTO() {
+		return tiposContenidoDTO;
+	}
+
+	/**
+	 * @param tiposContenidoDTO the tiposContenidoDTO to set
+	 */
+	public void setTiposContenidoDTO(List<CatalogoDTO> tiposContenidoDTO) {
+		this.tiposContenidoDTO = tiposContenidoDTO;
+	}
+
+	/**
+	 * @return the claveConcesionario
+	 */
+	public String getClaveConcesionario() {
+		return claveConcesionario;
+	}
+
+	/**
+	 * @param claveConcesionario the claveConcesionario to set
+	 */
+	public void setClaveConcesionario(String claveConcesionario) {
+		this.claveConcesionario = claveConcesionario;
+	}
+
+	/**
+	 * @return the concesionariosDTO
+	 */
+	public List<CatalogoDTO> getConcesionariosDTO() {
+		return concesionariosDTO;
+	}
+
+	/**
+	 * @param concesionariosDTO the concesionariosDTO to set
+	 */
+	public void setConcesionariosDTO(List<CatalogoDTO> concesionariosDTO) {
+		this.concesionariosDTO = concesionariosDTO;
+	}
+		
 	
 }

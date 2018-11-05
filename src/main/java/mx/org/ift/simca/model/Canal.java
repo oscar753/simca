@@ -18,7 +18,7 @@ public class Canal implements Serializable {
 
 	private Long idCanal;
 	
-	private String folioRFC;
+	private String folioRPC;
 	
 	private String distintivo;
 	
@@ -53,15 +53,15 @@ public class Canal implements Serializable {
 	/**
 	 * @return the folioRFC
 	 */
-	public String getFolioRFC() {
-		return folioRFC;
+	public String getFolioRPC() {
+		return folioRPC;
 	}
 
 	/**
 	 * @param folioRFC the folioRFC to set
 	 */
-	public void setFolioRFC(String folioRFC) {
-		this.folioRFC = folioRFC;
+	public void setFolioRPC(String folioRPC) {
+		this.folioRPC = folioRPC;
 	}
 
 	/**
