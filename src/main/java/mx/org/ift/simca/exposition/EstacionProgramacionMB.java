@@ -23,105 +23,63 @@ import mx.org.ift.simca.service.EstacionService;
 
 @Controller
 @Scope("session")
-public class EstacionProgramacionMB implements Serializable{
+public class EstacionProgramacionMB implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4567893375079648053L;
-	
+
 	private static Logger LOG = LoggerFactory.getLogger(EstacionProgramacionMB.class);
 
-	@Autowired	
+	@Autowired
 	private EstacionService estacionService;
-	
+
 	@Autowired
 	private CatalogoService catalogoService;
 	
-	private String distintivo;
 	private String concesionario;
 	private String canalProg;
 	private String idConcesionario;
-	private List<EstacionDTO> estacionDTOList = new ArrayList<EstacionDTO>();
-	private List<CatalogoDTO> concesionariosDTO = new ArrayList<CatalogoDTO>(); 
-	
+	private String idDistintivo;
+	private String idCanalProg;
+	private List<Estacion> estacionBD = new ArrayList<Estacion>();
+	private List<CatalogoDTO> concesionariosDTO = new ArrayList<CatalogoDTO>();
+	private List<Estacion> distintivos = new ArrayList<Estacion>();
+
 	@PostConstruct
 	public void init() {
-		estacionDTOList.clear();
+		estacionBD.clear();
 		concesionariosDTO.clear();
-		concesionariosDTO=catalogoService.consultaConcesionario();
+		concesionariosDTO = catalogoService.consultaConcesionario();
+		distintivos = estacionService.buscarDistintivosRadio();
 	}
-	
+
 	public void limpiar() {
 		canalProg = "";
 		concesionario = "";
 		idConcesionario = "";
-		distintivo = "";
+		idDistintivo = "";
 	}
-	
+
 	public void buscarEstacion() {
-		List<Estacion> estacionBD = estacionService.buscarEstacionProgramacion(distintivo, idConcesionario, canalProg);
-		estacionDTOList.clear();
-		
-		if  (estacionBD.isEmpty()) {
+		estacionBD.clear();
+		estacionBD = estacionService.buscarEstacionProgramacion(idDistintivo, idConcesionario, canalProg);
+
+		if (estacionBD.isEmpty())
 			LOG.info("No se encontraron estaciones");
-		}
-		else {
-			EstacionDTO itemEstacionDTO = new EstacionDTO();
-			CatalogoDTO catalogoDTO = new CatalogoDTO();
-			GrupoRadioDTO grupoRadio = new GrupoRadioDTO();
-			
-			for (Estacion estacion : estacionBD) {
-				itemEstacionDTO = new EstacionDTO();
-				
-				itemEstacionDTO.setDistintivo(StringUtils.isNotBlank(estacion.getDistintivo())?estacion.getDistintivo():"");
-				
-				catalogoDTO.setDescripcion(StringUtils.isNotBlank(estacion.getPoblacion())?estacion.getPoblacion():"");
-				itemEstacionDTO.setPoblacion(catalogoDTO);
-				
-				catalogoDTO = new CatalogoDTO();
-				catalogoDTO.setDescripcion(StringUtils.isNotBlank(estacion.getEstado())?estacion.getEstado():"");
-				itemEstacionDTO.setEstado(catalogoDTO);
-				
-				catalogoDTO = new CatalogoDTO();
-				catalogoDTO.setDescripcion(StringUtils.isNotBlank(estacion.getTipoUsoEstacion())?estacion.getTipoUsoEstacion():"");
-				itemEstacionDTO.setTipoUsoEstacion(catalogoDTO);
-				
-				catalogoDTO = new CatalogoDTO();
-				catalogoDTO.setDescripcion(StringUtils.isNotBlank(estacion.getConcesionario())?estacion.getConcesionario():"");
-				grupoRadio.setConcesionario(catalogoDTO);
-				itemEstacionDTO.setGrupoRadio(grupoRadio);
-				
-				catalogoDTO = new CatalogoDTO();
-				catalogoDTO.setDescripcion(StringUtils.isNotBlank(estacion.getBanda())?estacion.getBanda():"");
-				itemEstacionDTO.setBanda(catalogoDTO);
-				
-				itemEstacionDTO.setFrecuencia(estacion.getFrecuencia() != null ? estacion.getFrecuencia().toString():"");
-				
-				estacionDTOList.add(itemEstacionDTO);
-			}
-		}
-		
-		
+
 		System.out.println("FINALIZO");
-			
+
 	}
-	
+
 	public boolean myFilter(Object valuo, Object filter, Locale locale) {
 		System.out.println(":::Entrando a myFilter:::");
 		String filterText = (filter == null) ? null : filter.toString().trim();
 		System.out.println(filterText);
-		
+
 		return true;
-		
-	}
 
-	public String getDistintivo() {
-		return distintivo;
-	}
-
-	public void setDistintivo(String distintivo) {
-		this.distintivo = distintivo;
 	}
 
 	public String getConcesionario() {
@@ -140,28 +98,52 @@ public class EstacionProgramacionMB implements Serializable{
 		this.canalProg = canalProg;
 	}
 
-	public List<EstacionDTO> getEstacionDTOList() {
-		return estacionDTOList;
+	public List<Estacion> getEstacionBD() {
+		return estacionBD;
 	}
 
-	public void setEstacionDTOList(List<EstacionDTO> estacionDTOList) {
-		this.estacionDTOList = estacionDTOList;
+	public void setEstacionBD(List<Estacion> estacionBD) {
+		this.estacionBD = estacionBD;
 	}
-	
+
 	public List<CatalogoDTO> getConcesionariosDTO() {
 		return concesionariosDTO;
 	}
-	
+
 	public void setConcesionariosDTO(List<CatalogoDTO> concesionariosDTO) {
 		this.concesionariosDTO = concesionariosDTO;
 	}
-	
+
 	public String getIdConcesionario() {
 		return idConcesionario;
 	}
-	
+
 	public void setIdConcesionario(String idConcesionario) {
 		this.idConcesionario = idConcesionario;
 	}
-	
+
+	public List<Estacion> getDistintivos() {
+		return distintivos;
+	}
+
+	public void setDistintivos(List<Estacion> distintivos) {
+		this.distintivos = distintivos;
+	}
+
+	public String getIdDistintivo() {
+		return idDistintivo;
+	}
+
+	public void setIdDistintivo(String idDistintivo) {
+		this.idDistintivo = idDistintivo;
+	}
+
+	public String getIdCanalProg() {
+		return idCanalProg;
+	}
+
+	public void setIdCanalProg(String idCanalProg) {
+		this.idCanalProg = idCanalProg;
+	}
+
 }

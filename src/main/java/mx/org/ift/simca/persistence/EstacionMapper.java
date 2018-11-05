@@ -17,6 +17,12 @@ import mx.org.ift.simca.model.Estacion;
 public interface EstacionMapper extends IMapper<Estacion>{
 	
 	/**
+	 * 
+	 * @return
+	 */
+	List<Estacion> getDistintivosRadio();
+	
+	/**
 	 * Obtien los canales de acuerdo a los parametros enviados.
 	 * @param distintivo
 	 * @param idConcesionario

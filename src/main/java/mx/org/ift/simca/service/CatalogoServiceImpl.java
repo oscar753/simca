@@ -11,18 +11,21 @@ import org.springframework.stereotype.Service;
 
 import mx.org.ift.simca.exposition.dto.CatalogoDTO;
 import mx.org.ift.simca.model.Banda;
+import mx.org.ift.simca.model.Canal;
 import mx.org.ift.simca.model.Clase;
 import mx.org.ift.simca.model.Concesionario;
 import mx.org.ift.simca.model.Estado;
+import mx.org.ift.simca.model.GrupoRadio;
 import mx.org.ift.simca.model.Poblacion;
 import mx.org.ift.simca.model.TipoFrecuencia;
 import mx.org.ift.simca.model.TipoUso;
 import mx.org.ift.simca.model.TipoUsoEstacion;
 import mx.org.ift.simca.persistence.BandaMapper;
+import mx.org.ift.simca.persistence.CanalMapper;
 import mx.org.ift.simca.persistence.ClaseMapper;
-import mx.org.ift.simca.persistence.CoberturaRadioMapper;
 import mx.org.ift.simca.persistence.ConcesionarioMapper;
 import mx.org.ift.simca.persistence.EstadoMapper;
+import mx.org.ift.simca.persistence.GrupoRadioMapper;
 import mx.org.ift.simca.persistence.PoblacionMapper;
 import mx.org.ift.simca.persistence.TipoFrecuenciaMapper;
 import mx.org.ift.simca.persistence.TipoUsoEstacionMapper;
@@ -53,6 +56,9 @@ public class CatalogoServiceImpl implements CatalogoService {
 	private ClaseMapper claseMap;
 	
 	@Autowired
+	private CanalMapper canalMap;
+	
+	@Autowired
 	private TipoUsoMapper tipoUsoMap;
 	
 	@Autowired
@@ -63,9 +69,9 @@ public class CatalogoServiceImpl implements CatalogoService {
 	
 	@Autowired
 	private ConcesionarioMapper concesionarioMap;
-	
+
 	@Autowired
-	private CoberturaRadioMapper coberturaRadioMap;
+	private GrupoRadioMapper grupoRadioMap;
 
 	public List<CatalogoDTO> consultaPoblacion() {
 		List<CatalogoDTO> poblacionesResult = new ArrayList<CatalogoDTO>();
@@ -197,10 +203,43 @@ public class CatalogoServiceImpl implements CatalogoService {
 		
 		return concesionariosResult;
 	}
+	
+	public List<CatalogoDTO> consultaGrupoRadio() {
+		List<CatalogoDTO> gruposRadioResult = new ArrayList<CatalogoDTO>();
+		
+		List<GrupoRadio> gruposRadio = grupoRadioMap.getAll();
+		for (GrupoRadio grupoRadio : gruposRadio) {
+			CatalogoDTO itemCat = new CatalogoDTO();
+			itemCat.setIdentificador(grupoRadio.getFolioElectronico());
+			itemCat.setDescripcion(grupoRadio.getConcesionario().getNomConcesionario());
+			
+			gruposRadioResult.add(itemCat);
+		}
+		return gruposRadioResult;
+	}
+	
+	public List<CatalogoDTO> consultaCanal() {
+		List<CatalogoDTO> canalesResult = new ArrayList<CatalogoDTO>();
+		try {
+			
+			List<Canal> canales = canalMap.getDinamico(null, null, null);
+			for (Canal canal : canales) {
+				CatalogoDTO itemCat = new CatalogoDTO();
+				itemCat.setIdentificador(canal.getIdCanal().toString());
+				itemCat.setDescripcion(canal.getConcesionario().getNomConcesionario());
+				
+				canalesResult.add(itemCat);
+			}
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return canalesResult;
+	}
 
 	public List<CatalogoDTO> consultaTipoContenido() {
 		
 		return null;
 	}
-
 }
+

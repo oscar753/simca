@@ -75,7 +75,7 @@ public class AddEstacionProgramMB implements Serializable {
 		concesionariosDTO = catalogoService.consultaConcesionario();
 		bandasDTO = catalogoService.consultaBanda();
 		tiposFrecuenciaDTO = catalogoService.consultaTipoFrecuencia();
-		coberturasRadioDTO= null;
+		coberturasRadioDTO.clear();
 		distintivo = "";
 		estacionDTO.setFrecuenciaFM("");
 	}
@@ -98,26 +98,30 @@ public class AddEstacionProgramMB implements Serializable {
 	}
 	
 	public void agregarCobertura() {
-		CatalogoDTO catalogoDTO = new CatalogoDTO();
-		coberturaRadioDTO = new CoberturaRadioDTO();
-		
-		catalogoDTO.setIdentificador(idEstadoCober.toString());
-		catalogoDTO.setDescripcion(StringUtils.isNotBlank(estadosCoberDTO.get(idEstadoCober-1).getDescripcion())?estadosCoberDTO.get(idEstadoCober-1).getDescripcion():"");
-		coberturaRadioDTO.setEstado(catalogoDTO);
-		catalogoDTO = new CatalogoDTO();
-		catalogoDTO.setIdentificador(idMunicipioCober.toString());
-		catalogoDTO.setDescripcion(StringUtils.isNotBlank(municipiosCoberDTO.get(idMunicipioCober-1).getDescripcion())?municipiosCoberDTO.get(idMunicipioCober-1).getDescripcion():"");
-		coberturaRadioDTO.setMunicipio(catalogoDTO);
-		
-		if(!itemRepetido(coberturasRadioDTO, idEstadoCober, idMunicipioCober)) {
-			System.out.println("agregando cober");
-			coberturasRadioDTO.add(coberturaRadioDTO);
+		try {
+			System.out.println("entrando a agregarCober. idEstadoCober=" + idEstadoCober + "\nidMunicipioCober:" + idMunicipioCober);
+			CatalogoDTO catalogoDTO = new CatalogoDTO();
+			coberturaRadioDTO = new CoberturaRadioDTO();
+			
+			catalogoDTO.setIdentificador(idEstadoCober.toString());
+			catalogoDTO.setDescripcion(estadosCoberDTO.get(obtenIdLista(estadosCoberDTO, idEstadoCober)).getDescripcion());
+			coberturaRadioDTO.setEstado(catalogoDTO);
+			catalogoDTO = new CatalogoDTO();
+			catalogoDTO.setIdentificador(idMunicipioCober.toString());
+			catalogoDTO.setDescripcion(municipiosCoberDTO.get(obtenIdLista(municipiosCoberDTO, idMunicipioCober)).getDescripcion());
+			coberturaRadioDTO.setMunicipio(catalogoDTO);
+			
+			if(!itemRepetido(coberturasRadioDTO, idEstadoCober, idMunicipioCober)) {
+				System.out.println("Agregando cobertura");
+				coberturasRadioDTO.add(coberturaRadioDTO);
+			}
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 	
 	public boolean itemRepetido(List<CoberturaRadioDTO> coberturasRadioDTO, Integer idEstadoCober, Integer idMunicipioCober) {
-		System.out.println("Tamaño de coberturasRadioDTO:" + coberturasRadioDTO.size());
-		
 		for (int i = 0; i < coberturasRadioDTO.size(); i++) {
 			if(coberturasRadioDTO.get(i).getEstado().getIdentificador().equals(idEstadoCober.toString()) &&
 					coberturasRadioDTO.get(i).getMunicipio().getIdentificador().equals(idMunicipioCober.toString())) {
@@ -127,6 +131,15 @@ public class AddEstacionProgramMB implements Serializable {
 			}
 		}
 		return false;
+	}
+	
+	public int obtenIdLista(List<CatalogoDTO> list, Integer id) {
+		Integer i = 0;
+		for(CatalogoDTO catalogoDTO: list) { 
+		   if(catalogoDTO.getIdentificador().equals(id.toString())) return i;
+		   else i++;
+		}
+		return 0;
 	}
 	
 	public void agregarEstacion() {
