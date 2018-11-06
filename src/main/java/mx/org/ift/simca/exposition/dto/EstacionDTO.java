@@ -1,8 +1,11 @@
 package mx.org.ift.simca.exposition.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import mx.org.ift.simca.model.Opcion;
 
 public class EstacionDTO implements Serializable {
 
@@ -23,16 +26,18 @@ public class EstacionDTO implements Serializable {
 	
 	private String folioRPCUMCA;
 	private CatalogoDTO tipoClase;
-	private CatalogoDTO concesionario;
+	private String concesionario;
 	private String frecuenciaAM;
 	private String frecuenciaFM;
 	private Date vigenciaIni;
 	private Date vigenciaFin;
+	private List<CoberturaRadioDTO> coberturasRadioDTO;
+	private EstacionFormularioDTO estacionFormularioDTO;
+	
 	private CatalogoDTO tipoFrecuencia;
 	private CatalogoDTO tipoEstacion;
 	private String nombreProgramacion;
-	private String multiprograma;
-	private List<CoberturaRadioDTO> coberturasRadioDTO;
+	private List<Opcion> opMultiprograma = new ArrayList<Opcion>();
 	
 	public String getNumero() {
 		return numero;
@@ -94,10 +99,10 @@ public class EstacionDTO implements Serializable {
 	public void setTipoClase(CatalogoDTO tipoClase) {
 		this.tipoClase = tipoClase;
 	}
-	public CatalogoDTO getConcesionario() {
+	public String getConcesionario() {
 		return concesionario;
 	}
-	public void setConcesionario(CatalogoDTO concesionario) {
+	public void setConcesionario(String concesionario) {
 		this.concesionario = concesionario;
 	}
 	public String getFrecuenciaAM() {
@@ -142,18 +147,22 @@ public class EstacionDTO implements Serializable {
 	public void setNombreProgramacion(String nombreProgramacion) {
 		this.nombreProgramacion = nombreProgramacion;
 	}
-	public String getMultiprograma() {
-		return multiprograma;
-	}
-	public void setMultiprograma(String multiprograma) {
-		this.multiprograma = multiprograma;
-	}
 	public List<CoberturaRadioDTO> getCoberturasRadioDTO() {
 		return coberturasRadioDTO;
 	}
 	public void setCoberturasRadioDTO(List<CoberturaRadioDTO> coberturasRadioDTO) {
 		this.coberturasRadioDTO = coberturasRadioDTO;
 	}
-	
-	
+	public EstacionFormularioDTO getEstacionFormularioDTO() {
+		return estacionFormularioDTO;
+	}
+	public void setEstacionFormularioDTO(EstacionFormularioDTO estacionFormularioDTO) {
+		this.estacionFormularioDTO = estacionFormularioDTO;
+	}
+	public List<Opcion> getOpMultiprograma() {
+		return opMultiprograma;
+	}
+	public void setOpMultiprograma(List<Opcion> opMultiprograma) {
+		this.opMultiprograma = opMultiprograma;
+	}
 }

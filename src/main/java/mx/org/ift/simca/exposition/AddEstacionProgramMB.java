@@ -11,7 +11,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,10 @@ import org.springframework.stereotype.Controller;
 import mx.org.ift.simca.exposition.dto.CatalogoDTO;
 import mx.org.ift.simca.exposition.dto.CoberturaRadioDTO;
 import mx.org.ift.simca.exposition.dto.EstacionDTO;
+import mx.org.ift.simca.model.Opcion;
+import mx.org.ift.simca.model.TipoPregunta;
 import mx.org.ift.simca.service.CatalogoService;
+import mx.org.ift.simca.service.EstacionFormularioService;
 
 /**
  * @author KODE-LAP0077
@@ -47,8 +49,8 @@ public class AddEstacionProgramMB implements Serializable {
 	private int idTipoFrecuencia;
 	private Integer idEstadoCober;
 	private Integer idMunicipioCober;
-	
 	private String distintivo;
+	private int idMultiprograma;
 
 	private List<CatalogoDTO> poblacionesDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> estadosDTO = new ArrayList<CatalogoDTO>();
@@ -59,12 +61,17 @@ public class AddEstacionProgramMB implements Serializable {
 	private List<CatalogoDTO> concesionariosDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> bandasDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> tiposFrecuenciaDTO = new ArrayList<CatalogoDTO>();
+	
 	private List<CoberturaRadioDTO> coberturasRadioDTO = new ArrayList<CoberturaRadioDTO>();
+	
 	private EstacionDTO estacionDTO = new EstacionDTO();
 	private CoberturaRadioDTO coberturaRadioDTO = new CoberturaRadioDTO();
 
 	@Autowired
 	private CatalogoService catalogoService;
+	
+	@Autowired
+	private EstacionFormularioService estacionFormularioService;
 
 	@PostConstruct
 	public void init() {
@@ -78,6 +85,7 @@ public class AddEstacionProgramMB implements Serializable {
 		coberturasRadioDTO.clear();
 		distintivo = "";
 		estacionDTO.setFrecuenciaFM("");
+		generarOpcionesFormulario();
 	}
 
 	public void onEstadoChange() {
@@ -142,9 +150,27 @@ public class AddEstacionProgramMB implements Serializable {
 		return 0;
 	}
 	
+	public void generarOpcionesFormulario() {
+		List<TipoPregunta> tipoPreguntas = new ArrayList<TipoPregunta>();
+		tipoPreguntas = estacionFormularioService.buscarTipoPreguntas();
+		System.out.println("pregunta 2: " + tipoPreguntas.get(2).getPregunta());
+
+		//for (int i = 0; i < tipoPreguntas.size(); i++) {
+			estacionDTO.setOpMultiprograma(estacionFormularioService.buscarOpciones(tipoPreguntas.get(2).getPregunta()));
+			
+		//}
+	}
+	
 	public void agregarEstacion() {
 		System.out.println("Se agregará estación con los siguientes datos:\nNúmero: " + estacionDTO.getNumero());
 		System.out.println("VigenciaIni: " + estacionDTO.getVigenciaIni());
+		System.out.println("Multiprograma: "+ idMultiprograma);
+	}
+	
+	public String deleteAction(CoberturaRadioDTO coberturaRadioDTO) {
+	    System.out.println("Eliminando fila:" + coberturaRadioDTO.getEstado().getDescripcion() + " " + coberturaRadioDTO.getMunicipio().getDescripcion());
+	    coberturasRadioDTO.remove(coberturaRadioDTO);
+		return null;
 	}
 
 	/**
@@ -350,4 +376,13 @@ public class AddEstacionProgramMB implements Serializable {
 	public void setCoberturaRadioDTO(CoberturaRadioDTO coberturaRadioDTO) {
 		this.coberturaRadioDTO = coberturaRadioDTO;
 	}
+
+	public int getIdMultiprograma() {
+		return idMultiprograma;
+	}
+
+	public void setIdMultiprograma(int idMultiprograma) {
+		this.idMultiprograma = idMultiprograma;
+	}
+	
 }

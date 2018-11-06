@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.persistence.OpcionMapper">
+
+    <resultMap id="opcionMapper" type="Opcion" >
+    	<id property="idOpcion" column="ID_OPCION" jdbcType="INTEGER"/>
+        <id property="opcion" column="OPCION" jdbcType="VARCHAR"/>                
+    </resultMap>
+
+    <sql id="tableName">OPCION</sql>
+
+	<sql id="opcTableName">TIPO_PREGUNTA TPR, TIPO_RESPUESTA TRE, OPCION OPC</sql>
+	
+    <sql id="allColumns">
+        ID_OPCION, OPCION
+    </sql>
+    
+    <sql id="opcColumns">
+        OPC.ID_OPCION, OPC.OPCION
+    </sql>
+    
+    <select id="getAll"
+        parameterType="Opcion"
+        resultMap="opcionMapper" >
+        <include refid="selectColumnsFrom"/>
+    </select>
+    
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+    
+    <sql id="selectColumnsOpc">
+        SELECT
+            <include refid="opcColumns"/>
+        FROM <include refid="opcTableName"/>
+        WHERE 1=1
+        <if test="pregunta != null">
+        	AND TPR.PREGUNTA = #{pregunta, jdbcType=VARCHAR}
+		</if>
+		AND TPR.ID_TIPO_RESPUESTA = TRE.ID_TIPO_RESPUESTA
+		AND OPC.ID_TIPO_RESPUESTA = TRE.ID_TIPO_RESPUESTA
+    </sql>
+    
+    <select id="getOpciones"
+        parameterType="Opcion"
+        resultMap="opcionMapper" >
+        <include refid="selectColumnsOpc"/>
+    </select>
+       
+</mapper>

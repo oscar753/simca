@@ -14,8 +14,8 @@ public class CoberturaRadioDTO implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7149975955277328825L;
-	
+	private static final long serialVersionUID = -7206069156952515468L;
+
 	private String folioElectronico;
 	
 	private int idSenial;

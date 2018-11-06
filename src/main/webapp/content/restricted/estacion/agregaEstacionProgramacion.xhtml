@@ -93,14 +93,15 @@
             				<p:outputLabel value="Concesionario:" id="concesionarioTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:selectOneMenu id="concesionarioTabGnralSel" value="#{addEstacionProgramMB.idConcesionario}"
-											 autoWidth="false" filter="true" filterMatchMode="custom" filterFunction="myFilter">
+<!--             				<p:selectOneMenu id="concesionarioTabGnralSel" value="#{addEstacionProgramMB.idConcesionario}" -->
+<!-- 											 autoWidth="false" filter="true" filterMatchMode="custom" filterFunction="myFilter"> -->
 											 			 
-								<f:selectItem itemLabel="Seleccione..." itemValue=""/>
-			                    <f:selectItems var="concesionario" value="#{addEstacionProgramMB.concesionariosDTO}"
-			                                   itemValue="#{concesionario.identificador}" 
-			                                   itemLabel="#{concesionario.descripcion}"/>
-		                    </p:selectOneMenu>
+<!-- 								<f:selectItem itemLabel="Seleccione..." itemValue=""/> -->
+<!-- 			                    <f:selectItems var="concesionario" value="#{addEstacionProgramMB.concesionariosDTO}" -->
+<!-- 			                                   itemValue="#{concesionario.identificador}"  -->
+<!-- 			                                   itemLabel="#{concesionario.descripcion}"/> -->
+<!-- 		                    </p:selectOneMenu> -->
+							<p:inputText id="concesionarioTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.concesionario}"></p:inputText>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Distintivo:" id="distintivoTabGnral" style="float:right"></p:outputLabel>
@@ -179,7 +180,13 @@
             				<p:outputLabel value="¿Multiprograma?:" id="multiprogramaTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="multiprogramaTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.multiprograma}"></p:inputText>
+            				<p:selectOneMenu id="multiprogramaTabGnralSel" value="#{addEstacionProgramMB.idMultiprograma}" autoWidth="false" filter="true">
+								
+								<f:selectItem itemLabel="Seleccione..." itemValue=""/>
+			                    <f:selectItems var="opcion" value="#{addEstacionProgramMB.estacionDTO.opMultiprograma}"
+			                                   itemValue="#{opcion.idOpcion}" 
+			                                   itemLabel="#{opcion.opcion}"/>
+		                    </p:selectOneMenu>
             			</p:column>
        				</h:panelGrid>
        				
@@ -244,7 +251,8 @@
 		                	<p:outputLabel id="municipioCoberLb" value="#{cobertura.municipio.descripcion}"/>
 		                </p:column>
 		                <p:column headerText="Acciones">
-		                	<p:rowEditor />
+		                	<f:facet name="header">Acciones</f:facet>
+    						<h:commandLink value="Eliminar" action="#{addEstacionProgramMB.deleteAction(cobertura)}" />
 		                </p:column>                               
            			</p:dataTable>
 					</p:tab>
@@ -254,20 +262,21 @@
             				<p:outputLabel value="BD INE:" id="bdineTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="bdineTabGnralIn"></p:inputText>
+            				<p:selectOneMenu id="bdineTabGnralSel" autoWidth="false">
+		                    </p:selectOneMenu>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Centro VM INE:" id="centroVMINETabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="centroVMINETabGnralIn"></p:inputText>
+            				<p:calendar id="centroVMINETabGnralDate" pattern="dd-MM-yyyy" mask="true"/>
             			</p:column>
             			
             			<p:column>
             				<p:outputLabel value="Nombre canal INE:" id="canalINETabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="canalINETabGnralIn"></p:inputText>
+            				<p:inputText id="canalINETabGnralIn" ></p:inputText>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Nombre comercial INE:" id="nomComINETabGnral" style="float:right"></p:outputLabel>
@@ -286,7 +295,8 @@
             				<p:outputLabel value="BD AUDITSA:" id="bdAuditsaTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="bdAuditsaTabGnralIn"></p:inputText>
+            				<p:selectOneMenu id="bdAuditsaTabGnralSel" autoWidth="false">
+		                    </p:selectOneMenu>
             			</p:column>
             			
             			<p:column>
@@ -300,6 +310,20 @@
             			</p:column>
             			<p:column>
             				<p:inputText id="programAuditsaTabGnralIn"></p:inputText>
+            			</p:column>
+            			
+            			<p:column>
+            				<p:outputLabel value="Localidad AUDITSA:" id="localidadAuditsaTabGnral" style="float:right"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:inputText id="localidadTabGnralIn"></p:inputText>
+            			</p:column>
+            			<p:column>
+            				<p:outputLabel value="Monitoreo servicio externo:" id="monitoreoServExtTabGnral" style="float:right"></p:outputLabel>
+            			</p:column>
+            			<p:column>
+            				<p:selectOneMenu id="monitoreoServExtTabGnralSel" autoWidth="false">
+		                    </p:selectOneMenu>
             			</p:column>
             			
             			<p:column>
@@ -319,26 +343,30 @@
             				<p:outputLabel value="¿Tiene Programación Infantil?:" id="programInfantilTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="programInfantilTabGnralIn"></p:inputText>
+            				<p:selectOneMenu id="programInfantilTabGnralSel" autoWidth="false">
+		                    </p:selectOneMenu>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Obligaciones accesibilidad:" id="obligAccesTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="obligAccesTabGnralIn"></p:inputText>
+            				<p:selectOneMenu id="obligAccesTabGnralSel" autoWidth="false">
+		                    </p:selectOneMenu>
             			</p:column>
             			
             			<p:column>
             				<p:outputLabel value="Mecanismos de accesibilidad:" id="mecanAccesTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="mecanAccesTabGnralIn"></p:inputText>
+            				<p:selectOneMenu id="mecanAccesTabGnralSel" autoWidth="false">
+		                    </p:selectOneMenu>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Medio público:" id="medioPublicoTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="medioPublicoTabGnralIn"></p:inputText>
+            				<p:selectOneMenu id="medioPublicoTabGnralSel" autoWidth="false">
+		                    </p:selectOneMenu>
             			</p:column>
             			
             			<p:column>

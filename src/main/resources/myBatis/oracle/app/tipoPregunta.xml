@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.persistence.TipoPreguntaMapper">
+
+    <resultMap id="tipoPreguntaMapper" type="TipoPregunta" >
+    	<id property="idTipoFormulario" column="ID_TIPO_FORMULARIO" jdbcType="INTEGER"/>
+    	<id property="idPregunta" column="ID_PREGUNTA" jdbcType="INTEGER"/>
+    	<id property="idTipoPregunta" column="ID_TIPO_PREGUNTA" jdbcType="INTEGER"/>
+    	<id property="pregunta" column="PREGUNTA" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="tableName">TIPO_PREGUNTA</sql>
+
+    <sql id="allColumns">
+        ID_TIPO_FORMULARIO, ID_PREGUNTA, ID_TIPO_PREGUNTA, PREGUNTA
+    </sql>
+    
+    <select id="getAll"
+        parameterType="TipoPregunta"
+        resultMap="tipoPreguntaMapper" >
+        <include refid="selectColumnsFrom"/>
+    </select>
+    
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+        WHERE ID_TIPO_FORMULARIO = 3
+    </sql>
+       
+</mapper>

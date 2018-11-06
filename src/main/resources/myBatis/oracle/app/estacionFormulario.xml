@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.persistence.EstacionFormularioMapper">
+
+    <resultMap id="estacionFormularioMapper" type="EstacionFormulario" >
+    	<id property="folioElectronico" column="FOLIO_ELECTRONICO" jdbcType="VARCHAR"/>
+    	<id property="idPregunta" column="ID_PREGUNTA" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="tableName">ESTACION_FORMULARIO</sql>
+
+    <sql id="allColumns">
+        FOLIO_ELECTRONICO, ID_PREGUNTA
+    </sql>
+    
+    <select id="getAll"
+        parameterType="EstacionFormulario"
+        resultMap="estacionFormularioMapper" >
+        <include refid="selectColumnsFrom"/>
+    </select>
+    
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+       
+</mapper>
