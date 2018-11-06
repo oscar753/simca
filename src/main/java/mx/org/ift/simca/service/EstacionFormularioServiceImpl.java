@@ -46,13 +46,12 @@ public class EstacionFormularioServiceImpl implements EstacionFormularioService 
 		}
 	}
 	
-	public List<TipoPregunta> buscarTipoPreguntas(){
-		LOGGER.info("Metodo para buscar los diferentes tipos de pregunta del formulario");
+	public List<TipoPregunta> buscarTipoPreguntasPorFormulario(Integer idTipoFormulario){
+		LOGGER.info("Metodo para buscar los diferentes tipos de pregunta del formulario con id " + idTipoFormulario);
 		
 		List<TipoPregunta> tipoPreguntas = new ArrayList<TipoPregunta>();
-		
 		try {
-			tipoPreguntas = tipoPreguntaMapper.getAll();
+			tipoPreguntas = tipoPreguntaMapper.obtenPreguntasFormulario(idTipoFormulario);
 			return tipoPreguntas;
 		}
 		catch (Exception e) {

@@ -25,11 +25,25 @@
         <include refid="selectColumnsFrom"/>
     </select>
     
+    <select id="obtenPreguntasFormulario"
+        parameterType="TipoPregunta"
+        resultMap="tipoPreguntaMapper" >
+        <include refid="selectColumnsFormulario"/>
+    </select>
+    
     <sql id="selectColumnsFrom">
         SELECT
             <include refid="allColumns"/>
         FROM <include refid="tableName"/>
-        WHERE ID_TIPO_FORMULARIO = 3
+    </sql>
+    
+    <sql id="selectColumnsFormulario">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+        <if test="idTipoFormulario != null">
+        	WHERE ID_TIPO_FORMULARIO = #{idTipoFormulario, jdbcType=INTEGER}
+        </if>
     </sql>
        
 </mapper>

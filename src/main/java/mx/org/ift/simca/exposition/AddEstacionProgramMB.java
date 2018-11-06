@@ -152,10 +152,11 @@ public class AddEstacionProgramMB implements Serializable {
 	
 	public void generarOpcionesFormulario() {
 		List<TipoPregunta> tipoPreguntas = new ArrayList<TipoPregunta>();
-		tipoPreguntas = estacionFormularioService.buscarTipoPreguntas();
+		tipoPreguntas = estacionFormularioService.buscarTipoPreguntasPorFormulario(3);
+		System.out.println("Tamaño de tipoPreguntas: " + tipoPreguntas.size());
 		System.out.println("pregunta 2: " + tipoPreguntas.get(2).getPregunta());
 
-		//for (int i = 0; i < tipoPreguntas.size(); i++) {
+		//for (int i = 0; i < tipoPreguntas.size(); i++) {//Poblar opciones para los Combobox del formulario
 			estacionDTO.setOpMultiprograma(estacionFormularioService.buscarOpciones(tipoPreguntas.get(2).getPregunta()));
 			
 		//}
