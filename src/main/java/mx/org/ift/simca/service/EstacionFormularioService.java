@@ -11,9 +11,10 @@ public interface EstacionFormularioService extends Serializable {
 	/**
 	 * 
 	 * @param pregunta
+	 * @param idTipoFormulario
 	 * @return
 	 */
-	List<Opcion> buscarOpciones(String pregunta);
+	List<Opcion> buscarOpciones(String pregunta, Integer idTipoFormulario);
 	
 	/**
 	 * 

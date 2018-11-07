@@ -12,8 +12,9 @@ public interface OpcionMapper extends IMapper<Opcion>{
 	/**
 	 * 
 	 * @param pregunta
+	 * @param idTipoFormulario
 	 * @return
 	 */
-	List<Opcion> getOpciones(@Param("pregunta") String pregunta);
+	List<Opcion> getOpciones(@Param("pregunta") String pregunta, @Param("idTipoFormulario") Integer idTipoFormulario);
 	
 }

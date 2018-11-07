@@ -40,11 +40,14 @@
             <include refid="opcColumns"/>
         FROM <include refid="opcTableName"/>
         WHERE 1=1
+		AND TPR.ID_TIPO_RESPUESTA = TRE.ID_TIPO_RESPUESTA
+		AND OPC.ID_TIPO_RESPUESTA = TRE.ID_TIPO_RESPUESTA
         <if test="pregunta != null">
         	AND TPR.PREGUNTA = #{pregunta, jdbcType=VARCHAR}
 		</if>
-		AND TPR.ID_TIPO_RESPUESTA = TRE.ID_TIPO_RESPUESTA
-		AND OPC.ID_TIPO_RESPUESTA = TRE.ID_TIPO_RESPUESTA
+        <if test="idTipoFormulario != null">
+        	AND TPR.ID_TIPO_FORMULARIO = #{idTipoFormulario, jdbcType=INTEGER}
+		</if>
     </sql>
     
     <select id="getOpciones"

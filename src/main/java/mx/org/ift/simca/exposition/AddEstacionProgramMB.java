@@ -4,6 +4,7 @@
 package mx.org.ift.simca.exposition;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +21,10 @@ import org.springframework.stereotype.Controller;
 import mx.org.ift.simca.exposition.dto.CatalogoDTO;
 import mx.org.ift.simca.exposition.dto.CoberturaRadioDTO;
 import mx.org.ift.simca.exposition.dto.EstacionDTO;
-import mx.org.ift.simca.model.Opcion;
 import mx.org.ift.simca.model.TipoPregunta;
 import mx.org.ift.simca.service.CatalogoService;
 import mx.org.ift.simca.service.EstacionFormularioService;
+import mx.org.ift.simca.utils.GeneraRadioXML;
 
 /**
  * @author KODE-LAP0077
@@ -40,17 +41,8 @@ public class AddEstacionProgramMB implements Serializable {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AddEstacionProgramMB.class);
 
-	private int idEstado;
-	private int idPoblacion;
-	private int idClase;
-	private int idTipoUsoEstacion;
-	private int idConcesionario;
-	private int idBanda;
-	private int idTipoFrecuencia;
 	private Integer idEstadoCober;
 	private Integer idMunicipioCober;
-	private String distintivo;
-	private int idMultiprograma;
 
 	private List<CatalogoDTO> poblacionesDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> estadosDTO = new ArrayList<CatalogoDTO>();
@@ -61,15 +53,14 @@ public class AddEstacionProgramMB implements Serializable {
 	private List<CatalogoDTO> concesionariosDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> bandasDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> tiposFrecuenciaDTO = new ArrayList<CatalogoDTO>();
-	
-	private List<CoberturaRadioDTO> coberturasRadioDTO = new ArrayList<CoberturaRadioDTO>();
-	
+	private List<TipoPregunta> tipoPreguntas = new ArrayList<TipoPregunta>();
+
 	private EstacionDTO estacionDTO = new EstacionDTO();
 	private CoberturaRadioDTO coberturaRadioDTO = new CoberturaRadioDTO();
 
 	@Autowired
 	private CatalogoService catalogoService;
-	
+
 	@Autowired
 	private EstacionFormularioService estacionFormularioService;
 
@@ -82,57 +73,64 @@ public class AddEstacionProgramMB implements Serializable {
 		concesionariosDTO = catalogoService.consultaConcesionario();
 		bandasDTO = catalogoService.consultaBanda();
 		tiposFrecuenciaDTO = catalogoService.consultaTipoFrecuencia();
-		coberturasRadioDTO.clear();
-		distintivo = "";
-		estacionDTO.setFrecuenciaFM("");
+		estacionDTO.getCoberturasRadioDTO().clear();
 		generarOpcionesFormulario();
 	}
 
 	public void onEstadoChange() {
-		if (idEstado > 0) {
-			poblacionesDTO = catalogoService.consultaPoblacionEstado(idEstado);
+		if (estacionDTO.getIdEstado() > 0) {
+			poblacionesDTO = catalogoService.consultaPoblacionEstado(estacionDTO.getIdEstado());
 		}
 	}
-	
+
 	public void onEstadoCoberChange() {
 		try {
 			if (idEstadoCober > 0) {
 				idMunicipioCober = 0;
 				municipiosCoberDTO = catalogoService.consultaPoblacionEstado(idEstadoCober);
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	public void agregarCobertura() {
 		try {
-			System.out.println("entrando a agregarCober. idEstadoCober=" + idEstadoCober + "\nidMunicipioCober:" + idMunicipioCober);
-			CatalogoDTO catalogoDTO = new CatalogoDTO();
-			coberturaRadioDTO = new CoberturaRadioDTO();
-			
-			catalogoDTO.setIdentificador(idEstadoCober.toString());
-			catalogoDTO.setDescripcion(estadosCoberDTO.get(obtenIdLista(estadosCoberDTO, idEstadoCober)).getDescripcion());
-			coberturaRadioDTO.setEstado(catalogoDTO);
-			catalogoDTO = new CatalogoDTO();
-			catalogoDTO.setIdentificador(idMunicipioCober.toString());
-			catalogoDTO.setDescripcion(municipiosCoberDTO.get(obtenIdLista(municipiosCoberDTO, idMunicipioCober)).getDescripcion());
-			coberturaRadioDTO.setMunicipio(catalogoDTO);
-			
-			if(!itemRepetido(coberturasRadioDTO, idEstadoCober, idMunicipioCober)) {
-				System.out.println("Agregando cobertura");
-				coberturasRadioDTO.add(coberturaRadioDTO);
+			System.out.println("entrando a agregarCober. idEstadoCober=" + idEstadoCober + ". idMunicipioCober:"
+					+ idMunicipioCober);
+			if (idEstadoCober != null && idMunicipioCober != null) {
+				CatalogoDTO catalogoDTO = new CatalogoDTO();
+				coberturaRadioDTO = new CoberturaRadioDTO();
+
+				catalogoDTO.setIdentificador(idEstadoCober.toString());
+				catalogoDTO.setDescripcion(
+						estadosCoberDTO.get(obtenIdLista(estadosCoberDTO, idEstadoCober)).getDescripcion());
+				coberturaRadioDTO.setEstado(catalogoDTO);
+				catalogoDTO = new CatalogoDTO();
+				catalogoDTO.setIdentificador(idMunicipioCober.toString());
+				catalogoDTO.setDescripcion(
+						municipiosCoberDTO.get(obtenIdLista(municipiosCoberDTO, idMunicipioCober)).getDescripcion());
+				coberturaRadioDTO.setMunicipio(catalogoDTO);
+
+				if (!itemRepetido(estacionDTO.getCoberturasRadioDTO(), idEstadoCober, idMunicipioCober)) {
+					System.out.println("Agregando cobertura");
+					estacionDTO.getCoberturasRadioDTO().add(coberturaRadioDTO);
+				}
+			} else {
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage("Mensaje", "Favor de seleccionar Estado y Municipio"));
 			}
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	public boolean itemRepetido(List<CoberturaRadioDTO> coberturasRadioDTO, Integer idEstadoCober, Integer idMunicipioCober) {
+
+	public boolean itemRepetido(List<CoberturaRadioDTO> coberturasRadioDTO, Integer idEstadoCober,
+			Integer idMunicipioCober) {
 		for (int i = 0; i < coberturasRadioDTO.size(); i++) {
-			if(coberturasRadioDTO.get(i).getEstado().getIdentificador().equals(idEstadoCober.toString()) &&
-					coberturasRadioDTO.get(i).getMunicipio().getIdentificador().equals(idMunicipioCober.toString())) {
+			if (coberturasRadioDTO.get(i).getEstado().getIdentificador().equals(idEstadoCober.toString())
+					&& coberturasRadioDTO.get(i).getMunicipio().getIdentificador()
+							.equals(idMunicipioCober.toString())) {
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage("Mensaje", "Cobertura repetida"));
 				return true;
@@ -140,37 +138,67 @@ public class AddEstacionProgramMB implements Serializable {
 		}
 		return false;
 	}
-	
+
 	public int obtenIdLista(List<CatalogoDTO> list, Integer id) {
 		Integer i = 0;
-		for(CatalogoDTO catalogoDTO: list) { 
-		   if(catalogoDTO.getIdentificador().equals(id.toString())) return i;
-		   else i++;
+		for (CatalogoDTO catalogoDTO : list) {
+			if (catalogoDTO.getIdentificador().equals(id.toString()))
+				return i;
+			else
+				i++;
 		}
 		return 0;
 	}
-	
-	public void generarOpcionesFormulario() {
-		List<TipoPregunta> tipoPreguntas = new ArrayList<TipoPregunta>();
-		tipoPreguntas = estacionFormularioService.buscarTipoPreguntasPorFormulario(3);
-		System.out.println("Tamaño de tipoPreguntas: " + tipoPreguntas.size());
-		System.out.println("pregunta 2: " + tipoPreguntas.get(2).getPregunta());
 
-		//for (int i = 0; i < tipoPreguntas.size(); i++) {//Poblar opciones para los Combobox del formulario
-			estacionDTO.setOpMultiprograma(estacionFormularioService.buscarOpciones(tipoPreguntas.get(2).getPregunta()));
-			
-		//}
+	public void generarOpcionesFormulario() {
+		int idTipoFormulario = 3;
+		tipoPreguntas = estacionFormularioService.buscarTipoPreguntasPorFormulario(idTipoFormulario);
+		
+		estacionDTO.setOpTipoEstacion(
+				estacionFormularioService.buscarOpciones(tipoPreguntas.get(0).getPregunta(), idTipoFormulario));
+		estacionDTO.setOpMultiprograma(
+				estacionFormularioService.buscarOpciones(tipoPreguntas.get(2).getPregunta(), idTipoFormulario));
+		estacionDTO.setOpBDINE(
+				estacionFormularioService.buscarOpciones(tipoPreguntas.get(3).getPregunta(), idTipoFormulario));
+		estacionDTO.setOpBdAuditsa(
+				estacionFormularioService.buscarOpciones(tipoPreguntas.get(8).getPregunta(), idTipoFormulario));
+		estacionDTO.setOpMonitoreoServExt(
+				estacionFormularioService.buscarOpciones(tipoPreguntas.get(12).getPregunta(), idTipoFormulario));
+		estacionDTO.setOpProgramInfantil(
+				estacionFormularioService.buscarOpciones(tipoPreguntas.get(15).getPregunta(), idTipoFormulario));
+		estacionDTO.setOpObligAcces(
+				estacionFormularioService.buscarOpciones(tipoPreguntas.get(16).getPregunta(), idTipoFormulario));
+		estacionDTO.setOpMecanAcces(
+				estacionFormularioService.buscarOpciones(tipoPreguntas.get(17).getPregunta(), idTipoFormulario));
+		estacionDTO.setOpMedioPublico(
+				estacionFormularioService.buscarOpciones(tipoPreguntas.get(18).getPregunta(), idTipoFormulario));
 	}
-	
+
 	public void agregarEstacion() {
-		System.out.println("Se agregará estación con los siguientes datos:\nNúmero: " + estacionDTO.getNumero());
-		System.out.println("VigenciaIni: " + estacionDTO.getVigenciaIni());
-		System.out.println("Multiprograma: "+ idMultiprograma);
+//		System.out.println("Se agregará estación con los siguientes datos:\nNúmero: " + estacionDTO.getNumero());
+//		System.out.println("banda: " + estacionDTO.getIdBanda());
+//		System.out.println("VigenciaIni: " + (estacionDTO.getVigenciaIni() != null
+//				? new SimpleDateFormat("dd/MM/yyyy").format(estacionDTO.getVigenciaIni())
+//				: null));
+//		System.out.println("VigenciaFin: " + (estacionDTO.getVigenciaFin() != null
+//				? new SimpleDateFormat("dd/MM/yyyy").format(estacionDTO.getVigenciaFin())
+//				: null));
+//		System.out.println("Multiprograma: " + estacionDTO.getIdMultiprograma());
+//		System.out.println("idBDINE: " + estacionDTO.getIdBDINE());
+//		System.out.println("idBdAuditsa: " + estacionDTO.getIdBdAuditsa());
+//		System.out.println("idMonitoreoServExt: " + estacionDTO.getIdMonitoreoServExt());
+//		System.out.println("idProgramInfantil: " + estacionDTO.getIdProgramInfantil());
+//		System.out.println("idObligAcces: " + estacionDTO.getIdObligAcces());
+//		System.out.println("idMecanAcces: " + estacionDTO.getIdMecanAcces());
+//		System.out.println("idMedioPublico: " + estacionDTO.getIdMedioPublico());
+
+		GeneraRadioXML.generaEstacionXML(estacionDTO, tipoPreguntas);
 	}
-	
+
 	public String deleteAction(CoberturaRadioDTO coberturaRadioDTO) {
-	    System.out.println("Eliminando fila:" + coberturaRadioDTO.getEstado().getDescripcion() + " " + coberturaRadioDTO.getMunicipio().getDescripcion());
-	    coberturasRadioDTO.remove(coberturaRadioDTO);
+		System.out.println("Eliminando fila:" + coberturaRadioDTO.getEstado().getDescripcion() + " "
+				+ coberturaRadioDTO.getMunicipio().getDescripcion());
+		estacionDTO.getCoberturasRadioDTO().remove(coberturaRadioDTO);
 		return null;
 	}
 
@@ -234,60 +262,12 @@ public class AddEstacionProgramMB implements Serializable {
 		this.tiposUsoEstacionDTO = tiposUsoEstacionDTO;
 	}
 
-	public int getIdEstado() {
-		return idEstado;
-	}
-
-	public void setIdEstado(int idEstado) {
-		this.idEstado = idEstado;
-	}
-
-	public int getIdPoblacion() {
-		return idPoblacion;
-	}
-
-	public void setIdPoblacion(int idPoblacion) {
-		this.idPoblacion = idPoblacion;
-	}
-
 	public List<CatalogoDTO> getClasesDTO() {
 		return clasesDTO;
 	}
 
 	public void setClasesDTO(List<CatalogoDTO> clasesDTO) {
 		this.clasesDTO = clasesDTO;
-	}
-
-	public int getIdClase() {
-		return idClase;
-	}
-
-	public void setIdClase(int idClase) {
-		this.idClase = idClase;
-	}
-
-	public int getIdTipoUsoEstacion() {
-		return idTipoUsoEstacion;
-	}
-
-	public void setIdTipoUsoEstacion(int idTipoUsoEstacion) {
-		this.idTipoUsoEstacion = idTipoUsoEstacion;
-	}
-
-	public int getIdConcesionario() {
-		return idConcesionario;
-	}
-
-	public void setIdConcesionario(int idConcesionario) {
-		this.idConcesionario = idConcesionario;
-	}
-
-	public String getDistintivo() {
-		return distintivo;
-	}
-
-	public void setDistintivo(String distintivo) {
-		this.distintivo = distintivo;
 	}
 
 	public List<CatalogoDTO> getConcesionariosDTO() {
@@ -298,14 +278,6 @@ public class AddEstacionProgramMB implements Serializable {
 		this.concesionariosDTO = concesionariosDTO;
 	}
 
-	public int getIdBanda() {
-		return idBanda;
-	}
-
-	public void setIdBanda(int idBanda) {
-		this.idBanda = idBanda;
-	}
-
 	public List<CatalogoDTO> getBandasDTO() {
 		return bandasDTO;
 	}
@@ -314,28 +286,12 @@ public class AddEstacionProgramMB implements Serializable {
 		this.bandasDTO = bandasDTO;
 	}
 
-	public int getIdTipoFrecuencia() {
-		return idTipoFrecuencia;
-	}
-
-	public void setIdTipoFrecuencia(int idTipoFrecuencia) {
-		this.idTipoFrecuencia = idTipoFrecuencia;
-	}
-
 	public List<CatalogoDTO> getTiposFrecuenciaDTO() {
 		return tiposFrecuenciaDTO;
 	}
 
 	public void setTiposFrecuenciaDTO(List<CatalogoDTO> tiposFrecuenciaDTO) {
 		this.tiposFrecuenciaDTO = tiposFrecuenciaDTO;
-	}
-
-	public List<CoberturaRadioDTO> getCoberturasRadioDTO() {
-		return coberturasRadioDTO;
-	}
-
-	public void setCoberturasRadioDTO(List<CoberturaRadioDTO> coberturasRadioDTO) {
-		this.coberturasRadioDTO = coberturasRadioDTO;
 	}
 
 	public List<CatalogoDTO> getMunicipiosCoberDTO() {
@@ -378,12 +334,4 @@ public class AddEstacionProgramMB implements Serializable {
 		this.coberturaRadioDTO = coberturaRadioDTO;
 	}
 
-	public int getIdMultiprograma() {
-		return idMultiprograma;
-	}
-
-	public void setIdMultiprograma(int idMultiprograma) {
-		this.idMultiprograma = idMultiprograma;
-	}
-	
 }

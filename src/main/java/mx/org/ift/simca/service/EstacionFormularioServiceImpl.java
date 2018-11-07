@@ -30,14 +30,12 @@ public class EstacionFormularioServiceImpl implements EstacionFormularioService 
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EstacionServiceImpl.class);
 
-	public List<Opcion> buscarOpciones(String pregunta) {
+	public List<Opcion> buscarOpciones(String pregunta, Integer idTipoFormulario) {
 		LOGGER.info("Metodo para buscar las opciones del formulario dado el tipo de pregunta");
 
 		List<Opcion> opcionesResult = new ArrayList<Opcion>();
-		System.out.println("Pregunta " + pregunta);
 		try {
-			opcionesResult = opcionMapper.getOpciones(StringUtils.isBlank(pregunta) ? null : pregunta);
-			System.out.println(opcionesResult.size());
+			opcionesResult = opcionMapper.getOpciones(StringUtils.isBlank(pregunta) ? null : pregunta, idTipoFormulario);
 			return opcionesResult;
 			
 		} catch (Exception e) {
