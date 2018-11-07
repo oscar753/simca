@@ -22,6 +22,8 @@ import org.springframework.stereotype.Controller;
 import mx.org.ift.simca.exposition.dto.CanalVirtualDTO;
 import mx.org.ift.simca.exposition.dto.CatalogoDTO;
 import mx.org.ift.simca.exposition.dto.CoberturaDTO;
+import mx.org.ift.simca.exposition.dto.MultiprogramacionXML;
+import mx.org.ift.simca.exposition.dto.PoblacionDTO;
 import mx.org.ift.simca.model.Canal;
 import mx.org.ift.simca.model.CanalVirtual;
 import mx.org.ift.simca.service.CatalogoService;
@@ -40,23 +42,21 @@ public class AddCanalProgramMB implements Serializable {
 	private static final long serialVersionUID = 1423852143850426510L;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(AddCanalProgramMB.class);
-	
-	private String claveEstado;
-	private String clavePoblacion;
-	private String claveUso;
-	private String claveContenido;
-	private String claveConcesionario;
-	
+		
 	private List<CatalogoDTO> poblacionesDTO = new ArrayList<CatalogoDTO>();
+	private List<CatalogoDTO> poblacionesCoberDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> estadosDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> tiposUsoDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> tiposContenidoDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> concesionariosDTO = new ArrayList<CatalogoDTO>();
-	
-	private CanalVirtualDTO canalVirtualDTO = new CanalVirtualDTO();
+	private List<CatalogoDTO> gruposDTO = new ArrayList<CatalogoDTO>();
+		
 	private List<CoberturaDTO> coberturasDTO = new ArrayList<CoberturaDTO>();
-	private Canal canal;
-	private CanalVirtual canalVirtual;
+	
+	private MultiprogramacionXML multiprog;
+	
+	private String estadoCobertura;
+	private String municipioCobertura;
 	
 	@Autowired
 	private CatalogoService catalogoService;
@@ -80,30 +80,42 @@ public class AddCanalProgramMB implements Serializable {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		canal = new Canal();
-		canalVirtual = new CanalVirtual();
-		poblacionesDTO = catalogoService.consultaTipoUso();
+		
+		multiprog = new MultiprogramacionXML();
+		
+		coberturasDTO = new ArrayList<CoberturaDTO>();
 		estadosDTO = catalogoService.consultaEstado();
 		tiposContenidoDTO = catalogoService.consultaTipoContenido();
 		concesionariosDTO = catalogoService.consultaConcesionario();
+		tiposUsoDTO = catalogoService.consultaTipoUso();
+		gruposDTO = catalogoService.consultaGrupo();
 	}
 	
 	public void poblacionEst() {
-		poblacionesDTO = catalogoService.consultaPoblacionEstado(new Integer(claveEstado));
+		poblacionesDTO = consultaPoblacion(multiprog.getCanal().getEstado());		
 	}
 	
-	/**
-	 * @return the canalVirtualDTO
-	 */
-	public CanalVirtualDTO getCanalVirtualDTO() {
-		return canalVirtualDTO;
+	public void poblacionEstCober() {
+		poblacionesCoberDTO = consultaPoblacion(estadoCobertura);		
 	}
-
-	/**
-	 * @param canalVirtualDTO the canalVirtualDTO to set
-	 */
-	public void setCanalVirtualDTO(CanalVirtualDTO canalVirtualDTO) {
-		this.canalVirtualDTO = canalVirtualDTO;
+	
+	private List<CatalogoDTO> consultaPoblacion(String idEstado) {
+		return catalogoService.consultaPoblacionEstado(new Integer(idEstado));
+	}
+	
+	public void agregarCobertura() {
+		LOG.info("/**** Se agrega cobertura");
+		PoblacionDTO poblacionDTO = new PoblacionDTO();
+		CoberturaDTO coberturaDTO = new CoberturaDTO();
+		
+		poblacionDTO.setEstado(estadoCobertura);
+		poblacionDTO.setMunicipio(municipioCobertura);
+		coberturaDTO.setPoblacion(poblacionDTO);
+		coberturasDTO.add(coberturaDTO);
+	}
+	
+	public void guardarMultiprog() {
+		LOG.info("/**** ID senial :: " +multiprog.getCanal_virtual().getId_senial());
 	}
 
 	/**
@@ -149,20 +161,6 @@ public class AddCanalProgramMB implements Serializable {
 	}
 
 	/**
-	 * @return the claveEstado
-	 */
-	public String getClaveEstado() {
-		return claveEstado;
-	}
-
-	/**
-	 * @param claveEstado the claveEstado to set
-	 */
-	public void setClaveEstado(String claveEstado) {
-		this.claveEstado = claveEstado;
-	}
-
-	/**
 	 * @return the coberturasDTO
 	 */
 	public List<CoberturaDTO> getCoberturasDTO() {
@@ -174,77 +172,7 @@ public class AddCanalProgramMB implements Serializable {
 	 */
 	public void setCoberturasDTO(List<CoberturaDTO> coberturasDTO) {
 		this.coberturasDTO = coberturasDTO;
-	}
-
-	/**
-	 * @return the clavePoblacion
-	 */
-	public String getClavePoblacion() {
-		return clavePoblacion;
-	}
-
-	/**
-	 * @param clavePoblacion the clavePoblacion to set
-	 */
-	public void setClavePoblacion(String clavePoblacion) {
-		this.clavePoblacion = clavePoblacion;
-	}
-
-	/**
-	 * @return the canal
-	 */
-	public Canal getCanal() {
-		return canal;
-	}
-
-	/**
-	 * @param canal the canal to set
-	 */
-	public void setCanal(Canal canal) {
-		this.canal = canal;
-	}
-
-	/**
-	 * @return the canalVirtual
-	 */
-	public CanalVirtual getCanalVirtual() {
-		return canalVirtual;
-	}
-
-	/**
-	 * @param canalVirtual the canalVirtual to set
-	 */
-	public void setCanalVirtual(CanalVirtual canalVirtual) {
-		this.canalVirtual = canalVirtual;
-	}
-
-	/**
-	 * @return the claveUso
-	 */
-	public String getClaveUso() {
-		return claveUso;
-	}
-
-	/**
-	 * @param claveUso the claveUso to set
-	 */
-	public void setClaveUso(String claveUso) {
-		this.claveUso = claveUso;
-	}
-
-	/**
-	 * @return the claveContenido
-	 */
-	public String getClaveContenido() {
-		return claveContenido;
-	}
-
-	/**
-	 * @param claveContenido the claveContenido to set
-	 */
-	public void setClaveContenido(String claveContenido) {
-		this.claveContenido = claveContenido;
-	}
+	}	
 
 	/**
 	 * @return the tiposContenidoDTO
@@ -261,20 +189,6 @@ public class AddCanalProgramMB implements Serializable {
 	}
 
 	/**
-	 * @return the claveConcesionario
-	 */
-	public String getClaveConcesionario() {
-		return claveConcesionario;
-	}
-
-	/**
-	 * @param claveConcesionario the claveConcesionario to set
-	 */
-	public void setClaveConcesionario(String claveConcesionario) {
-		this.claveConcesionario = claveConcesionario;
-	}
-
-	/**
 	 * @return the concesionariosDTO
 	 */
 	public List<CatalogoDTO> getConcesionariosDTO() {
@@ -287,6 +201,75 @@ public class AddCanalProgramMB implements Serializable {
 	public void setConcesionariosDTO(List<CatalogoDTO> concesionariosDTO) {
 		this.concesionariosDTO = concesionariosDTO;
 	}
-		
-	
+
+	/**
+	 * @return the gruposDTO
+	 */
+	public List<CatalogoDTO> getGruposDTO() {
+		return gruposDTO;
+	}
+
+	/**
+	 * @param gruposDTO the gruposDTO to set
+	 */
+	public void setGruposDTO(List<CatalogoDTO> gruposDTO) {
+		this.gruposDTO = gruposDTO;
+	}
+
+	/**
+	 * @return the multiprog
+	 */
+	public MultiprogramacionXML getMultiprog() {
+		return multiprog;
+	}
+
+	/**
+	 * @param multiprog the multiprog to set
+	 */
+	public void setMultiprog(MultiprogramacionXML multiprog) {
+		this.multiprog = multiprog;
+	}
+
+	/**
+	 * @return the estadoCobertura
+	 */
+	public String getEstadoCobertura() {
+		return estadoCobertura;
+	}
+
+	/**
+	 * @param estadoCobertura the estadoCobertura to set
+	 */
+	public void setEstadoCobertura(String estadoCobertura) {
+		this.estadoCobertura = estadoCobertura;
+	}
+
+	/**
+	 * @return the municipioCobertura
+	 */
+	public String getMunicipioCobertura() {
+		return municipioCobertura;
+	}
+
+	/**
+	 * @param municipioCobertura the municipioCobertura to set
+	 */
+	public void setMunicipioCobertura(String municipioCobertura) {
+		this.municipioCobertura = municipioCobertura;
+	}
+
+	/**
+	 * @return the poblacionesCoberDTO
+	 */
+	public List<CatalogoDTO> getPoblacionesCoberDTO() {
+		return poblacionesCoberDTO;
+	}
+
+	/**
+	 * @param poblacionesCoberDTO the poblacionesCoberDTO to set
+	 */
+	public void setPoblacionesCoberDTO(List<CatalogoDTO> poblacionesCoberDTO) {
+		this.poblacionesCoberDTO = poblacionesCoberDTO;
+	}
+			
 }

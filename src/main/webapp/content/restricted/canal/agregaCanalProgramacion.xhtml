@@ -24,26 +24,26 @@
             				<p:outputLabel value="No:" id="noTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="noTabGnralIn" value="#{addCanalProgramMB.canalVirtual.idCanal}"></p:inputText>
+            				<p:inputText id="noTabGnralIn"></p:inputText>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="ID señal:" id="senialTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="senialTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.idSenial}"></p:inputText>
+            				<p:inputText id="senialTabGnralIn" value="#{addCanalProgramMB.multiprog.canal_virtual.id_senial}"></p:inputText>
             			</p:column>
             			
             			<p:column>
             				<p:outputLabel value="Folio RPC/UMCA:" id="rpcTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="rpcTabGnralIn" value="#{addCanalProgramMB.canal.folioRPC}"></p:inputText>
+            				<p:inputText id="rpcTabGnralIn" value="#{addCanalProgramMB.multiprog.canal_virtual.folio_rpc_umca}"></p:inputText>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Estado:" id="estadoTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:selectOneMenu id="estadoTabGnralIn" value="#{addCanalProgramMB.claveEstado}" 
+            				<p:selectOneMenu id="estadoTabGnralIn" value="#{addCanalProgramMB.multiprog.canal.estado}" 
                                                       filter="true" filterMatchMode="startsWith" autoWidth="false">
                                         <p:ajax listener="#{addCanalProgramMB.poblacionEst}" update="poblacionTabGnralIn" />
 										<f:selectItem itemLabel="Selecciona un estado" itemValue="0"></f:selectItem>
@@ -57,7 +57,7 @@
             				<p:outputLabel value="Población:" id="poblacionTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:selectOneMenu id="poblacionTabGnralIn" value="#{addCanalProgramMB.clavePoblacion}" 
+            				<p:selectOneMenu id="poblacionTabGnralIn" value="#{addCanalProgramMB.multiprog.canal.poblacion}" 
                                                       filter="true" filterMatchMode="startsWith" autoWidth="false">                                        
 										<f:selectItem itemLabel="Selecciona una población" itemValue="0"></f:selectItem>
                                         <f:selectItems var="poblacion" value="#{addCanalProgramMB.poblacionesDTO}"
@@ -69,7 +69,7 @@
             				<p:outputLabel value="Tipo de uso:" id="usoTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:selectOneMenu id="usoTabGnralIn" value="#{addCanalProgramMB.claveUso}" 
+            				<p:selectOneMenu id="usoTabGnralIn" value="#{addCanalProgramMB.multiprog.canal_virtual.tipo_uso}" 
                                                       filter="true" filterMatchMode="startsWith" autoWidth="false">                                        
 										<f:selectItem itemLabel="Selecciona un tipo de uso" itemValue="0"></f:selectItem>
                                         <f:selectItems var="uso" value="#{addCanalProgramMB.tiposUsoDTO}"
@@ -82,7 +82,7 @@
             				<p:outputLabel value="Contenido:" id="contenidoTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:selectOneMenu id="contenidoTabGnralIn" value="#{addCanalProgramMB.claveContenido}" 
+            				<p:selectOneMenu id="contenidoTabGnralIn" value="#{addCanalProgramMB.multiprog.canal_virtual.contenido}" 
                                                       filter="true" filterMatchMode="startsWith" autoWidth="false">                                        
 										<f:selectItem itemLabel="Selecciona un tipo de contenido" itemValue="0"></f:selectItem>
                                         <f:selectItems var="contenido" value="#{addCanalProgramMB.tiposContenidoDTO}"
@@ -94,7 +94,7 @@
             				<p:outputLabel value="Concesionario:" id="concesionarioTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:selectOneMenu id="concesionarioTabGnralIn" value="#{addCanalProgramMB.claveConcesionario}" 
+            				<p:selectOneMenu id="concesionarioTabGnralIn" value="#{addCanalProgramMB.multiprog.canal.concesionario}" 
                                                       filter="true" filterMatchMode="startsWith" autoWidth="false">                                        
 										<f:selectItem itemLabel="Selecciona un concesionario" itemValue="0"></f:selectItem>
                                         <f:selectItems var="concesionario" value="#{addCanalProgramMB.concesionariosDTO}"
@@ -107,46 +107,52 @@
             				<p:outputLabel value="Distintivo:" id="distintivoTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="distintivoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.canal.distintivo}"></p:inputText>
+            				<p:inputText id="distintivoTabGnralIn" value="#{addCanalProgramMB.multiprog.canal.distintivo}"></p:inputText>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="CHD:" id="chdTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="chdTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.chd}"></p:inputText>
+            				<p:inputText id="chdTabGnralIn" value="#{addCanalProgramMB.multiprog.canal_virtual.canal_digital}"></p:inputText>
             			</p:column>
             			
             			<p:column>
             				<p:outputLabel value="Canal virtual asignado:" id="virtualTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="virtualTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.canalVirtual}"></p:inputText>
+            				<p:inputText id="virtualTabGnralIn" value="#{addCanalProgramMB.multiprog.canal_virtual.canal_virtual}"></p:inputText>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Programación:" id="prograTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="prograTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.programacion}"></p:inputText>
+            				<p:inputText id="prograTabGnralIn" value="#{addCanalProgramMB.multiprog.canal_virtual.programacion}"></p:inputText>
             			</p:column>
             			
             			<p:column>
             				<p:outputLabel value="Grupo:" id="grupoTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="grupoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.grupo}"></p:inputText>
+            				<p:selectOneMenu id="grupoTabGnralIn" value="#{addCanalProgramMB.multiprog.canal_virtual.grupo}" 
+                                                      filter="true" filterMatchMode="startsWith" autoWidth="false">                                        
+										<f:selectItem itemLabel="Selecciona un grupo " itemValue="0"></f:selectItem>
+                                        <f:selectItems var="grupo" value="#{addCanalProgramMB.gruposDTO}"
+                                                       itemValue="#{grupo.identificador}" 
+                                                       itemLabel="#{grupo.descripcion}"/>
+                            </p:selectOneMenu>            				
             			</p:column>
             			<p:column>
             				<p:outputLabel value="MC/MO:" id="mcmoTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="mcmoTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.mcmo}"></p:inputText>
+            				<p:inputText id="mcmoTabGnralIn" value="#{addCanalProgramMB.multiprog.canal_virtual.mc_mo}"></p:inputText>
             			</p:column>
             			
             			<p:column>
             				<p:outputLabel value="Medio:" id="medioTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="medioTabGnralIn" value="#{addCanalProgramMB.canalVirtualDTO.medio}"></p:inputText>
+            				<p:inputText id="medioTabGnralIn" value="#{addCanalProgramMB.multiprog.canal_virtual.medio}"></p:inputText>
             			</p:column>
             			<p:column></p:column>
             			<p:column></p:column>
@@ -172,9 +178,9 @@
             				<p:outputLabel value="Estado:" id="estadoTabCober"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:selectOneMenu id="estadoTabCoberSel" value="#{addCanalProgramMB.claveEstado}" 
+            				<p:selectOneMenu id="estadoTabCoberSel" value="#{addCanalProgramMB.estadoCobertura}" 
                                                       filter="true" filterMatchMode="startsWith">
-
+                                        <p:ajax listener="#{addCanalProgramMB.poblacionEstCober}" update="municipioTabCoberIn" />
                                         <f:selectItems var="estado" value="#{addCanalProgramMB.estadosDTO}"
                                                        itemValue="#{estado.identificador}" 
                                                        itemLabel="#{estado.descripcion}"/>
@@ -184,12 +190,18 @@
             				<p:outputLabel value="Municipio:" id="municipioTabCober"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="municipioTabCoberIn"></p:inputText>
+            				<p:selectOneMenu id="municipioTabCoberIn" value="#{addCanalProgramMB.municipioCobertura}" 
+                                                      filter="true" filterMatchMode="startsWith" autoWidth="false">                                        
+										<f:selectItem itemLabel="Selecciona un estado" itemValue="0"></f:selectItem>
+                                        <f:selectItems var="poblacion" value="#{addCanalProgramMB.poblacionesCoberDTO}"
+                                                       itemValue="#{poblacion.identificador}" 
+                                                       itemLabel="#{poblacion.descripcion}"/>
+                            </p:selectOneMenu>            				
             			</p:column>
             			
             			<f:facet name="footer">
             				<div align="right">
-            					<p:commandButton value="Agregar"></p:commandButton>            			
+            					<p:commandButton id="btnAddCobertura" value="Agregar" actionListener="#{addCanalProgramMB.agregarCobertura}" update="tblCoberturas"></p:commandButton>            			
             				</div>            		
             			</f:facet>
 					</h:panelGrid>
@@ -206,10 +218,10 @@
                 			Coberturas                		
                 		</f:facet>
 		                <p:column  headerText="Estado" >
-		                	<p:outputLabel id="esdoCoberLb" value="#{cobertura.estado.descripcion}" />
+		                	<p:outputLabel id="esdoCoberLb" value="#{cobertura.poblacion.estado}" />
 		                </p:column>
 		                <p:column  headerText="Municipio" >
-		                	<p:outputLabel id="municipioCoberLb" value="#{cobertura.municipio.descripcion}" />
+		                	<p:outputLabel id="municipioCoberLb" value="#{cobertura.poblacion.municipio}" />
 		                </p:column>
 		                <p:column  headerText="Acciones" >
 		                	
@@ -497,7 +509,7 @@
 					<div align="right">
 						<p:commandButton id="cancelAddCanal" value="Cancelar"></p:commandButton>
 						<p:spacer width="15" />
-						<p:commandButton id="guardarAddCanal" value="Guardar"></p:commandButton>
+						<p:commandButton id="guardarAddCanal" value="Guardar" action="#{addCanalProgramMB.guardarMultiprog}"></p:commandButton>
 					</div>
 				</f:facet>
 			</h:panelGrid>

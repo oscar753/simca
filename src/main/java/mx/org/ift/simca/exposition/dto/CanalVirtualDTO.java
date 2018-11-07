@@ -16,190 +16,186 @@ public class CanalVirtualDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 2574044121673824329L;
 	
-	private String identificador;
-	private String numero;
-	private String folioRPCUMCA;	
-	private String programacion;
-	private String multiprograma;
-	private String mcmo;
-	private String canalVirtual;
-	
-	private String chd;
-	private String idSenial;
-	private String grupo;	
+	private String id_senial;	
+	private String folio_rpc_umca;	
+	private String tipo_uso;	
+	private String contenido;	
+	private String canal_digital;	
+	private String canal_virtual;	
+	private String programacion;	
+	private String mc_mo;	
 	private String medio;	
+	private String primer_asignacion;	
+	private String logo_b64;
+	private String grupo;
+
 	
-	private CatalogoDTO contenido;
-	private CatalogoDTO tipoUso;
-	private CanalDTO canal;
-	
 	/**
-	 * @return the identificador
+	 * @return the id_senial
 	 */
-	public String getIdentificador() {
-		return identificador;
+	public String getId_senial() {
+		return id_senial;
 	}
+
 	/**
-	 * @param identificador the identificador to set
+	 * @param id_senial the id_senial to set
 	 */
-	public void setIdentificador(String identificador) {
-		this.identificador = identificador;
+	public void setId_senial(String id_senial) {
+		this.id_senial = id_senial;
 	}
+
 	/**
-	 * @return the numero
+	 * @return the folio_rpc_umca
 	 */
-	public String getNumero() {
-		return numero;
+	public String getFolio_rpc_umca() {
+		return folio_rpc_umca;
 	}
+
 	/**
-	 * @param numero the numero to set
+	 * @param folio_rpc_umca the folio_rpc_umca to set
 	 */
-	public void setNumero(String numero) {
-		this.numero = numero;
+	public void setFolio_rpc_umca(String folio_rpc_umca) {
+		this.folio_rpc_umca = folio_rpc_umca;
 	}
+
 	/**
-	 * @return the folioRPCUMCA
+	 * @return the tipo_uso
 	 */
-	public String getFolioRPCUMCA() {
-		return folioRPCUMCA;
+	public String getTipo_uso() {
+		return tipo_uso;
 	}
+
 	/**
-	 * @param folioRPCUMCA the folioRPCUMCA to set
+	 * @param tipo_uso the tipo_uso to set
 	 */
-	public void setFolioRPCUMCA(String folioRPCUMCA) {
-		this.folioRPCUMCA = folioRPCUMCA;
+	public void setTipo_uso(String tipo_uso) {
+		this.tipo_uso = tipo_uso;
 	}
+
+	/**
+	 * @return the contenido
+	 */
+	public String getContenido() {
+		return contenido;
+	}
+
+	/**
+	 * @param contenido the contenido to set
+	 */
+	public void setContenido(String contenido) {
+		this.contenido = contenido;
+	}
+
+	/**
+	 * @return the canal_digital
+	 */
+	public String getCanal_digital() {
+		return canal_digital;
+	}
+
+	/**
+	 * @param canal_digital the canal_digital to set
+	 */
+	public void setCanal_digital(String canal_digital) {
+		this.canal_digital = canal_digital;
+	}
+
+	/**
+	 * @return the canal_virtual
+	 */
+	public String getCanal_virtual() {
+		return canal_virtual;
+	}
+
+	/**
+	 * @param canal_virtual the canal_virtual to set
+	 */
+	public void setCanal_virtual(String canal_virtual) {
+		this.canal_virtual = canal_virtual;
+	}
+
 	/**
 	 * @return the programacion
 	 */
 	public String getProgramacion() {
 		return programacion;
 	}
+
 	/**
 	 * @param programacion the programacion to set
 	 */
 	public void setProgramacion(String programacion) {
 		this.programacion = programacion;
 	}
+
 	/**
-	 * @return the multiprograma
+	 * @return the mc_mo
 	 */
-	public String getMultiprograma() {
-		return multiprograma;
+	public String getMc_mo() {
+		return mc_mo;
 	}
+
 	/**
-	 * @param multiprograma the multiprograma to set
+	 * @param mc_mo the mc_mo to set
 	 */
-	public void setMultiprograma(String multiprograma) {
-		this.multiprograma = multiprograma;
+	public void setMc_mo(String mc_mo) {
+		this.mc_mo = mc_mo;
 	}
-	/**
-	 * @return the mcmo
-	 */
-	public String getMcmo() {
-		return mcmo;
-	}
-	/**
-	 * @param mcmo the mcmo to set
-	 */
-	public void setMcmo(String mcmo) {
-		this.mcmo = mcmo;
-	}
-	/**
-	 * @return the canalVirtual
-	 */
-	public String getCanalVirtual() {
-		return canalVirtual;
-	}
-	/**
-	 * @param canalVirtual the canalVirtual to set
-	 */
-	public void setCanalVirtual(String canalVirtual) {
-		this.canalVirtual = canalVirtual;
-	}
-	/**
-	 * @return the chd
-	 */
-	public String getChd() {
-		return chd;
-	}
-	/**
-	 * @param chd the chd to set
-	 */
-	public void setChd(String chd) {
-		this.chd = chd;
-	}
-	/**
-	 * @return the idSenial
-	 */
-	public String getIdSenial() {
-		return idSenial;
-	}
-	/**
-	 * @param idSenial the idSenial to set
-	 */
-	public void setIdSenial(String idSenial) {
-		this.idSenial = idSenial;
-	}
-	/**
-	 * @return the grupo
-	 */
-	public String getGrupo() {
-		return grupo;
-	}
-	/**
-	 * @param grupo the grupo to set
-	 */
-	public void setGrupo(String grupo) {
-		this.grupo = grupo;
-	}
+
 	/**
 	 * @return the medio
 	 */
 	public String getMedio() {
 		return medio;
 	}
+
 	/**
 	 * @param medio the medio to set
 	 */
 	public void setMedio(String medio) {
 		this.medio = medio;
 	}
+
 	/**
-	 * @return the contenido
+	 * @return the primer_asignacion
 	 */
-	public CatalogoDTO getContenido() {
-		return contenido;
-	}
-	/**
-	 * @param contenido the contenido to set
-	 */
-	public void setContenido(CatalogoDTO contenido) {
-		this.contenido = contenido;
-	}
-	/**
-	 * @return the tipoUso
-	 */
-	public CatalogoDTO getTipoUso() {
-		return tipoUso;
-	}
-	/**
-	 * @param tipoUso the tipoUso to set
-	 */
-	public void setTipoUso(CatalogoDTO tipoUso) {
-		this.tipoUso = tipoUso;
-	}
-	/**
-	 * @return the canal
-	 */
-	public CanalDTO getCanal() {
-		return canal;
-	}
-	/**
-	 * @param canal the canal to set
-	 */
-	public void setCanal(CanalDTO canal) {
-		this.canal = canal;
+	public String getPrimer_asignacion() {
+		return primer_asignacion;
 	}
 
+	/**
+	 * @param primer_asignacion the primer_asignacion to set
+	 */
+	public void setPrimer_asignacion(String primer_asignacion) {
+		this.primer_asignacion = primer_asignacion;
+	}
+
+	/**
+	 * @return the logo_b64
+	 */
+	public String getLogo_b64() {
+		return logo_b64;
+	}
+
+	/**
+	 * @param logo_b64 the logo_b64 to set
+	 */
+	public void setLogo_b64(String logo_b64) {
+		this.logo_b64 = logo_b64;
+	}
+
+	/**
+	 * @return the grupo
+	 */
+	public String getGrupo() {
+		return grupo;
+	}
+
+	/**
+	 * @param grupo the grupo to set
+	 */
+	public void setGrupo(String grupo) {
+		this.grupo = grupo;
+	}	
+		
 }

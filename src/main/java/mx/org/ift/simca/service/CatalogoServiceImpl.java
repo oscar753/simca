@@ -15,8 +15,10 @@ import mx.org.ift.simca.model.Canal;
 import mx.org.ift.simca.model.Clase;
 import mx.org.ift.simca.model.Concesionario;
 import mx.org.ift.simca.model.Estado;
+import mx.org.ift.simca.model.Grupo;
 import mx.org.ift.simca.model.GrupoRadio;
 import mx.org.ift.simca.model.Poblacion;
+import mx.org.ift.simca.model.TipoContenido;
 import mx.org.ift.simca.model.TipoFrecuencia;
 import mx.org.ift.simca.model.TipoUso;
 import mx.org.ift.simca.model.TipoUsoEstacion;
@@ -25,8 +27,10 @@ import mx.org.ift.simca.persistence.CanalMapper;
 import mx.org.ift.simca.persistence.ClaseMapper;
 import mx.org.ift.simca.persistence.ConcesionarioMapper;
 import mx.org.ift.simca.persistence.EstadoMapper;
+import mx.org.ift.simca.persistence.GrupoMapper;
 import mx.org.ift.simca.persistence.GrupoRadioMapper;
 import mx.org.ift.simca.persistence.PoblacionMapper;
+import mx.org.ift.simca.persistence.TipoContenidoMapper;
 import mx.org.ift.simca.persistence.TipoFrecuenciaMapper;
 import mx.org.ift.simca.persistence.TipoUsoEstacionMapper;
 import mx.org.ift.simca.persistence.TipoUsoMapper;
@@ -72,6 +76,12 @@ public class CatalogoServiceImpl implements CatalogoService {
 
 	@Autowired
 	private GrupoRadioMapper grupoRadioMap;
+	
+	@Autowired
+	private TipoContenidoMapper contenidoMap;
+	
+	@Autowired
+	private GrupoMapper grupoMap;
 
 	public List<CatalogoDTO> consultaPoblacion() {
 		List<CatalogoDTO> poblacionesResult = new ArrayList<CatalogoDTO>();
@@ -238,8 +248,34 @@ public class CatalogoServiceImpl implements CatalogoService {
 	}
 
 	public List<CatalogoDTO> consultaTipoContenido() {
+		List<CatalogoDTO> tipContenidoResult = new ArrayList<CatalogoDTO>();
 		
-		return null;
+		List<TipoContenido> tiposContenido = contenidoMap.getAll();
+		for (TipoContenido tipoContenido : tiposContenido) {
+			CatalogoDTO itemCat = new CatalogoDTO();
+			itemCat.setDescripcion(tipoContenido.getTipoContenido());
+			itemCat.setIdentificador(tipoContenido.getIdTipoContenido().toString());
+			
+			tipContenidoResult.add(itemCat);
+		}
+		
+		return tipContenidoResult;
+	}
+
+	@Override
+	public List<CatalogoDTO> consultaGrupo() {
+		List<CatalogoDTO> grupoResult = new ArrayList<CatalogoDTO>();
+		
+		List<Grupo> grupos = grupoMap.getAll();
+		for (Grupo grupo : grupos) {
+			CatalogoDTO itemCat = new CatalogoDTO();
+			itemCat.setDescripcion(grupo.getGrupo());
+			itemCat.setIdentificador(grupo.getIdGrupo().toString());
+			
+			grupoResult.add(itemCat);
+		}
+		
+		return grupoResult;
 	}
 }
 

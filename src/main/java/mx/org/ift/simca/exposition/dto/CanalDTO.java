@@ -4,7 +4,6 @@
 package mx.org.ift.simca.exposition.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author KODE-LAP0077
@@ -18,14 +17,13 @@ public class CanalDTO implements Serializable {
 	private static final long serialVersionUID = 7740266554904324535L;
 
 	private String identificador;
-	private String folioRPC;
+	private String no_canal;
 	private String distintivo;
-	private CatalogoDTO poblacion;
-	private CatalogoDTO estado;
-	private CatalogoDTO concesionario;
-	List<CoberturaDTO> coberturas;
+	private String estado;
+	private String poblacion;
+	private String concesionario;
 	
-		
+	
 	/**
 	 * @return the identificador
 	 */
@@ -39,16 +37,16 @@ public class CanalDTO implements Serializable {
 		this.identificador = identificador;
 	}
 	/**
-	 * @return the folioRPC
+	 * @return the no_canal
 	 */
-	public String getFolioRPC() {
-		return folioRPC;
+	public String getNo_canal() {
+		return no_canal;
 	}
 	/**
-	 * @param folioRPC the folioRPC to set
+	 * @param no_canal the no_canal to set
 	 */
-	public void setFolioRPC(String folioRPC) {
-		this.folioRPC = folioRPC;
+	public void setNo_canal(String no_canal) {
+		this.no_canal = no_canal;
 	}
 	/**
 	 * @return the distintivo
@@ -63,53 +61,40 @@ public class CanalDTO implements Serializable {
 		this.distintivo = distintivo;
 	}
 	/**
-	 * @return the poblacion
-	 */
-	public CatalogoDTO getPoblacion() {
-		return poblacion;
-	}
-	/**
-	 * @param poblacion the poblacion to set
-	 */
-	public void setPoblacion(CatalogoDTO poblacion) {
-		this.poblacion = poblacion;
-	}
-	/**
 	 * @return the estado
 	 */
-	public CatalogoDTO getEstado() {
+	public String getEstado() {
 		return estado;
 	}
 	/**
 	 * @param estado the estado to set
 	 */
-	public void setEstado(CatalogoDTO estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+	/**
+	 * @return the poblacion
+	 */
+	public String getPoblacion() {
+		return poblacion;
+	}
+	/**
+	 * @param poblacion the poblacion to set
+	 */
+	public void setPoblacion(String poblacion) {
+		this.poblacion = poblacion;
 	}
 	/**
 	 * @return the concesionario
 	 */
-	public CatalogoDTO getConcesionario() {
+	public String getConcesionario() {
 		return concesionario;
 	}
 	/**
 	 * @param concesionario the concesionario to set
 	 */
-	public void setConcesionario(CatalogoDTO concesionario) {
+	public void setConcesionario(String concesionario) {
 		this.concesionario = concesionario;
 	}
-	/**
-	 * @return the coberturas
-	 */
-	public List<CoberturaDTO> getCoberturas() {
-		return coberturas;
-	}
-	/**
-	 * @param coberturas the coberturas to set
-	 */
-	public void setCoberturas(List<CoberturaDTO> coberturas) {
-		this.coberturas = coberturas;
-	}
-	
 		
 }

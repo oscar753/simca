@@ -16,25 +16,20 @@ public class CoberturaDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1269755983930323204L;
 
-	private CatalogoDTO estado;
-	
-	private CatalogoDTO municipio;
+	private PoblacionDTO poblacion;
 
-	public CatalogoDTO getEstado() {
-		return estado;
+	/**
+	 * @return the poblacion
+	 */
+	public PoblacionDTO getPoblacion() {
+		return poblacion;
 	}
 
-	public void setEstado(CatalogoDTO estado) {
-		this.estado = estado;
+	/**
+	 * @param poblacion the poblacion to set
+	 */
+	public void setPoblacion(PoblacionDTO poblacion) {
+		this.poblacion = poblacion;
 	}
-
-	public CatalogoDTO getMunicipio() {
-		return municipio;
-	}
-
-	public void setMunicipio(CatalogoDTO municipio) {
-		this.municipio = municipio;
-	}
-
 	
 }

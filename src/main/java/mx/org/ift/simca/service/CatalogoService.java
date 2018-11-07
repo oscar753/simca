@@ -37,5 +37,7 @@ public interface CatalogoService extends Serializable{
 	List<CatalogoDTO> consultaGrupoRadio();
 	
 	List<CatalogoDTO> consultaCanal();
+	
+	List<CatalogoDTO> consultaGrupo();
 
 }
