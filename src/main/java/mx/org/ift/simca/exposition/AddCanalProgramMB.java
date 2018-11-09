@@ -6,19 +6,24 @@ package mx.org.ift.simca.exposition;
 import java.io.Serializable;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import org.primefaces.model.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import mx.org.ift.simca.exposition.dto.CanalFormularioDTO;
 import mx.org.ift.simca.exposition.dto.CanalVirtualDTO;
 import mx.org.ift.simca.exposition.dto.CatalogoDTO;
 import mx.org.ift.simca.exposition.dto.CoberturaDTO;
@@ -57,6 +62,13 @@ public class AddCanalProgramMB implements Serializable {
 	
 	private String estadoCobertura;
 	private String municipioCobertura;
+	private String logoB64;
+	
+	private CanalFormularioDTO formularioDTO;
+	
+	private UploadedFile fileLogo;
+	private byte[] fileContenido;
+
 	
 	@Autowired
 	private CatalogoService catalogoService;
@@ -82,6 +94,7 @@ public class AddCanalProgramMB implements Serializable {
 //		}
 		
 		multiprog = new MultiprogramacionXML();
+		formularioDTO = new CanalFormularioDTO();
 		
 		coberturasDTO = new ArrayList<CoberturaDTO>();
 		estadosDTO = catalogoService.consultaEstado();
@@ -104,20 +117,70 @@ public class AddCanalProgramMB implements Serializable {
 	}
 	
 	public void agregarCobertura() {
-		LOG.info("/**** Se agrega cobertura");
-		PoblacionDTO poblacionDTO = new PoblacionDTO();
-		CoberturaDTO coberturaDTO = new CoberturaDTO();
+		LOG.info("/**** Se agrega cobertura");		
 		
-		poblacionDTO.setEstado(estadoCobertura);
-		poblacionDTO.setMunicipio(municipioCobertura);
-		coberturaDTO.setPoblacion(poblacionDTO);
-		coberturasDTO.add(coberturaDTO);
+		if (addCoberturaCanal()) {
+			PoblacionDTO poblacionDTO = new PoblacionDTO();
+			CoberturaDTO coberturaDTO = new CoberturaDTO();
+			
+			poblacionDTO.setEstado(obtenerDescrCatalogo(estadosDTO, estadoCobertura));
+			poblacionDTO.setMunicipio(obtenerDescrCatalogo(poblacionesCoberDTO, municipioCobertura));
+			
+			coberturaDTO.setPoblacion(poblacionDTO);
+			
+			coberturasDTO.add(coberturaDTO);
+		}		
+	}
+	
+	private Boolean addCoberturaCanal() {
+		List<CoberturaDTO> coberturasCanal = multiprog.getCobertura();
+		Boolean noExisteCober = Boolean.TRUE;
+		
+		for (CoberturaDTO coberturaDTO : coberturasCanal) {
+			if (coberturaDTO.getPoblacion().getEstado().equals(estadoCobertura) && 
+					coberturaDTO.getPoblacion().getMunicipio().equals(municipioCobertura)) {
+				noExisteCober = Boolean.FALSE;
+				LOG.info("/**** La cobertura ya existe ****/");
+				break;
+			}
+		}
+		
+		if (noExisteCober) {
+			PoblacionDTO poblacionDTO = new PoblacionDTO();
+			CoberturaDTO coberturaDTO = new CoberturaDTO();
+			
+			poblacionDTO.setEstado(estadoCobertura);
+			poblacionDTO.setMunicipio(municipioCobertura);
+			
+			coberturaDTO.setPoblacion(poblacionDTO);
+			
+			coberturasCanal.add(coberturaDTO); 
+		}
+		return noExisteCober;
+	}
+	
+	private String obtenerDescrCatalogo(List<CatalogoDTO> listaCat, String idItem) {
+		String descripcionCat = "";
+		
+		for (CatalogoDTO catalogoDTO : listaCat) {
+			if (catalogoDTO.getIdentificador().equals(idItem)) {
+				return catalogoDTO.getDescripcion();
+			}
+		}
+		
+		return descripcionCat;
 	}
 	
 	public void guardarMultiprog() {
 		LOG.info("/**** ID senial :: " +multiprog.getCanal_virtual().getId_senial());
 	}
 
+	public void visualizarLogo() {
+		LOG.info("/**** Imagen a B64 ****/");
+		fileContenido = fileLogo.getContents();
+		logoB64 = Base64.getEncoder().encodeToString(fileContenido);
+	}
+	
 	/**
 	 * @return the poblacionesDTO
 	 */
@@ -271,5 +334,61 @@ public class AddCanalProgramMB implements Serializable {
 	public void setPoblacionesCoberDTO(List<CatalogoDTO> poblacionesCoberDTO) {
 		this.poblacionesCoberDTO = poblacionesCoberDTO;
 	}
-			
+
+	/**
+	 * @return the formularioDTO
+	 */
+	public CanalFormularioDTO getFormularioDTO() {
+		return formularioDTO;
+	}
+
+	/**
+	 * @param formularioDTO the formularioDTO to set
+	 */
+	public void setFormularioDTO(CanalFormularioDTO formularioDTO) {
+		this.formularioDTO = formularioDTO;
+	}
+
+	/**
+	 * @return the fileLogo
+	 */
+	public UploadedFile getFileLogo() {
+		return fileLogo;
+	}
+
+	/**
+	 * @param fileLogo the fileLogo to set
+	 */
+	public void setFileLogo(UploadedFile fileLogo) {
+		this.fileLogo = fileLogo;
+	}
+
+	/**
+	 * @return the logoB64
+	 */
+	public String getLogoB64() {
+		return logoB64;
+	}
+
+	/**
+	 * @param logoB64 the logoB64 to set
+	 */
+	public void setLogoB64(String logoB64) {
+		this.logoB64 = logoB64;
+	}
+
+	/**
+	 * @return the fileContenido
+	 */
+	public byte[] getFileContenido() {
+		return fileContenido;
+	}
+
+	/**
+	 * @param fileContenido the fileContenido to set
+	 */
+	public void setFileContenido(byte[] fileContenido) {
+		this.fileContenido = fileContenido;
+	}
+				
 }

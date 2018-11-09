@@ -6,7 +6,7 @@
                 template="/WEB-INF/templates/LoggedTemplate.xhtml">
    
     <ui:define name="contentPart">
-        <h:form id="formAddCanalProg">            
+        <h:form id="formAddCanalProg" enctype="multipart/form-data">            
             <h:outputText value="Altas, bajas y cambios" style="font-weight: bold"/>
             <hr class="ui-separator ui-state-default ui-corner-all separator"></hr>                        
             <br/>
@@ -161,7 +161,15 @@
             				<p:outputLabel value="Logo:" id="logoTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:inputText id="logooTabGnralIn"></p:inputText>
+            				<p:fileUpload id="logooTabGnralIn" value="#{addCanalProgramMB.fileLogo}" mode="simple" skinSimple="true" label="Elegir archivo"></p:fileUpload>            				
+            			</p:column>
+            			<p:column>
+            				<p:commandButton actionListener="#{addCanalProgramMB.visualizarLogo}" ajax="false" value="Vista previa"/>
+            			</p:column>
+            			<p:column>
+            				<ui:fragment id="previewLogo" rendered="#{not empty addCanalProgramMB.fileLogo}">
+    							<img src="data:image/png;base64,#{addCanalProgramMB.logoB64}" />
+							</ui:fragment>
             			</p:column>
        				</h:panelGrid>
        				
@@ -236,72 +244,78 @@
 								<p:outputLabel id="multiprogLb" value="¿Multiprograma?"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="multiprogIn"></p:inputText>
+								<p:selectOneMenu id="multiprogIn" value="#{addCanalProgramMB.multiprog.multiprograma.multiprograma}" autoWidth="false">
+									<f:selectItem itemLabel="Si" itemValue="Si"></f:selectItem>
+									<f:selectItem itemLabel="No" itemValue="No"></f:selectItem>
+								</p:selectOneMenu>								
 							</p:column>
 							<p:column>
 								<p:outputLabel id="calidadMultiLb" value="Calidad:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="calidadMultiIn"></p:inputText>
+								<p:selectOneMenu id="calidadMultiIn" value="#{addCanalProgramMB.multiprog.multiprograma.calidad}" autoWidth="false">
+									<f:selectItem itemLabel="HDTV" itemValue="HDTV"></f:selectItem>
+									<f:selectItem itemLabel="SDTV" itemValue="SDTV"></f:selectItem>
+								</p:selectOneMenu>								
 							</p:column>
 						
 							<p:column>
 								<p:outputLabel id="tasaMultiLb" value="Tasa de transferencia:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="tasaMultiIn"></p:inputText>
+								<p:inputText id="tasaMultiIn" value="#{addCanalProgramMB.multiprog.multiprograma.tasa_transf}"></p:inputText>
 							</p:column>
 							<p:column>
 								<p:outputLabel id="metododMultiLb" value="Método de compresión:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="metododMultiIn"></p:inputText>
+								<p:inputText id="metododMultiIn" value="#{addCanalProgramMB.multiprog.multiprograma.metodoCompr}"></p:inputText>
 							</p:column>
 						
 							<p:column>
 								<p:outputLabel id="terceroMultiLb" value="Tercero a quien brinda acceso:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="terceroMultiIn"></p:inputText>
+								<p:inputText id="terceroMultiIn" value="#{addCanalProgramMB.multiprog.multiprograma.terceroBenf}"></p:inputText>
 							</p:column>
 							<p:column>
 								<p:outputLabel id="estatusMultiLb" value="Estatus:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="estatusMultiIn"></p:inputText>
+								<p:inputText id="estatusMultiIn" value="#{addCanalProgramMB.multiprog.multiprograma.estatus}"></p:inputText>
 							</p:column>
 							
 							<p:column>
 								<p:outputLabel id="primerMultiLb" value="Primer toma de nota:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="primerMultiIn"></p:inputText>
+								<p:inputText id="primerMultiIn" value="#{addCanalProgramMB.formularioDTO.primerNota}"></p:inputText>
 							</p:column>
 							<p:column>
 								<p:outputLabel id="resolMultiLb" value="Resolución multi(Fuente):"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="resolMultiIn"></p:inputText>
+								<p:inputText id="resolMultiIn" value="#{addCanalProgramMB.formularioDTO.tipoResolMulti}"></p:inputText>
 							</p:column>
 							
 							<p:column>
 								<p:outputLabel id="resMulMultiLb" value="Resolución multiprogramación:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="resMulMultiIn"></p:inputText>
+								<p:inputText id="resMulMultiIn" value="#{addCanalProgramMB.formularioDTO.resolMulti}"></p:inputText>
 							</p:column>
 							<p:column>
 								<p:outputLabel id="oficioMultiLb" value="Fecha de oficio de notificación:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="oficioMultiIn"></p:inputText>
+								<p:inputText id="oficioMultiIn" value="#{addCanalProgramMB.formularioDTO.fechaOficioNotAut}"></p:inputText>
 							</p:column>
 							
 							<p:column>
 								<p:outputLabel id="modifMultiLb" value="Modificaciones:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="modifMultiIn"></p:inputText>
+								<p:inputText id="modifMultiIn" value="#{addCanalProgramMB.formularioDTO.modificacion}"></p:inputText>
 							</p:column>
 							<p:column>								
 							</p:column>
@@ -312,31 +326,34 @@
 								<p:outputLabel id="resConceMultiLb" value="Respuesta al concesionario:"></p:outputLabel>
 							</p:column>
 							<p:column colspan="3">
-								<p:inputTextarea id="resConceMultiIn" cols="3"></p:inputTextarea>
+								<p:inputTextarea id="resConceMultiIn" cols="3" value="#{addCanalProgramMB.formularioDTO.resConcesionario}"></p:inputTextarea>
 							</p:column>
 							
 							<p:column>
 								<p:outputLabel id="modificaMulMultiLb" value="Estatus de modificación:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="modificaMulMultiIn"></p:inputText>
+								<p:inputText id="modificaMulMultiIn" value="#{addCanalProgramMB.formularioDTO.estatusModificacion}"></p:inputText>
 							</p:column>
 							<p:column>
-								<p:outputLabel id="priPoblaMultiLb" value="Primera población:"></p:outputLabel>
+								<p:outputLabel id="priPoblaMultiLb" value="Primera publicación:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="priPoblaMultiIn"></p:inputText>
+								<p:inputText id="priPoblaMultiIn" value="#{addCanalProgramMB.formularioDTO.primeraPublicacion}"></p:inputText>
 							</p:column>
 							
 							<p:column>
-								<p:outputLabel id="poblaListMultiLb" value="Población en listado"></p:outputLabel>
+								<p:outputLabel id="poblaListMultiLb" value="Publicación en listado"></p:outputLabel>
+							</p:column>							
+							<p:column>	
+								<p:inputText id="poblaListMultiIn" value="#{addCanalProgramMB.formularioDTO.publicaListadoMulti}"></p:inputText>							
 							</p:column>
-								<p:inputText id="poblaListMultiIn"></p:inputText>
-							<p:column>								
+							
+							<p:column>
+								<p:outputLabel id="observaMultiLb" value="Observaciones multiprogramación:"></p:outputLabel>
 							</p:column>
-							<p:column>								
-							</p:column>
-							<p:column>								
+							<p:column colspan="3">
+								<p:inputTextarea id="observaMultiIn" cols="3" value="#{addCanalProgramMB.formularioDTO.observacionesMulti}"></p:inputTextarea>
 							</p:column>
 						</h:panelGrid>
 					</p:tab>
@@ -348,38 +365,61 @@
 								<p:outputLabel id="fronteMultiLb" value="Linea fronteriza:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="fronteMultiIn"></p:inputText>
+								<p:inputText id="fronteMultiIn" value="#{addCanalProgramMB.formularioDTO.lineaFrontera}"></p:inputText>
 							</p:column>
 							<p:column>
 								<p:outputLabel id="fccMultiLb" value="En opinion con FCC:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="fccMultiIn"></p:inputText>
+								<p:inputText id="fccMultiIn" value="#{addCanalProgramMB.formularioDTO.opinionFcc}"></p:inputText>
 							</p:column>
 						
 							<p:column>
 								<p:outputLabel id="priAsigMultiLb" value="Primera asignación:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="priAsigMultiIn"></p:inputText>
+								<p:inputText id="priAsigMultiIn" value="#{addCanalProgramMB.multiprog.canal_virtual.primer_asignacion}"></p:inputText>
 							</p:column>
 							<p:column>
 								<p:outputLabel id="notCVMultiLb" value="Notificación CV:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="notCVMultiIn"></p:inputText>
+								<p:inputText id="notCVMultiIn" value="#{addCanalProgramMB.formularioDTO.notificaCv}"></p:inputText>
 							</p:column>
 						
 							<p:column>
 								<p:outputLabel id="fechOfiMultiLb" value="Fecha de oficio de notificación:"></p:outputLabel>
 							</p:column>
-								<p:inputText id="fechOfiMultiIn"></p:inputText>
-							<p:column>								
+							<p:column>															
+								<p:inputText id="fechOfiMultiIn" value="#{addCanalProgramMB.formularioDTO.fechaOficioNot}"></p:inputText>
 							</p:column>
-							<p:column>								
+							<p:column>
+								<p:outputLabel id="nivelTransMultiLb" value="Nivel de transmisión:"></p:outputLabel>					
 							</p:column>
-							<p:column>								
+							<p:column>
+								<p:inputText id="nivelTransMultiIn" value="#{addCanalProgramMB.formularioDTO.nivelTransmicion}"></p:inputText>								
 							</p:column>
+							
+							<p:column>
+								<p:outputLabel id="publiLisMultiLb" value="Publicación en listado:"></p:outputLabel>
+							</p:column>
+							<p:column>															
+								<p:inputText id="publiLisMultiIn" value="#{addCanalProgramMB.formularioDTO.publicaListado}"></p:inputText>
+							</p:column>
+							<p:column>
+								<p:outputLabel id="primeraMultiLb" value="1ra publicación:"></p:outputLabel>					
+							</p:column>
+							<p:column>
+								<p:inputText id="primeraMultiIn" value="#{addCanalProgramMB.formularioDTO.publicacion}"></p:inputText>								
+							</p:column>
+							
+							<p:column>
+								<p:outputLabel id="obserCVMultiLb" value="Observaciones de canales virtuales:"></p:outputLabel>
+							</p:column>
+							<p:column>															
+								<p:inputText id="obserCVMultiIn" value="#{addCanalProgramMB.formularioDTO.observacionCV}"></p:inputText>
+							</p:column>
+							
 						</h:panelGrid>
 					</p:tab>
 					
@@ -390,110 +430,110 @@
 								<p:outputLabel id="bdIneMultiLb" value="BD INE:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="bdIneMultiIn"></p:inputText>
+								<p:inputText id="bdIneMultiIn" value="#{addCanalProgramMB.formularioDTO.bdIne}"></p:inputText>
 							</p:column>
 							<p:column>
 								<p:outputLabel id="vmIneMultiLb" value="Centro VM INE:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="vmIneMultiIn"></p:inputText>
+								<p:inputText id="vmIneMultiIn" value="#{addCanalProgramMB.formularioDTO.centroVm}"></p:inputText>
 							</p:column>
 						
 							<p:column>
 								<p:outputLabel id="canalIneMultiLb" value="Nombre canal INE:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="canalIneMultiIn"></p:inputText>
+								<p:inputText id="canalIneMultiIn" value="#{addCanalProgramMB.formularioDTO.nombreCanalIne}"></p:inputText>
 							</p:column>
 							<p:column>
 								<p:outputLabel id="comercialIneMultiLb" value="Nombre comercial INE:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="comercialIneMultiIn"></p:inputText>
+								<p:inputText id="comercialIneMultiIn" value="#{addCanalProgramMB.formularioDTO.nombreComercialIne}"></p:inputText>
 							</p:column>
 							
 							<p:column >
 								<p:outputLabel id="monitorIneMultiLb" value="Tipo de monitoreo INE:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="monitorIneMultiIn"></p:inputText>
+								<p:inputText id="monitorIneMultiIn" value="#{addCanalProgramMB.formularioDTO.tipoMonitoreoIne}"></p:inputText>
 							</p:column>
 							<p:column>
 								<p:outputLabel id="bdAudistaMultiLb" value="BD AUDISTA:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="bdAudistaMultiIn"></p:inputText>
+								<p:inputText id="bdAudistaMultiIn" value="#{addCanalProgramMB.formularioDTO.bdAudista}"></p:inputText>
 							</p:column>
 						
 							<p:column>
 								<p:outputLabel id="canalAudistaMultiLb" value="Nombre canal AUDISTA:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="canalAudistaMultiIn"></p:inputText>
+								<p:inputText id="canalAudistaMultiIn" value="#{addCanalProgramMB.formularioDTO.nomCanalAudista}"></p:inputText>
 							</p:column>
 							<p:column>
 								<p:outputLabel id="prograAudistaMultiLb" value="Programación AUDISTA:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="prograAudistaMultiIn"></p:inputText>
+								<p:inputText id="prograAudistaMultiIn" value="#{addCanalProgramMB.formularioDTO.prograAudista}"></p:inputText>
 							</p:column>
 							
 							<p:column >
 								<p:outputLabel id="localAudistaMultiLb" value="Localidad AUDISTA:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="localAudistaMultiIn"></p:inputText>
+								<p:inputText id="localAudistaMultiIn" value="#{addCanalProgramMB.formularioDTO.localidadAudista}"></p:inputText>
 							</p:column>
 							<p:column>
 								<p:outputLabel id="monitorExtMultiLb" value="Monitoreo servicio externo:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="monitorExtMultiIn"></p:inputText>
+								<p:inputText id="monitorExtMultiIn" value="#{addCanalProgramMB.formularioDTO.monitorServExt}"></p:inputText>
 							</p:column>
 						
 							<p:column>
 								<p:outputLabel id="localExtMultiLb" value="Localidad servicio externo:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="localExtMultiIn"></p:inputText>
+								<p:inputText id="localExtMultiIn" value="#{addCanalProgramMB.formularioDTO.localidadServExt}"></p:inputText>
 							</p:column>
 							<p:column>
 								<p:outputLabel id="comercialExtMultiLb" value="Nombre comercial servicio externo:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="comercialExtMultiIn"></p:inputText>
+								<p:inputText id="comercialExtMultiIn" value="#{addCanalProgramMB.formularioDTO.nomComServExt}"></p:inputText>
 							</p:column>
 							
 							<p:column>
 								<p:outputLabel id="infantilMultiLb" value="Tiene programación infantil:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="infantilMultiIn"></p:inputText>
+								<p:inputText id="infantilMultiIn" value="#{addCanalProgramMB.formularioDTO.tipoPrograInfant}"></p:inputText>
 							</p:column>
 							<p:column>
 								<p:outputLabel id="accesiMultiLb" value="Obligaciones accesibilidad:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="accesiMultiIn"></p:inputText>
+								<p:inputText id="accesiMultiIn" value="#{addCanalProgramMB.formularioDTO.obligaAccesibilidad}"></p:inputText>
 							</p:column>
 							
 							<p:column>
 								<p:outputLabel id="mecanismoMultiLb" value="Mecanismos de accesibilidad:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="mecanismoMultiIn"></p:inputText>
+								<p:inputText id="mecanismoMultiIn" value="#{addCanalProgramMB.formularioDTO.mecaAccesibilidad}"></p:inputText>
 							</p:column>
 							<p:column>
 								<p:outputLabel id="medioPuMultiLb" value="Medio público:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="medioPuMultiIn"></p:inputText>
+								<p:inputText id="medioPuMultiIn" value="#{addCanalProgramMB.formularioDTO.medioPublico}"></p:inputText>
 							</p:column>
 						
 							<p:column>
 								<p:outputLabel id="ipfMultiLb" value="Institución Publica Federal:"></p:outputLabel>
 							</p:column>
-								<p:inputText id="ipfMultiIn"></p:inputText>
+								<p:inputText id="ipfMultiIn" value="#{addCanalProgramMB.formularioDTO.instPublicaFed}"></p:inputText>
 							<p:column>								
 							</p:column>
 							<p:column>								

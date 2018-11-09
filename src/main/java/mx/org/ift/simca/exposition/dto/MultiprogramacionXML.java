@@ -21,6 +21,8 @@ public class MultiprogramacionXML implements Serializable {
 	private CanalDTO canal = new CanalDTO();
 	
 	private CanalVirtualDTO canal_virtual = new CanalVirtualDTO();
+	
+	private MultiprogramacionDTO multiprograma = new MultiprogramacionDTO();
 
 	private List<CoberturaDTO> cobertura = new ArrayList<CoberturaDTO>();
 	
@@ -81,5 +83,19 @@ public class MultiprogramacionXML implements Serializable {
 	public void setFormulario(List<PreguntaDTO> formulario) {
 		this.formulario = formulario;
 	}
-	
+
+	/**
+	 * @return the multiprograma
+	 */
+	public MultiprogramacionDTO getMultiprograma() {
+		return multiprograma;
+	}
+
+	/**
+	 * @param multiprograma the multiprograma to set
+	 */
+	public void setMultiprograma(MultiprogramacionDTO multiprograma) {
+		this.multiprograma = multiprograma;
+	}
+		
 }
