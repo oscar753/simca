@@ -5,17 +5,24 @@ package mx.org.ift.simca.exposition;
 
 import java.io.Serializable;
 import java.io.StringWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,12 +30,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import mx.org.ift.simca.enums.PreguntaCanalVirtual;
 import mx.org.ift.simca.exposition.dto.CanalFormularioDTO;
 import mx.org.ift.simca.exposition.dto.CanalVirtualDTO;
 import mx.org.ift.simca.exposition.dto.CatalogoDTO;
 import mx.org.ift.simca.exposition.dto.CoberturaDTO;
+import mx.org.ift.simca.exposition.dto.CoberturaXMLDTO;
+import mx.org.ift.simca.exposition.dto.FormularioXMLDTO;
 import mx.org.ift.simca.exposition.dto.MultiprogramacionXML;
 import mx.org.ift.simca.exposition.dto.PoblacionDTO;
+import mx.org.ift.simca.exposition.dto.PoblacionXMLDTO;
+import mx.org.ift.simca.exposition.dto.PreguntaDTO;
+import mx.org.ift.simca.exposition.dto.PreguntaXMLDTO;
+import mx.org.ift.simca.exposition.dto.PreguntasXMLDTO;
 import mx.org.ift.simca.model.Canal;
 import mx.org.ift.simca.model.CanalVirtual;
 import mx.org.ift.simca.service.CatalogoService;
@@ -64,34 +78,20 @@ public class AddCanalProgramMB implements Serializable {
 	private String municipioCobertura;
 	private String logoB64;
 	
+	private Date fechaOficioNotAut;
+	private Date fechaOficioNot;
+	
 	private CanalFormularioDTO formularioDTO;
 	
 	private UploadedFile fileLogo;
 	private byte[] fileContenido;
 
-	
 	@Autowired
 	private CatalogoService catalogoService;
 	
 	@PostConstruct
 	public void init() {
 		LOG.info("/**** Se inicializa MB para agregar ****/");
-//		try {
-//			Canal canal = new Canal();
-//			canal.setIdCanal(1L);
-//			canal.setIdConcesionario(2L);
-//			canal.setDistintivo("Prueba");
-//			
-//			JAXBContext jaxbContext = JAXBContext.newInstance(Canal.class);
-//			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-//			StringWriter sw = new StringWriter();
-//			jaxbMarshaller.marshal(canal, sw);
-//			String xmlString = sw.toString();
-//			LOG.info(xmlString);
-//		} catch (JAXBException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		
 		multiprog = new MultiprogramacionXML();
 		formularioDTO = new CanalFormularioDTO();
@@ -129,16 +129,20 @@ public class AddCanalProgramMB implements Serializable {
 			coberturaDTO.setPoblacion(poblacionDTO);
 			
 			coberturasDTO.add(coberturaDTO);
-		}		
+		} else {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Mensaje", "Cobertura repetida"));
+		}
 	}
 	
 	private Boolean addCoberturaCanal() {
-		List<CoberturaDTO> coberturasCanal = multiprog.getCobertura();
+	
+		List<PoblacionXMLDTO> coberturasCanal = multiprog.getCobertura().getPoblaciones();
 		Boolean noExisteCober = Boolean.TRUE;
 		
-		for (CoberturaDTO coberturaDTO : coberturasCanal) {
-			if (coberturaDTO.getPoblacion().getEstado().equals(estadoCobertura) && 
-					coberturaDTO.getPoblacion().getMunicipio().equals(municipioCobertura)) {
+		for (PoblacionXMLDTO coberturaDTO : coberturasCanal) {
+			if (coberturaDTO.getEstado().equals(estadoCobertura) && 
+					coberturaDTO.getMunicipio().equals(municipioCobertura)) {
 				noExisteCober = Boolean.FALSE;
 				LOG.info("/**** La cobertura ya existe ****/");
 				break;
@@ -146,15 +150,12 @@ public class AddCanalProgramMB implements Serializable {
 		}
 		
 		if (noExisteCober) {
-			PoblacionDTO poblacionDTO = new PoblacionDTO();
-			CoberturaDTO coberturaDTO = new CoberturaDTO();
+			PoblacionXMLDTO poblacionDTO = new PoblacionXMLDTO();
 			
 			poblacionDTO.setEstado(estadoCobertura);
 			poblacionDTO.setMunicipio(municipioCobertura);
 			
-			coberturaDTO.setPoblacion(poblacionDTO);
-			
-			coberturasCanal.add(coberturaDTO); 
+			multiprog.getCobertura().getPoblaciones().add(poblacionDTO); 
 		}
 		return noExisteCober;
 	}
@@ -171,14 +172,171 @@ public class AddCanalProgramMB implements Serializable {
 		return descripcionCat;
 	}
 	
-	public void guardarMultiprog() {
-		LOG.info("/**** ID senial :: " +multiprog.getCanal_virtual().getId_senial());
+	public void guardarMultiprog() {		
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");			
+		if (fechaOficioNotAut!=null) {
+			formularioDTO.setFechaOficioNotAut(dateFormat.format(fechaOficioNotAut));
+		}
+		if (fechaOficioNot!=null) {
+			formularioDTO.setFechaOficioNot(dateFormat.format(fechaOficioNot));
+		}
+		
+		cargarFormulario();
+		if (StringUtils.isNotBlank(logoB64)) {
+			multiprog.getCanal_virtual().setLogo_b64(logoB64);
+		}
+		generarXmlStr();
+	}
+
+	private void generarXmlStr() {
+		try {		
+			JAXBContext jaxbContext = JAXBContext.newInstance(MultiprogramacionXML.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			StringWriter sw = new StringWriter();
+			jaxbMarshaller.marshal(multiprog, sw);
+			String xmlString = sw.toString();
+			LOG.info("/**** XML :: "+xmlString);
+		} catch (JAXBException e) {
+			LOG.error("No se logro generar el XML :: ");
+			e.printStackTrace();
+		}
+	}
+
+	private void cargarFormulario() {		
+		
+		PreguntasXMLDTO preguntasForm = new PreguntasXMLDTO();
+		
+		if (StringUtils.isNotBlank(formularioDTO.getLineaFrontera())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA1.getIdentificador(), PreguntaCanalVirtual.PREGUNTA1.getPregunta(), formularioDTO.getLineaFrontera()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getOpinionFcc())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA2.getIdentificador(), PreguntaCanalVirtual.PREGUNTA2.getPregunta(), formularioDTO.getOpinionFcc()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getNotificaCv())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA3.getIdentificador(), PreguntaCanalVirtual.PREGUNTA3.getPregunta(), formularioDTO.getNotificaCv()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getFechaOficioNot())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA4.getIdentificador(), PreguntaCanalVirtual.PREGUNTA4.getPregunta(), formularioDTO.getFechaOficioNot()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getNivelTransmicion())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA5.getIdentificador(), PreguntaCanalVirtual.PREGUNTA5.getPregunta(), formularioDTO.getNivelTransmicion()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getPublicaListado())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA6.getIdentificador(), PreguntaCanalVirtual.PREGUNTA6.getPregunta(), formularioDTO.getPublicaListado()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getPublicacion())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA7.getIdentificador(), PreguntaCanalVirtual.PREGUNTA7.getPregunta(), formularioDTO.getPublicacion()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getObservacionCV())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA8.getIdentificador(), PreguntaCanalVirtual.PREGUNTA8.getPregunta(), formularioDTO.getObservacionCV()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getPrimerNota())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA9.getIdentificador(), PreguntaCanalVirtual.PREGUNTA9.getPregunta(), formularioDTO.getPrimerNota()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getTipoResolMulti())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA10.getIdentificador(), PreguntaCanalVirtual.PREGUNTA10.getPregunta(), formularioDTO.getTipoResolMulti()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getResolMulti())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA11.getIdentificador(), PreguntaCanalVirtual.PREGUNTA11.getPregunta(), formularioDTO.getResolMulti()));
+		}
+		//Falta una pregunta que si esta en BD
+		if (StringUtils.isNotBlank(formularioDTO.getFechaOficioNotAut())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA13.getIdentificador(), PreguntaCanalVirtual.PREGUNTA13.getPregunta(), formularioDTO.getFechaOficioNotAut()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getModificacion())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA14.getIdentificador(), PreguntaCanalVirtual.PREGUNTA14.getPregunta(), formularioDTO.getModificacion()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getResConcesionario())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA15.getIdentificador(), PreguntaCanalVirtual.PREGUNTA15.getPregunta(), formularioDTO.getResConcesionario()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getEstatusModificacion())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA16.getIdentificador(), PreguntaCanalVirtual.PREGUNTA16.getPregunta(), formularioDTO.getEstatusModificacion()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getPrimeraPublicacion())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA17.getIdentificador(), PreguntaCanalVirtual.PREGUNTA17.getPregunta(), formularioDTO.getPrimeraPublicacion()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getPublicaListadoMulti())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA18.getIdentificador(), PreguntaCanalVirtual.PREGUNTA18.getPregunta(), formularioDTO.getPublicaListadoMulti()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getObservacionesMulti())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA19.getIdentificador(), PreguntaCanalVirtual.PREGUNTA19.getPregunta(), formularioDTO.getObservacionesMulti()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getBdIne())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA20.getIdentificador(), PreguntaCanalVirtual.PREGUNTA20.getPregunta(), formularioDTO.getBdIne()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getCentroVm())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA21.getIdentificador(), PreguntaCanalVirtual.PREGUNTA21.getPregunta(), formularioDTO.getCentroVm()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getNombreCanalIne())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA22.getIdentificador(), PreguntaCanalVirtual.PREGUNTA22.getPregunta(), formularioDTO.getNombreCanalIne()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getNombreComercialIne())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA23.getIdentificador(), PreguntaCanalVirtual.PREGUNTA23.getPregunta(), formularioDTO.getNombreComercialIne()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getTipoMonitoreoIne())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA24.getIdentificador(), PreguntaCanalVirtual.PREGUNTA24.getPregunta(), formularioDTO.getTipoMonitoreoIne()));			
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getBdAudista())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA25.getIdentificador(), PreguntaCanalVirtual.PREGUNTA25.getPregunta(), formularioDTO.getBdAudista()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getNomCanalAudista())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA26.getIdentificador(), PreguntaCanalVirtual.PREGUNTA26.getPregunta(), formularioDTO.getNomCanalAudista()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getPrograAudista())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA27.getIdentificador(), PreguntaCanalVirtual.PREGUNTA27.getPregunta(), formularioDTO.getPrograAudista()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getLocalidadAudista())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA28.getIdentificador(), PreguntaCanalVirtual.PREGUNTA28.getPregunta(), formularioDTO.getLocalidadAudista()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getMonitorServExt())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA29.getIdentificador(), PreguntaCanalVirtual.PREGUNTA29.getPregunta(), formularioDTO.getMonitorServExt()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getLocalidadServExt())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA30.getIdentificador(), PreguntaCanalVirtual.PREGUNTA30.getPregunta(), formularioDTO.getLocalidadServExt()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getNomComServExt())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA31.getIdentificador(), PreguntaCanalVirtual.PREGUNTA31.getPregunta(), formularioDTO.getNomComServExt()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getTipoPrograInfant())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA32.getIdentificador(), PreguntaCanalVirtual.PREGUNTA32.getPregunta(), formularioDTO.getTipoPrograInfant()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getObligaAccesibilidad())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA33.getIdentificador(), PreguntaCanalVirtual.PREGUNTA33.getPregunta(), formularioDTO.getObligaAccesibilidad()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getMecaAccesibilidad())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA34.getIdentificador(), PreguntaCanalVirtual.PREGUNTA34.getPregunta(), formularioDTO.getMecaAccesibilidad()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getMedioPublico())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA35.getIdentificador(), PreguntaCanalVirtual.PREGUNTA35.getPregunta(), formularioDTO.getMedioPublico()));
+		}
+		if (StringUtils.isNotBlank(formularioDTO.getInstPublicaFed())) {
+			preguntasForm.getPreguntaXMLDTO().add(obtenerPregunta(PreguntaCanalVirtual.PREGUNTA36.getIdentificador(), PreguntaCanalVirtual.PREGUNTA36.getPregunta(), formularioDTO.getInstPublicaFed()));
+		}
+		
+		FormularioXMLDTO formularioXML = new FormularioXMLDTO();
+		formularioXML.setPreguntasXMLDTO(preguntasForm);
+		
+		multiprog.setFormulario(formularioXML);
+	}
+
+	private PreguntaXMLDTO obtenerPregunta(int identificador, String pregunta, String respuesta) {
+		PreguntaXMLDTO preguntaItem = new PreguntaXMLDTO();
+		
+		preguntaItem.setDescPregunta(pregunta);
+		preguntaItem.setIdPregunta(new Integer(identificador).toString());
+		preguntaItem.setRespuesta(respuesta);
+		
+		return preguntaItem;
 	}
 
 	public void visualizarLogo() {
 		LOG.info("/**** Imagen a B64 ****/");
 		fileContenido = fileLogo.getContents();
 		logoB64 = Base64.getEncoder().encodeToString(fileContenido);
+	}
+	
+	public void editarCanal(CanalVirtual canalVirtualEdit) {
+		LOG.info("ID canal virtual a editar :: "+canalVirtualEdit.getNumCanalVirtual());
 	}
 	
 	/**
@@ -390,5 +548,33 @@ public class AddCanalProgramMB implements Serializable {
 	public void setFileContenido(byte[] fileContenido) {
 		this.fileContenido = fileContenido;
 	}
-				
+
+	/**
+	 * @return the fechaOficioNotAut
+	 */
+	public Date getFechaOficioNotAut() {
+		return fechaOficioNotAut;
+	}
+
+	/**
+	 * @param fechaOficioNotAut the fechaOficioNotAut to set
+	 */
+	public void setFechaOficioNotAut(Date fechaOficioNotAut) {
+		this.fechaOficioNotAut = fechaOficioNotAut;
+	}
+
+	/**
+	 * @return the fechaOficioNot
+	 */
+	public Date getFechaOficioNot() {
+		return fechaOficioNot;
+	}
+
+	/**
+	 * @param fechaOficioNot the fechaOficioNot to set
+	 */
+	public void setFechaOficioNot(Date fechaOficioNot) {
+		this.fechaOficioNot = fechaOficioNot;
+	}
+		
 }

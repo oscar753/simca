@@ -106,8 +106,7 @@
                 	<p:outputLabel id="tblCanalVir" value="#{canal.idCanalVirtual}" />
                 </p:column>
                 <p:column  headerText="Distintivo" >
-                	<p:commandButton  icon="fa fa-fw fa-edit" id="tblEditar">                   		
-                    </p:commandButton>
+                	<p:commandButton icon="ui-icon-pencil" id="tblEditar" title="Editar" styleClass="botonpequeno" action="#{addCanalProgramMB.editarCanal(canal)}"/>                   		                    
                 </p:column>               
            	</p:dataTable>
        	</h:panelGrid>

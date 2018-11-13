@@ -168,7 +168,7 @@
             			</p:column>
             			<p:column>
             				<ui:fragment id="previewLogo" rendered="#{not empty addCanalProgramMB.fileLogo}">
-    							<img src="data:image/png;base64,#{addCanalProgramMB.logoB64}" />
+    							<img src="data:image/png;base64,#{addCanalProgramMB.logoB64}" style="width:100px; height: 100px"/>
 							</ui:fragment>
             			</p:column>
        				</h:panelGrid>
@@ -189,6 +189,7 @@
             				<p:selectOneMenu id="estadoTabCoberSel" value="#{addCanalProgramMB.estadoCobertura}" 
                                                       filter="true" filterMatchMode="startsWith">
                                         <p:ajax listener="#{addCanalProgramMB.poblacionEstCober}" update="municipioTabCoberIn" />
+                                        <f:selectItem itemLabel="Selecciona un estado" itemValue="0"></f:selectItem>
                                         <f:selectItems var="estado" value="#{addCanalProgramMB.estadosDTO}"
                                                        itemValue="#{estado.identificador}" 
                                                        itemLabel="#{estado.descripcion}"/>
@@ -200,7 +201,7 @@
             			<p:column>
             				<p:selectOneMenu id="municipioTabCoberIn" value="#{addCanalProgramMB.municipioCobertura}" 
                                                       filter="true" filterMatchMode="startsWith" autoWidth="false">                                        
-										<f:selectItem itemLabel="Selecciona un estado" itemValue="0"></f:selectItem>
+										<f:selectItem itemLabel="Selecciona un municipio" itemValue="0"></f:selectItem>
                                         <f:selectItems var="poblacion" value="#{addCanalProgramMB.poblacionesCoberDTO}"
                                                        itemValue="#{poblacion.identificador}" 
                                                        itemLabel="#{poblacion.descripcion}"/>
@@ -307,8 +308,8 @@
 							<p:column>
 								<p:outputLabel id="oficioMultiLb" value="Fecha de oficio de notificación:"></p:outputLabel>
 							</p:column>
-							<p:column>
-								<p:inputText id="oficioMultiIn" value="#{addCanalProgramMB.formularioDTO.fechaOficioNotAut}"></p:inputText>
+							<p:column>								
+								<p:calendar id="oficioMultiIn" value="#{addCanalProgramMB.fechaOficioNotAut}" pattern="dd-MM-yyyy" mask="true"/>
 							</p:column>
 							
 							<p:column>
@@ -390,8 +391,8 @@
 							<p:column>
 								<p:outputLabel id="fechOfiMultiLb" value="Fecha de oficio de notificación:"></p:outputLabel>
 							</p:column>
-							<p:column>															
-								<p:inputText id="fechOfiMultiIn" value="#{addCanalProgramMB.formularioDTO.fechaOficioNot}"></p:inputText>
+							<p:column>
+								<p:calendar id="fechOfiMultiIn" value="#{addCanalProgramMB.fechaOficioNot}" pattern="dd-MM-yyyy" mask="true"/>																				
 							</p:column>
 							<p:column>
 								<p:outputLabel id="nivelTransMultiLb" value="Nivel de transmisión:"></p:outputLabel>					

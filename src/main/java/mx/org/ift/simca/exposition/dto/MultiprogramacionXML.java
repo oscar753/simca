@@ -4,13 +4,16 @@
 package mx.org.ift.simca.exposition.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * @author KODE-LAP0077
  *
  */
+@XmlRootElement(name = "XML")
+@XmlType(propOrder = { "canal", "canal_virtual", "cobertura", "multiprograma", "formulario" })
 public class MultiprogramacionXML implements Serializable {
 
 	/**
@@ -24,9 +27,9 @@ public class MultiprogramacionXML implements Serializable {
 	
 	private MultiprogramacionDTO multiprograma = new MultiprogramacionDTO();
 
-	private List<CoberturaDTO> cobertura = new ArrayList<CoberturaDTO>();
+	private CoberturaXMLDTO cobertura = new CoberturaXMLDTO();
 	
-	private List<PreguntaDTO> formulario = new ArrayList<PreguntaDTO>();
+	private FormularioXMLDTO formulario = new FormularioXMLDTO();
 
 	/**
 	 * @return the canal
@@ -54,34 +57,20 @@ public class MultiprogramacionXML implements Serializable {
 	 */
 	public void setCanal_virtual(CanalVirtualDTO canal_virtual) {
 		this.canal_virtual = canal_virtual;
-	}
+	}	
 
 	/**
 	 * @return the cobertura
 	 */
-	public List<CoberturaDTO> getCobertura() {
+	public CoberturaXMLDTO getCobertura() {
 		return cobertura;
 	}
 
 	/**
 	 * @param cobertura the cobertura to set
 	 */
-	public void setCobertura(List<CoberturaDTO> cobertura) {
+	public void setCobertura(CoberturaXMLDTO cobertura) {
 		this.cobertura = cobertura;
-	}
-
-	/**
-	 * @return the formulario
-	 */
-	public List<PreguntaDTO> getFormulario() {
-		return formulario;
-	}
-
-	/**
-	 * @param formulario the formulario to set
-	 */
-	public void setFormulario(List<PreguntaDTO> formulario) {
-		this.formulario = formulario;
 	}
 
 	/**
@@ -97,5 +86,20 @@ public class MultiprogramacionXML implements Serializable {
 	public void setMultiprograma(MultiprogramacionDTO multiprograma) {
 		this.multiprograma = multiprograma;
 	}
+
+	/**
+	 * @return the formulario
+	 */
+	public FormularioXMLDTO getFormulario() {
+		return formulario;
+	}
+
+	/**
+	 * @param formulario the formulario to set
+	 */
+	public void setFormulario(FormularioXMLDTO formulario) {
+		this.formulario = formulario;
+	}
+	
 		
 }

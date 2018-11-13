@@ -5,10 +5,15 @@ package mx.org.ift.simca.exposition.dto;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * @author KODE-LAP0077
  *
  */
+@XmlRootElement(name = "MULTIPROGRAMACION")
+@XmlType(propOrder = { "multiprograma", "calidad", "tasa_transf", "metodoCompr", "terceroBenf", "estatus" })
 public class MultiprogramacionDTO implements Serializable{
 	
 	/**

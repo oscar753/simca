@@ -5,10 +5,15 @@ package mx.org.ift.simca.exposition.dto;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * @author KODE-LAP0077
  *
  */
+@XmlRootElement(name="CANAL")
+@XmlType(propOrder = { "identificador", "no_canal", "distintivo", "estado", "poblacion", "concesionario" })
 public class CanalDTO implements Serializable {
 
 	/**

@@ -5,10 +5,16 @@ package mx.org.ift.simca.exposition.dto;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * @author KODE-LAP0077
  *
  */
+@XmlRootElement(name="CANAL_VIRTUAL")
+@XmlType(propOrder = { "id_senial", "folio_rpc_umca", "tipo_uso", "contenido", "canal_digital", "canal_virtual", 
+		"programacion", "mc_mo", "medio", "primer_asignacion", "logo_b64", "grupo" })
 public class CanalVirtualDTO implements Serializable {
 	
 	/**
