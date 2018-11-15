@@ -37,8 +37,7 @@
 				</p:column>
 				<p:column>
 					<p:selectOneMenu id="concesionarioSel" value="#{estacionProgramacionMB.idConcesionario}"
-									 autoWidth="false" filter="true" filterMatchMode="custom" filterFunction="myFilter">
-									 
+									 filter="true" filterMatchMode="startsWith" autoWidth="false">
 					<f:selectItem itemLabel="Seleccione..." itemValue=""/>
                     <f:selectItems var="concesionario" value="#{estacionProgramacionMB.concesionariosDTO}"
                                    itemValue="#{concesionario.identificador}" 

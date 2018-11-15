@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name="GRUPO_RADIO")
-@XmlType(propOrder = { "folioElectronico", "concesionario" })
+@XmlType(propOrder = { "folioElectronico", "idConcesionario" })
 public class GrupoRadioXMLDTO implements Serializable {
 
 	/**
@@ -16,7 +16,7 @@ public class GrupoRadioXMLDTO implements Serializable {
 	private static final long serialVersionUID = 86356278405807545L;
 
 	private String folioElectronico;
-	private String concesionario;
+	private String idConcesionario;
 	
 	@XmlElement(name="FOLIO_ELECTRONICO")
 	public String getFolioElectronico() {
@@ -26,12 +26,12 @@ public class GrupoRadioXMLDTO implements Serializable {
 		this.folioElectronico = folioElectronico;
 	}
 	
-	@XmlElement(name="CONCESIONARIO")
-	public String getConcesionario() {
-		return concesionario;
+	@XmlElement(name="ID_CONCESIONARIO")
+	public String getIdConcesionario() {
+		return idConcesionario;
 	}
-	public void setConcesionario(String concesionario) {
-		this.concesionario = concesionario;
+	public void setIdConcesionario(String idConcesionario) {
+		this.idConcesionario = idConcesionario;
 	}
 	
 }

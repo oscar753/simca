@@ -56,6 +56,7 @@ public class ModifyEstacionProgramMB implements Serializable {
 	private List<CatalogoDTO> estadosCoberDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> tiposUsoEstacionDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> clasesDTO = new ArrayList<CatalogoDTO>();
+	private List<CatalogoDTO> concesionariosDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> bandasDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> tiposFrecuenciaDTO = new ArrayList<CatalogoDTO>();
 	private List<TipoPregunta> tipoPreguntas = new ArrayList<TipoPregunta>();
@@ -83,6 +84,7 @@ public class ModifyEstacionProgramMB implements Serializable {
 		estadosCoberDTO = estadosDTO = catalogoService.consultaEstado();
 		clasesDTO = catalogoService.consultaClase();
 		tiposUsoEstacionDTO = catalogoService.consultaTipoUsoEstacion();
+		concesionariosDTO = catalogoService.consultaConcesionario();
 		bandasDTO = catalogoService.consultaBanda();
 		tiposFrecuenciaDTO = catalogoService.consultaTipoFrecuencia();
 		estacionDTO.setNumero(estacionProgramacionMB.getEstacionSelect().getIdSenial().toString());
@@ -94,7 +96,7 @@ public class ModifyEstacionProgramMB implements Serializable {
 		}
 		estacionDTO.setIdClase(estacionProgramacionMB.getEstacionSelect().getClase().getIdClase());
 		estacionDTO.setIdTipoUsoEstacion(estacionProgramacionMB.getEstacionSelect().getTipoUsoEstacion().getIdTipoUsoEstacion());
-		estacionDTO.setConcesionario(estacionProgramacionMB.getEstacionSelect().getGrupoRadio().getConcesionario().getNomConcesionario());
+		estacionDTO.setIdConcesionario(estacionProgramacionMB.getEstacionSelect().getGrupoRadio().getConcesionario().getIdConcesionario());
 		estacionDTO.setDistintivo(estacionProgramacionMB.getEstacionSelect().getDistintivo());
 		estacionDTO.setIdBanda(estacionProgramacionMB.getEstacionSelect().getBanda().getIdBanda());
 		if(estacionDTO.getIdBanda() == 1)
@@ -188,7 +190,6 @@ public class ModifyEstacionProgramMB implements Serializable {
 	}
 	
 	public void updateFrecComponents() {
-		System.out.println("");
 		RequestContext.getCurrentInstance().update("formModEstacionProg");
 	}
 	
@@ -248,11 +249,11 @@ public class ModifyEstacionProgramMB implements Serializable {
 		}
     }
 
-	public String deleteAction(CoberturaRadioDTO coberturaRadioDTO) {
+	public void deleteAction(CoberturaRadioDTO coberturaRadioDTO) {
 		System.out.println("Eliminando fila:" + coberturaRadioDTO.getEstado().getDescripcion() + " "
 				+ coberturaRadioDTO.getMunicipio().getDescripcion());
 		estacionDTO.getCoberturasRadioDTO().remove(coberturaRadioDTO);
-		return null;
+		this.updateFrecComponents();
 	}
 	
 	public void obtenerCoberturas(String folioElectronico) {
@@ -349,6 +350,14 @@ public class ModifyEstacionProgramMB implements Serializable {
 
 	public void setClasesDTO(List<CatalogoDTO> clasesDTO) {
 		this.clasesDTO = clasesDTO;
+	}
+
+	public List<CatalogoDTO> getConcesionariosDTO() {
+		return concesionariosDTO;
+	}
+
+	public void setConcesionariosDTO(List<CatalogoDTO> concesionariosDTO) {
+		this.concesionariosDTO = concesionariosDTO;
 	}
 
 	public List<CatalogoDTO> getBandasDTO() {

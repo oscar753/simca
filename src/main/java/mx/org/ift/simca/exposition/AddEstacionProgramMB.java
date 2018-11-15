@@ -201,11 +201,11 @@ public class AddEstacionProgramMB implements Serializable {
 		GeneraRadioXML.generaEstacionXML(estacionDTO, tipoPreguntas);
 	}
 
-	public String deleteAction(CoberturaRadioDTO coberturaRadioDTO) {
+	public void deleteAction(CoberturaRadioDTO coberturaRadioDTO) {
 		System.out.println("Eliminando fila:" + coberturaRadioDTO.getEstado().getDescripcion() + " "
 				+ coberturaRadioDTO.getMunicipio().getDescripcion());
 		estacionDTO.getCoberturasRadioDTO().remove(coberturaRadioDTO);
-		return null;
+		this.updateFrecComponents();
 	}
 
 	/**

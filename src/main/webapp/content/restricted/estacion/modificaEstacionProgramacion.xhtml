@@ -93,7 +93,13 @@
             				<p:outputLabel value="Concesionario:" id="concesionarioTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
-							<p:inputText id="concesionarioTabGnralIn" value="#{modifyEstacionProgramMB.estacionDTO.concesionario}"></p:inputText>
+            				<p:selectOneMenu id="concesionarioTabGnralSel" value="#{modifyEstacionProgramMB.estacionDTO.idConcesionario}" 
+                                                    filter="true" filterMatchMode="startsWith" autoWidth="false">                                        
+								<f:selectItem itemLabel="Seleccione..." itemValue=""></f:selectItem>
+                                <f:selectItems var="concesionario" value="#{modifyEstacionProgramMB.concesionariosDTO}"
+                                               itemValue="#{concesionario.identificador}" 
+                                               itemLabel="#{concesionario.descripcion}"/>
+                            </p:selectOneMenu>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Distintivo:" id="distintivoTabGnral" style="float:right"></p:outputLabel>
@@ -113,9 +119,15 @@
 			                    <f:selectItems var="banda" value="#{modifyEstacionProgramMB.bandasDTO}"
 			                                   itemValue="#{banda.identificador}" 
 			                                   itemLabel="#{banda.descripcion}"/>
-			                    <f:ajax listener="#{modifyEstacionProgramMB.updateFrecComponents}" render="frecColum1, frecColum2, frecColum3, frecColum4"/>
+			                    <f:ajax listener="#{modifyEstacionProgramMB.updateFrecComponents}" render="space1, space2, frecColum1, frecColum2, frecColum3, frecColum4"/>
 		                    </p:selectOneMenu>
             			</p:column>
+	            			<p:column id="space1" rendered="#{addEstacionProgramMB.estacionDTO.idBanda eq null}">
+	            				<h:outputLabel value=""></h:outputLabel>
+	            			</p:column>
+	            			<p:column id="space2" rendered="#{addEstacionProgramMB.estacionDTO.idBanda eq null}">
+	            				<h:outputLabel value=""></h:outputLabel>
+	            			</p:column>
 	            			<p:column id="frecColum1" rendered="#{modifyEstacionProgramMB.estacionDTO.idBanda eq 2}">
 	            				<h:outputLabel value="Frecuencia en FM (Mhz):" id="frecuenciaFMTabGnral" style="float:right"></h:outputLabel>
 	            			</p:column>
@@ -405,9 +417,9 @@
 				
 				<f:facet name="footer">
 					<div align="right">
-						<p:commandButton id="cancelModCanal" value="Cancelar"></p:commandButton>
+						<p:commandButton id="cancelModEstacion" value="Cancelar"></p:commandButton>
 						<p:spacer width="15" />
-						<p:commandButton id="guardarModCanal" value="Guardar" actionListener="#{modifyEstacionProgramMB.agregarEstacion}"></p:commandButton>
+						<p:commandButton id="guardarModEstacion" value="Guardar" actionListener="#{modifyEstacionProgramMB.agregarEstacion}"></p:commandButton>
 					</div>
 				</f:facet>
 			</h:panelGrid>

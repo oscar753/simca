@@ -42,7 +42,7 @@ public class GeneraRadioXML implements Serializable {
 
 			GrupoRadioXMLDTO grupoRadioXMLDTO = new GrupoRadioXMLDTO();
 			grupoRadioXMLDTO.setFolioElectronico(estacionDTO.getFolioRPCUMCA());
-			grupoRadioXMLDTO.setConcesionario(estacionDTO.getConcesionario());
+			grupoRadioXMLDTO.setIdConcesionario(estacionDTO.getIdConcesionario() != null ? estacionDTO.getIdConcesionario().toString() : "");
 
 			radioXMLDTO.setGrupoRadioXMLDTO(grupoRadioXMLDTO);
 
@@ -50,12 +50,12 @@ public class GeneraRadioXML implements Serializable {
 
 			estacionXMLDTO.setFolioElectronico(estacionDTO.getFolioRPCUMCA());
 			estacionXMLDTO.setIdSenial("");
-			estacionXMLDTO.setClase(estacionDTO.getIdClase() != null ? estacionDTO.getIdClase().toString() : "");
-			estacionXMLDTO.setTipoUsoEstacion(
+			estacionXMLDTO.setIdClase(estacionDTO.getIdClase() != null ? estacionDTO.getIdClase().toString() : "");
+			estacionXMLDTO.setIdTipoUsoEstacion(
 					estacionDTO.getIdTipoUsoEstacion() != null ? estacionDTO.getIdTipoUsoEstacion().toString() : "");
 			estacionXMLDTO.setDistintivo(estacionDTO.getDistintivo());
-			estacionXMLDTO.setBanda(estacionDTO.getIdBanda() != null ? estacionDTO.getIdBanda().toString() : "");
-			estacionXMLDTO.setTipoFrecuencia(
+			estacionXMLDTO.setIdBanda(estacionDTO.getIdBanda() != null ? estacionDTO.getIdBanda().toString() : "");
+			estacionXMLDTO.setIdTipoFrecuencia(
 					estacionDTO.getIdTipoFrecuencia() != null ? estacionDTO.getIdTipoFrecuencia().toString() : "");
 			
 			if ((estacionDTO.getIdBanda() != null ? estacionDTO.getIdBanda().toString() : "").equals("1")) {

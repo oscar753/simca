@@ -35,6 +35,7 @@ public class EstacionDTO implements Serializable {
 	private Integer idPoblacion;
 	private Integer idClase;
 	private Integer idTipoUsoEstacion;
+	private Integer idConcesionario;
 	private Integer idBanda;
 	private Integer idTipoFrecuencia;
 
@@ -181,6 +182,12 @@ public class EstacionDTO implements Serializable {
 	}
 	public void setIdTipoUsoEstacion(Integer idTipoUsoEstacion) {
 		this.idTipoUsoEstacion = idTipoUsoEstacion;
+	}
+	public Integer getIdConcesionario() {
+		return idConcesionario;
+	}
+	public void setIdConcesionario(Integer idConcesionario) {
+		this.idConcesionario = idConcesionario;
 	}
 	public Integer getIdBanda() {
 		return idBanda;

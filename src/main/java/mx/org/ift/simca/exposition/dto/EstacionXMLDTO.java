@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name="ESTACION")
-@XmlType(propOrder = { "folioElectronico", "idSenial", "clase", "tipoUsoEstacion", "distintivo", "banda", "tipoFrecuencia", "frecuencia", "fecIniVigencia", "fecFinVigencia" })
+@XmlType(propOrder = { "folioElectronico", "idSenial", "idClase", "idTipoUsoEstacion", "distintivo", "idBanda", "idTipoFrecuencia", "frecuencia", "fecIniVigencia", "fecFinVigencia" })
 public class EstacionXMLDTO implements Serializable{
 
 	/**
@@ -22,11 +22,11 @@ public class EstacionXMLDTO implements Serializable{
 	
 	private String folioElectronico;
 	private String idSenial;
-	private String clase;
-	private String tipoUsoEstacion;
+	private String idClase;
+	private String idTipoUsoEstacion;
 	private String distintivo;
-	private String banda;
-	private String tipoFrecuencia;
+	private String idBanda;
+	private String idTipoFrecuencia;
 	private String frecuencia;
 	private String fecIniVigencia;
 	private String fecFinVigencia;
@@ -47,20 +47,28 @@ public class EstacionXMLDTO implements Serializable{
 		this.idSenial = idSenial;
 	}
 	
-	@XmlElement(name="CLASE")
-	public String getClase() {
-		return clase;
+	@XmlElement(name="ID_CLASE")
+	public String getIdClase() {
+		return idClase;
 	}
-	public void setClase(String clase) {
-		this.clase = clase;
+	public void setIdClase(String idClase) {
+		this.idClase = idClase;
 	}
 	
-	@XmlElement(name="TIPO_USO_ESTACION")
-	public String getTipoUsoEstacion() {
-		return tipoUsoEstacion;
+	@XmlElement(name="ID_TIPO_USO_ESTACION")
+	public String getIdTipoUsoEstacion() {
+		return idTipoUsoEstacion;
 	}
-	public void setTipoUsoEstacion(String tipoUsoEstacion) {
-		this.tipoUsoEstacion = tipoUsoEstacion;
+	public void setIdTipoUsoEstacion(String idTipoUsoEstacion) {
+		this.idTipoUsoEstacion = idTipoUsoEstacion;
+	}
+	
+	@XmlElement(name="ID_TIPO_FRECUENCIA")
+	public String getIdTipoFrecuencia() {
+		return idTipoFrecuencia;
+	}
+	public void setIdTipoFrecuencia(String idTipoFrecuencia) {
+		this.idTipoFrecuencia = idTipoFrecuencia;
 	}
 	
 	@XmlElement(name="DISTINTIVO")
@@ -71,20 +79,12 @@ public class EstacionXMLDTO implements Serializable{
 		this.distintivo = distintivo;
 	}
 	
-	@XmlElement(name="BANDA")
-	public String getBanda() {
-		return banda;
+	@XmlElement(name="ID_BANDA")
+	public String getIdBanda() {
+		return idBanda;
 	}
-	public void setBanda(String banda) {
-		this.banda = banda;
-	}
-	
-	@XmlElement(name="TIPO_FRECUENCIA")
-	public String getTipoFrecuencia() {
-		return tipoFrecuencia;
-	}
-	public void setTipoFrecuencia(String tipoFrecuencia) {
-		this.tipoFrecuencia = tipoFrecuencia;
+	public void setIdBanda(String idBanda) {
+		this.idBanda = idBanda;
 	}
 	
 	@XmlElement(name="FRECUENCIA")
