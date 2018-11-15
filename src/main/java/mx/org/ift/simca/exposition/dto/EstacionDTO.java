@@ -28,6 +28,8 @@ public class EstacionDTO implements Serializable {
 	private Date vigenciaIni;
 	private Date vigenciaFin;
 	private CatalogoDTO tipoFrecuencia;
+	
+	private Integer item;
 
 	private Integer idEstado;
 	private Integer idPoblacion;
@@ -383,6 +385,12 @@ public class EstacionDTO implements Serializable {
 	}
 	public void setOpMedioPublico(List<Opcion> opMedioPublico) {
 		this.opMedioPublico = opMedioPublico;
+	}
+	public Integer getItem() {
+		return item;
+	}
+	public void setItem(Integer item) {
+		this.item = item;
 	}
 	
 }

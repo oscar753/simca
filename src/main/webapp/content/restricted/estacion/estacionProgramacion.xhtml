@@ -79,7 +79,6 @@
                                 style="display:inline; float:right; font-size:x-small;"
                                 onclick="location = '#{request.contextPath}/content/restricted/estacion/agregaEstacionProgramacion.jsf';" />
                                 </p:outputLabel>
-            	
                 </f:facet>
                 <p:column headerText="Distintivo" >
                 	<p:outputLabel id="tblDistintivo" value="#{estacion.distintivo}" />
@@ -102,9 +101,11 @@
                 <p:column headerText="Frecuencia" >
                 	<p:outputLabel id="tblFrecuencia" value="#{estacion.frecuencia}" />
                 </p:column>
-                <p:column headerText="" >
-                	<h:commandLink  class="fa fa-edit" id="tblEditar">                   		
-                    </h:commandLink>
+                <p:column headerText="">
+					<p:commandButton value="Modificar" action="#{estacionProgramacionMB.modificar(estacion)}" >
+						<f:param name="canalProg" value="somevalue" />
+					</p:commandButton>
+					<p:commandButton value="Eliminar" action="#{estacionProgramacionMB.borrar(estacion)}" />
                 </p:column>
            	</p:dataTable>
        	</h:panelGrid>

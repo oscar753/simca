@@ -7,23 +7,21 @@ import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import mx.org.ift.simca.exposition.dto.CatalogoDTO;
-import mx.org.ift.simca.exposition.dto.EstacionDTO;
-import mx.org.ift.simca.exposition.dto.GrupoRadioDTO;
 import mx.org.ift.simca.model.Estacion;
 import mx.org.ift.simca.service.CatalogoService;
 import mx.org.ift.simca.service.EstacionService;
 
 @Controller
 @Scope("session")
-public class EstacionProgramacionMB implements Serializable {
+public class EstacionProgramacionMB implements Serializable{
 
 	/**
 	 * 
@@ -46,7 +44,8 @@ public class EstacionProgramacionMB implements Serializable {
 	private List<Estacion> estacionBD = new ArrayList<Estacion>();
 	private List<CatalogoDTO> concesionariosDTO = new ArrayList<CatalogoDTO>();
 	private List<Estacion> distintivos = new ArrayList<Estacion>();
-
+	private Estacion estacionSelect = new Estacion();
+	
 	@PostConstruct
 	public void init() {
 		estacionBD.clear();
@@ -72,14 +71,17 @@ public class EstacionProgramacionMB implements Serializable {
 		System.out.println("FINALIZO");
 
 	}
-
-	public boolean myFilter(Object valuo, Object filter, Locale locale) {
-		System.out.println(":::Entrando a myFilter:::");
-		String filterText = (filter == null) ? null : filter.toString().trim();
-		System.out.println(filterText);
-
-		return true;
-
+	
+	public String modificar(Estacion estacion) {
+		System.out.println("seteando estacion select");
+		this.setEstacionSelect(estacion);
+		System.out.println("modificar: " + estacion.getDistintivo());
+		
+		return "modificaEstacionProgramacion.xhtml";
+	}
+	
+	public void borrar(Estacion estacion) {
+		System.out.println("borrar: " + estacion.getDistintivo());
 	}
 
 	public String getConcesionario() {
@@ -146,4 +148,11 @@ public class EstacionProgramacionMB implements Serializable {
 		this.idCanalProg = idCanalProg;
 	}
 
+	public Estacion getEstacionSelect() {
+		return estacionSelect;
+	}
+
+	public void setEstacionSelect(Estacion estacionSelect) {
+		this.estacionSelect = estacionSelect;
+	}
 }

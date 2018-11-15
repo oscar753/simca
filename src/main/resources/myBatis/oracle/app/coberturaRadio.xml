@@ -9,14 +9,20 @@
     <resultMap id="coberturaRadioMapper" type="CoberturaRadio" >
     	<id property="folioElectronico" column="FOLIO_ELECTRONICO" jdbcType="VARCHAR"/>
         <id property="idSenial" column="ID_SENIAL" jdbcType="INTEGER"/>
-        <id property="idEstado" column="ID_ESTADO" jdbcType="INTEGER"/>
-        <id property="idPoblacion" column="ID_POBLACION" jdbcType="INTEGER"/>
+		<association property="estado" column="ID_ESTADO" resultMap="mx.org.ift.simca.persistence.EstadoMapper.estadoMapper"/>
+		<association property="poblacion" column="ID_POBLACION" resultMap="mx.org.ift.simca.persistence.PoblacionMapper.poblacionMapper"/>
     </resultMap>
 
     <sql id="tableName">COBERTURA_RADIO</sql>
+    
+    <sql id="tableCoberturas">COBERTURA_RADIO CRD, ESTADO EST, POBLACION POB</sql>
 
     <sql id="allColumns">
         FOLIO_ELECTRONICO, ID_SENIAL, ID_ESTADO, ID_POBLACION
+    </sql>
+    
+    <sql id="columnsCoberturas">
+        CRD.FOLIO_ELECTRONICO, CRD.ID_SENIAL, EST.ID_ESTADO, EST.ESTADO, POB.ID_ESTADO, POB.ID_POBLACION, POB.POBLACION
     </sql>
     
     <select id="getAll"
@@ -25,10 +31,29 @@
         <include refid="selectColumnsFrom"/>
     </select>
     
+    <select id="obtenCoberturas"
+        parameterType="CoberturaRadio"
+        resultMap="coberturaRadioMapper" >
+        <include refid="selectCoberturas"/>
+    </select>
+    
     <sql id="selectColumnsFrom">
         SELECT
             <include refid="allColumns"/>
         FROM <include refid="tableName"/>
+    </sql>
+    
+    <sql id="selectCoberturas">
+        SELECT
+            <include refid="columnsCoberturas"/>
+        FROM <include refid="tableCoberturas"/>
+        WHERE 1=1
+		AND CRD.ID_ESTADO = EST.ID_ESTADO
+		AND CRD.ID_POBLACION = POB.ID_POBLACION
+		AND EST.ID_ESTADO = POB.ID_ESTADO
+		<if test="folioElectronico != null">
+			AND CRD.FOLIO_ELECTRONICO = #{folioElectronico, jdbcType=VARCHAR}
+		</if>
     </sql>
        
 </mapper>

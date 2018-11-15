@@ -15,8 +15,8 @@
     	<id property="idSenial" column="ID_SENIAL" jdbcType="INTEGER"/>
     	<id property="distintivo" column="DISTINTIVO" jdbcType="VARCHAR"/>
         <id property="frecuencia" column="FRECUENCIA" jdbcType="VARCHAR"/>
-<!--         <id property="vigenciaIni" column="FEC_INI_VIGENCIA" jdbcType="DATE"/> -->
-<!--         <id property="vigenciaFin" column="FEC_FIN_VIGENCIA" jdbcType="DATE"/> -->
+        <id property="vigenciaIni" column="FEC_INI_VIGENCIA" jdbcType="DATE"/>
+        <id property="vigenciaFin" column="FEC_FIN_VIGENCIA" jdbcType="DATE"/>
 		<association property="poblacion" column="ID_POBLACION" resultMap="mx.org.ift.simca.persistence.PoblacionMapper.poblacionMapper"/>
 		<association property="estado" column="ID_ESTADO" resultMap="mx.org.ift.simca.persistence.EstadoMapper.estadoMapper"/>
     	<association property="clase" column="ID_CLASE" resultMap="mx.org.ift.simca.persistence.ClaseMapper.claseMapper"/>
@@ -52,7 +52,8 @@
     
     <sql id="searchColumns">
     	ETN.ID_SENIAL, ETN.DISTINTIVO, ETN.FRECUENCIA,
-    	ETN.FEC_INI_VIGENCIA, ETN.FEC_FIN_VIGENCIA,
+<!--     	TO_CHAR(ETN.FEC_INI_VIGENCIA,'dd/Mon/yyyy') FEC_INI_VIGENCIA, TO_CHAR(ETN.FEC_FIN_VIGENCIA,'dd/Mon/yyyy') FEC_FIN_VIGENCIA, -->
+		ETN.FEC_INI_VIGENCIA, FEC_FIN_VIGENCIA,
     	POB.ID_ESTADO, POB.ID_POBLACION, POB.POBLACION,
     	EST.ID_ESTADO, EST.ESTADO, CLA.ID_CLASE, CLA.CLASE, TUE.ID_TIPO_USO_ESTACION, TUE.TIPO_USO_ESTACION, BAN.ID_BANDA, BAN.BANDA,
     	TFR.ID_TIPO_FRECUENCIA, TFR.TIPO_FRECUENCIA, 
@@ -76,6 +77,7 @@
 			<include refid="searchTableName"/>
 		WHERE 1=1
         AND ETN.FOLIO_ELECTRONICO = CRD.FOLIO_ELECTRONICO
+        AND ETN.ID_SENIAL = CRD.ID_SENIAL
 		AND CRD.ID_ESTADO = EST.ID_ESTADO
 		AND CRD.ID_POBLACION = POB.ID_POBLACION
 		AND EST.ID_ESTADO = POB.ID_ESTADO

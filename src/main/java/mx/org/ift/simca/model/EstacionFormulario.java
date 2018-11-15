@@ -14,6 +14,7 @@ public class EstacionFormulario implements Serializable{
 	private Integer idPregunta;
 	private String pregunta;
 	private Opcion opcion;
+	private String valor;
 
 	public String getFolioElectronico() {
 		return folioElectronico;
@@ -45,6 +46,14 @@ public class EstacionFormulario implements Serializable{
 
 	public void setOpcion(Opcion opcion) {
 		this.opcion = opcion;
+	}
+
+	public String getValor() {
+		return valor;
+	}
+
+	public void setValor(String valor) {
+		this.valor = valor;
 	}
 	
 }

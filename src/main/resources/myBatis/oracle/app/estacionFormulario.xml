@@ -8,13 +8,20 @@
 
     <resultMap id="estacionFormularioMapper" type="EstacionFormulario" >
     	<id property="folioElectronico" column="FOLIO_ELECTRONICO" jdbcType="VARCHAR"/>
+    	<id property="idSenial" column="ID_SENIAL" jdbcType="INTEGER"/>
+    	<id property="idTipoFormulario" column="ID_TIPO_FORMULARIO" jdbcType="INTEGER"/>
     	<id property="idPregunta" column="ID_PREGUNTA" jdbcType="INTEGER"/>
+    	<id property="valor" column="VALOR" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="tableName">ESTACION_FORMULARIO</sql>
 
     <sql id="allColumns">
-        FOLIO_ELECTRONICO, ID_PREGUNTA
+        FOLIO_ELECTRONICO, ID_SENIAL, ID_TIPO_FORMULARIO, ID_PREGUNTA, VALOR
+    </sql>
+    
+    <sql id="respuestasColumns">
+        ID_PREGUNTA, VALOR
     </sql>
     
     <select id="getAll"
@@ -23,10 +30,29 @@
         <include refid="selectColumnsFrom"/>
     </select>
     
+    <select id="obtenRespuestasFormulario"
+        parameterType="EstacionFormulario"
+        resultMap="estacionFormularioMapper" >
+        <include refid="selectColumnsFormulario"/>
+    </select>
+    
     <sql id="selectColumnsFrom">
         SELECT
             <include refid="allColumns"/>
         FROM <include refid="tableName"/>
+    </sql>
+    
+    <sql id="selectColumnsFormulario">
+        SELECT
+            <include refid="respuestasColumns"/>
+        FROM <include refid="tableName"/>
+        WHERE 1=1
+        <if test="idTipoFormulario != null">
+        	AND ID_TIPO_FORMULARIO = #{idTipoFormulario, jdbcType=INTEGER}
+        </if>
+        <if test="folioElectronico != null">
+			AND FOLIO_ELECTRONICO = #{folioElectronico, jdbcType=VARCHAR}
+		</if>
     </sql>
        
 </mapper>

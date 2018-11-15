@@ -49,7 +49,7 @@ public class GeneraRadioXML implements Serializable {
 			EstacionXMLDTO estacionXMLDTO = new EstacionXMLDTO();
 
 			estacionXMLDTO.setFolioElectronico(estacionDTO.getFolioRPCUMCA());
-			estacionXMLDTO.setIdSenial("0");
+			estacionXMLDTO.setIdSenial("");
 			estacionXMLDTO.setClase(estacionDTO.getIdClase() != null ? estacionDTO.getIdClase().toString() : "");
 			estacionXMLDTO.setTipoUsoEstacion(
 					estacionDTO.getIdTipoUsoEstacion() != null ? estacionDTO.getIdTipoUsoEstacion().toString() : "");
@@ -57,10 +57,15 @@ public class GeneraRadioXML implements Serializable {
 			estacionXMLDTO.setBanda(estacionDTO.getIdBanda() != null ? estacionDTO.getIdBanda().toString() : "");
 			estacionXMLDTO.setTipoFrecuencia(
 					estacionDTO.getIdTipoFrecuencia() != null ? estacionDTO.getIdTipoFrecuencia().toString() : "");
-			if ((estacionDTO.getIdBanda() != null ? estacionDTO.getIdBanda().toString() : "") == "1")
+			
+			if ((estacionDTO.getIdBanda() != null ? estacionDTO.getIdBanda().toString() : "").equals("1")) {
+				System.out.println("seteando am");
 				estacionXMLDTO.setFrecuencia(estacionDTO.getFrecuenciaAM());
-			else
+			}
+			else {
+				System.out.println("seteando fm");
 				estacionXMLDTO.setFrecuencia(estacionDTO.getFrecuenciaFM());
+			}
 			estacionXMLDTO.setFecIniVigencia(estacionDTO.getVigenciaIni() != null
 					? new SimpleDateFormat("dd/MM/yyyy").format(estacionDTO.getVigenciaIni())
 					: "");

@@ -10,8 +10,8 @@ public class CoberturaRadio implements Serializable{
 	private static final long serialVersionUID = 6920101346898007179L;
 	private String folioElectronico;
 	private Integer idSenial;
-	private Integer idEstado;
-	private Integer idPoblacion;
+	private Estado estado;
+	private Poblacion poblacion;
 	
 	public String getFolioElectronico() {
 		return folioElectronico;
@@ -25,17 +25,17 @@ public class CoberturaRadio implements Serializable{
 	public void setIdSenial(Integer idSenial) {
 		this.idSenial = idSenial;
 	}
-	public Integer getIdEstado() {
-		return idEstado;
+	public Estado getEstado() {
+		return estado;
 	}
-	public void setIdEstado(Integer idEstado) {
-		this.idEstado = idEstado;
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
-	public Integer getIdPoblacion() {
-		return idPoblacion;
+	public Poblacion getPoblacion() {
+		return poblacion;
 	}
-	public void setIdPoblacion(Integer idPoblacion) {
-		this.idPoblacion = idPoblacion;
+	public void setPoblacion(Poblacion poblacion) {
+		this.poblacion = poblacion;
 	}
 	
 }
