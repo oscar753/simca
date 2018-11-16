@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlRootElement(name="CANAL_VIRTUAL")
 @XmlType(propOrder = { "id_senial", "folio_rpc_umca", "tipo_uso", "contenido", "canal_digital", "canal_virtual", 
-		"programacion", "mc_mo", "medio", "primer_asignacion", "logo_b64", "grupo" })
+		"programacion", "mc_mo", "medio", "primer_asignacion", "logo_b64"})
 public class CanalVirtualDTO implements Serializable {
 	
 	/**
@@ -33,8 +33,7 @@ public class CanalVirtualDTO implements Serializable {
 	private String medio;	
 	private String primer_asignacion;	
 	private String logo_b64;
-	private String grupo;
-
+	
 	
 	/**
 	 * @return the id_senial
@@ -189,19 +188,6 @@ public class CanalVirtualDTO implements Serializable {
 	public void setLogo_b64(String logo_b64) {
 		this.logo_b64 = logo_b64;
 	}
-
-	/**
-	 * @return the grupo
-	 */
-	public String getGrupo() {
-		return grupo;
-	}
-
-	/**
-	 * @param grupo the grupo to set
-	 */
-	public void setGrupo(String grupo) {
-		this.grupo = grupo;
-	}	
+	
 		
 }

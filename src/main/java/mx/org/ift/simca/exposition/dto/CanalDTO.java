@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 @XmlRootElement(name="CANAL")
-@XmlType(propOrder = { "identificador", "no_canal", "distintivo", "estado", "poblacion", "concesionario" })
+@XmlType(propOrder = { "identificador", "no_canal", "distintivo", "estado", "poblacion", "concesionario", "grupo" })
 public class CanalDTO implements Serializable {
 
 	/**
@@ -27,6 +27,7 @@ public class CanalDTO implements Serializable {
 	private String estado;
 	private String poblacion;
 	private String concesionario;
+	private String grupo;
 	
 	
 	/**
@@ -101,5 +102,17 @@ public class CanalDTO implements Serializable {
 	public void setConcesionario(String concesionario) {
 		this.concesionario = concesionario;
 	}
+	/**
+	 * @return the grupo
+	 */
+	public String getGrupo() {
+		return grupo;
+	}
+	/**
+	 * @param grupo the grupo to set
+	 */
+	public void setGrupo(String grupo) {
+		this.grupo = grupo;
+	}	
 		
 }

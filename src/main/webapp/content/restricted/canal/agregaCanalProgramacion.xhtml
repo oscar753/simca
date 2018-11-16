@@ -133,7 +133,7 @@
             				<p:outputLabel value="Grupo:" id="grupoTabGnral"></p:outputLabel>
             			</p:column>
             			<p:column>
-            				<p:selectOneMenu id="grupoTabGnralIn" value="#{addCanalProgramMB.multiprog.canal_virtual.grupo}" 
+            				<p:selectOneMenu id="grupoTabGnralIn" value="#{addCanalProgramMB.multiprog.canal.grupo}" 
                                                       filter="true" filterMatchMode="startsWith" autoWidth="false">                                        
 										<f:selectItem itemLabel="Selecciona un grupo " itemValue="0"></f:selectItem>
                                         <f:selectItems var="grupo" value="#{addCanalProgramMB.gruposDTO}"
@@ -246,8 +246,8 @@
 							</p:column>
 							<p:column>
 								<p:selectOneMenu id="multiprogIn" value="#{addCanalProgramMB.multiprog.multiprograma.multiprograma}" autoWidth="false">
-									<f:selectItem itemLabel="Si" itemValue="Si"></f:selectItem>
-									<f:selectItem itemLabel="No" itemValue="No"></f:selectItem>
+									<f:selectItem itemLabel="Si" itemValue="1"></f:selectItem>
+									<f:selectItem itemLabel="No" itemValue="0"></f:selectItem>
 								</p:selectOneMenu>								
 							</p:column>
 							<p:column>
@@ -255,8 +255,8 @@
 							</p:column>
 							<p:column>
 								<p:selectOneMenu id="calidadMultiIn" value="#{addCanalProgramMB.multiprog.multiprograma.calidad}" autoWidth="false">
-									<f:selectItem itemLabel="HDTV" itemValue="HDTV"></f:selectItem>
-									<f:selectItem itemLabel="SDTV" itemValue="SDTV"></f:selectItem>
+									<f:selectItem itemLabel="HDTV" itemValue="1"></f:selectItem>
+									<f:selectItem itemLabel="SDTV" itemValue="2"></f:selectItem>
 								</p:selectOneMenu>								
 							</p:column>
 						
@@ -270,20 +270,33 @@
 								<p:outputLabel id="metododMultiLb" value="Método de compresión:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="metododMultiIn" value="#{addCanalProgramMB.multiprog.multiprograma.metodoCompr}"></p:inputText>
+								<p:selectOneMenu id="metododMultiIn" value="#{addCanalProgramMB.multiprog.multiprograma.metodoCompr}" autoWidth="false">
+									<f:selectItem itemLabel="MPEG-2" itemValue="1"></f:selectItem>
+									<f:selectItem itemLabel="MPEG-4" itemValue="2"></f:selectItem>
+								</p:selectOneMenu>								
 							</p:column>
 						
 							<p:column>
 								<p:outputLabel id="terceroMultiLb" value="Tercero a quien brinda acceso:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="terceroMultiIn" value="#{addCanalProgramMB.multiprog.multiprograma.terceroBenf}"></p:inputText>
+								<p:selectOneMenu id="terceroMultiIn" value="#{addCanalProgramMB.multiprog.multiprograma.terceroBenf}" autoWidth="false">
+									<f:selectItem itemLabel="Selecciona un tercero" itemValue="0"></f:selectItem>
+                                    <f:selectItems var="tercero" value="#{addCanalProgramMB.tercerosDTO}"
+                                    	             itemValue="#{tercero.identificador}" 
+                                                     itemLabel="#{tercero.descripcion}"/>
+								</p:selectOneMenu>								
 							</p:column>
 							<p:column>
 								<p:outputLabel id="estatusMultiLb" value="Estatus:"></p:outputLabel>
 							</p:column>
 							<p:column>
-								<p:inputText id="estatusMultiIn" value="#{addCanalProgramMB.multiprog.multiprograma.estatus}"></p:inputText>
+								<p:selectOneMenu id="estatusMultiIn" value="#{addCanalProgramMB.multiprog.multiprograma.estatus}" autoWidth="false">
+									<f:selectItem itemLabel="Selecciona un estatus" itemValue="0"></f:selectItem>
+                                    <f:selectItems var="estatus" value="#{addCanalProgramMB.estatusDTO}"
+                                    	             itemValue="#{estatus.identificador}" 
+                                                     itemLabel="#{estatus.descripcion}"/>
+								</p:selectOneMenu>								
 							</p:column>
 							
 							<p:column>

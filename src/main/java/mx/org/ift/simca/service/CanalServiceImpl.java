@@ -97,4 +97,20 @@ public class CanalServiceImpl implements CanalService {
 		
 		return programas;
 	}
+
+	@Override
+	public CanalVirtual buscarCanalVirtualPorId(Integer idCanalVirtual) {
+		LOGGER.info("Metodo para buscar canal virtual por su ID");
+		
+		List<CanalVirtual> canalesVirtuales = new ArrayList<CanalVirtual>();
+		try {						
+			canalesVirtuales = canVirtualMapper.getEditar(idCanalVirtual);
+			LOGGER.info("/**** Canal virtual :: "+canalesVirtuales.size());
+			
+		} catch (Exception e) {
+			Log.error("No se logro obtener la información de los canales");
+		}
+		
+		return canalesVirtuales.get(0);
+	}
 }

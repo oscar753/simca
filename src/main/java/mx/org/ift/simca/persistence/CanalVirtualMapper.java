@@ -17,5 +17,12 @@ public interface CanalVirtualMapper extends IMapper<CanalVirtual> {
 	 * @return
 	 */
 	List<CanalVirtual> getDinamico(@Param("distintivo") String distintivo, @Param("idConcesionario") Integer idConcesionario, @Param("canalProg") String canalProg);
+	
+	/**
+	 * 
+	 * @param idConcesionario
+	 * @return
+	 */
+	List<CanalVirtual> getEditar(@Param("idCanalVirtual") Integer idCanalVirtual);
 
 }

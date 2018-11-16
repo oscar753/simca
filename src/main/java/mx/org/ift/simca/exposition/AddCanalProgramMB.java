@@ -31,12 +31,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import mx.org.ift.simca.enums.PreguntaCanalVirtual;
+import mx.org.ift.simca.exposition.dto.CanalDTO;
 import mx.org.ift.simca.exposition.dto.CanalFormularioDTO;
 import mx.org.ift.simca.exposition.dto.CanalVirtualDTO;
 import mx.org.ift.simca.exposition.dto.CatalogoDTO;
 import mx.org.ift.simca.exposition.dto.CoberturaDTO;
 import mx.org.ift.simca.exposition.dto.CoberturaXMLDTO;
 import mx.org.ift.simca.exposition.dto.FormularioXMLDTO;
+import mx.org.ift.simca.exposition.dto.MultiprogramacionDTO;
 import mx.org.ift.simca.exposition.dto.MultiprogramacionXML;
 import mx.org.ift.simca.exposition.dto.PoblacionDTO;
 import mx.org.ift.simca.exposition.dto.PoblacionXMLDTO;
@@ -45,6 +47,7 @@ import mx.org.ift.simca.exposition.dto.PreguntaXMLDTO;
 import mx.org.ift.simca.exposition.dto.PreguntasXMLDTO;
 import mx.org.ift.simca.model.Canal;
 import mx.org.ift.simca.model.CanalVirtual;
+import mx.org.ift.simca.service.CanalService;
 import mx.org.ift.simca.service.CatalogoService;
 
 /**
@@ -69,6 +72,8 @@ public class AddCanalProgramMB implements Serializable {
 	private List<CatalogoDTO> tiposContenidoDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> concesionariosDTO = new ArrayList<CatalogoDTO>();
 	private List<CatalogoDTO> gruposDTO = new ArrayList<CatalogoDTO>();
+	private List<CatalogoDTO> tercerosDTO = new ArrayList<CatalogoDTO>();
+	private List<CatalogoDTO> estatusDTO = new ArrayList<CatalogoDTO>();
 		
 	private List<CoberturaDTO> coberturasDTO = new ArrayList<CoberturaDTO>();
 	
@@ -86,12 +91,17 @@ public class AddCanalProgramMB implements Serializable {
 	private UploadedFile fileLogo;
 	private byte[] fileContenido;
 
+	private Boolean esEditar;
+	
 	@Autowired
 	private CatalogoService catalogoService;
 	
+	@Autowired
+	private CanalService canalService;
+	
 	@PostConstruct
 	public void init() {
-		LOG.info("/**** Se inicializa MB para agregar ****/");
+		LOG.info("/**** Se inicializa MB para agregar ****/"+esEditar);
 		
 		multiprog = new MultiprogramacionXML();
 		formularioDTO = new CanalFormularioDTO();
@@ -102,6 +112,8 @@ public class AddCanalProgramMB implements Serializable {
 		concesionariosDTO = catalogoService.consultaConcesionario();
 		tiposUsoDTO = catalogoService.consultaTipoUso();
 		gruposDTO = catalogoService.consultaGrupo();
+		estatusDTO = catalogoService.consultaEstatus();
+		tercerosDTO = catalogoService.consultaTercero();
 	}
 	
 	public void poblacionEst() {
@@ -335,8 +347,64 @@ public class AddCanalProgramMB implements Serializable {
 		logoB64 = Base64.getEncoder().encodeToString(fileContenido);
 	}
 	
-	public void editarCanal(CanalVirtual canalVirtualEdit) {
+	public String editarCanal(CanalVirtual canalVirtualEdit) {
 		LOG.info("ID canal virtual a editar :: "+canalVirtualEdit.getNumCanalVirtual());
+		
+		CanalVirtual canalVirtualBD = canalService.buscarCanalVirtualPorId(new Integer(canalVirtualEdit.getNumCanalVirtual()));
+		
+		LOG.info(" Regreso del servicio :: "+canalVirtualBD.getCanal().getDistintivo());
+				
+		esEditar = Boolean.TRUE;
+		poblarMultiprogXML(canalVirtualBD);
+		
+		return "agregaCanalProgramacion.jsf";
+	}
+	
+	private void poblarMultiprogXML(CanalVirtual canalVirtualBD) {
+		CanalVirtualDTO canVirDTOEdit = new CanalVirtualDTO();
+		
+		canVirDTOEdit.setId_senial(canalVirtualBD.getIdCanalVirtual().toString());
+		canVirDTOEdit.setFolio_rpc_umca(canalVirtualBD.getFolioRpcUmca());
+		canVirDTOEdit.setTipo_uso(canalVirtualBD.getIdTipoUso().toString());
+		canVirDTOEdit.setContenido(canalVirtualBD.getIdTipoContenido().toString());
+		canVirDTOEdit.setCanal_digital(canalVirtualBD.getCanalDigital().toString());
+		canVirDTOEdit.setCanal_virtual(canalVirtualBD.getCanalAsignado().toString());
+		canVirDTOEdit.setProgramacion(canalVirtualBD.getProgramacion());
+		canVirDTOEdit.setMc_mo(canalVirtualBD.getMcMo());
+		canVirDTOEdit.setPrimer_asignacion(canalVirtualBD.getPrimerAsignacion());
+				
+		poblarCanalDTO(canalVirtualBD.getCanal());
+		poblarMultiprogramacionDTO(canalVirtualBD);
+		
+		multiprog.setCanal_virtual(canVirDTOEdit);		
+	}
+	
+	private void poblarCanalDTO(Canal canalBD) {
+		CanalDTO canalDTOEdit = new CanalDTO();
+		
+		canalDTOEdit.setEstado(canalBD.getIdEstado().toString());
+		
+		poblacionesDTO = consultaPoblacion(canalBD.getIdEstado().toString());
+		
+		canalDTOEdit.setPoblacion(canalBD.getIdPoblacion().toString());
+		canalDTOEdit.setConcesionario(canalBD.getIdConcesionario().toString());
+		canalDTOEdit.setDistintivo(canalBD.getDistintivo());
+		canalDTOEdit.setGrupo(canalBD.getGrupo());
+		
+		multiprog.setCanal(canalDTOEdit);
+	}
+	
+	private void poblarMultiprogramacionDTO(CanalVirtual canalVirtualBD) {
+		MultiprogramacionDTO multiDTOEdit = new MultiprogramacionDTO();
+		
+		multiDTOEdit.setMultiprograma(canalVirtualBD.getMultiprogramacion());
+		multiDTOEdit.setCalidad(canalVirtualBD.getIdCalidad().toString());
+		multiDTOEdit.setTasa_transf(canalVirtualBD.getTasaTrans().toString());
+		multiDTOEdit.setMetodoCompr(canalVirtualBD.getIdMetodoCompr().toString());
+		multiDTOEdit.setTerceroBenf(canalVirtualBD.getIdTerceroBenef().toString());
+		multiDTOEdit.setEstatus(canalVirtualBD.getIdEstatus().toString());
+		
+		multiprog.setMultiprograma(multiDTOEdit);
 	}
 	
 	/**
@@ -576,5 +644,35 @@ public class AddCanalProgramMB implements Serializable {
 	public void setFechaOficioNot(Date fechaOficioNot) {
 		this.fechaOficioNot = fechaOficioNot;
 	}
+
+	/**
+	 * @return the tercerosDTO
+	 */
+	public List<CatalogoDTO> getTercerosDTO() {
+		return tercerosDTO;
+	}
+
+	/**
+	 * @param tercerosDTO the tercerosDTO to set
+	 */
+	public void setTercerosDTO(List<CatalogoDTO> tercerosDTO) {
+		this.tercerosDTO = tercerosDTO;
+	}
+
+	/**
+	 * @return the estatusDTO
+	 */
+	public List<CatalogoDTO> getEstatusDTO() {
+		return estatusDTO;
+	}
+
+	/**
+	 * @param estatusDTO the estatusDTO to set
+	 */
+	public void setEstatusDTO(List<CatalogoDTO> estatusDTO) {
+		this.estatusDTO = estatusDTO;
+	}
+	
+	
 		
 }

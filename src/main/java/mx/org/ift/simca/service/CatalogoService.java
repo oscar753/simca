@@ -40,4 +40,8 @@ public interface CatalogoService extends Serializable{
 	
 	List<CatalogoDTO> consultaGrupo();
 
+	List<CatalogoDTO> consultaEstatus();
+
+	List<CatalogoDTO> consultaTercero();
+
 }

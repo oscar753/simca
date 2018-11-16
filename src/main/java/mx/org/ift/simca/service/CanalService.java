@@ -35,4 +35,11 @@ public interface CanalService extends Serializable {
 	 * @return
 	 */
 	List<CanalVirtual> buscarNomPrograma();
+	
+	/**
+	 * 
+	 * @param idCanalVirtual
+	 * @return
+	 */
+	CanalVirtual buscarCanalVirtualPorId(Integer idCanalVirtual);
 }

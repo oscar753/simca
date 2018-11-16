@@ -15,9 +15,11 @@ import mx.org.ift.simca.model.Canal;
 import mx.org.ift.simca.model.Clase;
 import mx.org.ift.simca.model.Concesionario;
 import mx.org.ift.simca.model.Estado;
+import mx.org.ift.simca.model.Estatus;
 import mx.org.ift.simca.model.Grupo;
 import mx.org.ift.simca.model.GrupoRadio;
 import mx.org.ift.simca.model.Poblacion;
+import mx.org.ift.simca.model.Tercero;
 import mx.org.ift.simca.model.TipoContenido;
 import mx.org.ift.simca.model.TipoFrecuencia;
 import mx.org.ift.simca.model.TipoUso;
@@ -27,9 +29,11 @@ import mx.org.ift.simca.persistence.CanalMapper;
 import mx.org.ift.simca.persistence.ClaseMapper;
 import mx.org.ift.simca.persistence.ConcesionarioMapper;
 import mx.org.ift.simca.persistence.EstadoMapper;
+import mx.org.ift.simca.persistence.EstatusMapper;
 import mx.org.ift.simca.persistence.GrupoMapper;
 import mx.org.ift.simca.persistence.GrupoRadioMapper;
 import mx.org.ift.simca.persistence.PoblacionMapper;
+import mx.org.ift.simca.persistence.TerceroMapper;
 import mx.org.ift.simca.persistence.TipoContenidoMapper;
 import mx.org.ift.simca.persistence.TipoFrecuenciaMapper;
 import mx.org.ift.simca.persistence.TipoUsoEstacionMapper;
@@ -82,6 +86,12 @@ public class CatalogoServiceImpl implements CatalogoService {
 	
 	@Autowired
 	private GrupoMapper grupoMap;
+	
+	@Autowired
+	private EstatusMapper estatusMap;
+	
+	@Autowired
+	private TerceroMapper terceroMap;
 
 	public List<CatalogoDTO> consultaPoblacion() {
 		List<CatalogoDTO> poblacionesResult = new ArrayList<CatalogoDTO>();
@@ -276,6 +286,39 @@ public class CatalogoServiceImpl implements CatalogoService {
 		}
 		
 		return grupoResult;
+	}
+
+	public List<CatalogoDTO> consultaEstatus() {
+		List<CatalogoDTO> estatusResult = new ArrayList<CatalogoDTO>();
+		
+		List<Estatus> estatus = estatusMap.getAll();
+		
+		for (Estatus estatusBD : estatus) {
+			CatalogoDTO itemCat = new CatalogoDTO();
+			
+			itemCat.setIdentificador(estatusBD.getIdEstatus().toString());
+			itemCat.setDescripcion(estatusBD.getEstatus());
+			
+			estatusResult.add(itemCat);
+		}
+		
+		return estatusResult;
+	}
+
+	public List<CatalogoDTO> consultaTercero() {
+		List<CatalogoDTO> tercerosResult = new ArrayList<CatalogoDTO>();
+		
+		List<Tercero> terceros = terceroMap.getAll();
+		
+		for (Tercero terceroBD : terceros) {
+			CatalogoDTO itemCat = new CatalogoDTO();
+			
+			itemCat.setIdentificador(terceroBD.getIdTercero().toString());
+			itemCat.setDescripcion(terceroBD.getTercero());
+			
+			tercerosResult.add(itemCat);
+		}
+		return tercerosResult;
 	}
 }
 
