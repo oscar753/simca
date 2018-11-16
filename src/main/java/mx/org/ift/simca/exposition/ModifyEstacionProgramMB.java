@@ -87,7 +87,7 @@ public class ModifyEstacionProgramMB implements Serializable {
 		concesionariosDTO = catalogoService.consultaConcesionario();
 		bandasDTO = catalogoService.consultaBanda();
 		tiposFrecuenciaDTO = catalogoService.consultaTipoFrecuencia();
-		estacionDTO.setNumero(estacionProgramacionMB.getEstacionSelect().getIdSenial().toString());
+		estacionDTO.setNumero(estacionProgramacionMB.getEstacionSelect().getIdSenial());
 		estacionDTO.setFolioRPCUMCA(estacionProgramacionMB.getEstacionSelect().getGrupoRadio().getFolioElectronico());
 		estacionDTO.setIdEstado(estacionProgramacionMB.getEstacionSelect().getEstado().getIdEstado());
 		if (estacionDTO.getIdEstado() > 0) {
@@ -220,7 +220,7 @@ public class ModifyEstacionProgramMB implements Serializable {
 	public void setearRespuestas() {
 		System.out.println("Seteando respuestas del formulario");
 		try {
-			respuestasFormulario = estacionFormularioService.buscarRespuestasFormulario(estacionDTO.getFolioRPCUMCA(), 3);
+			respuestasFormulario = estacionFormularioService.buscarRespuestasFormulario(estacionDTO.getNumero(), estacionDTO.getFolioRPCUMCA(), 3);
 			
 			estacionDTO.setIdTipoEstacion(Integer.parseInt(respuestasFormulario.get(0).getValor() != null ? respuestasFormulario.get(0).getValor() : "0"));
 			estacionDTO.setNombreProgramacion(respuestasFormulario.get(1).getValor());

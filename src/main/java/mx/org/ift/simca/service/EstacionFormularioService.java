@@ -26,10 +26,11 @@ public interface EstacionFormularioService extends Serializable {
 	
 	/**
 	 * 
+	 * @param idSenial
 	 * @param folioElectronico
 	 * @param idTipoFormulario
 	 * @return
 	 */
-	List<EstacionFormulario> buscarRespuestasFormulario(String folioElectronico, Integer idTipoFormulario);
+	List<EstacionFormulario> buscarRespuestasFormulario(Integer idSenial, String folioElectronico, Integer idTipoFormulario);
 
 }

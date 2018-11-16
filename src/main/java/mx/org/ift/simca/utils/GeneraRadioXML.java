@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import mx.org.ift.simca.exposition.AddEstacionProgramMB;
 import mx.org.ift.simca.exposition.dto.CoberturaRadioDTO;
-import mx.org.ift.simca.exposition.dto.CoberturaXMLDTO;
+import mx.org.ift.simca.exposition.dto.CoberturasXMLDTO;
 import mx.org.ift.simca.exposition.dto.EstacionDTO;
 import mx.org.ift.simca.exposition.dto.EstacionXMLDTO;
 import mx.org.ift.simca.exposition.dto.FormularioXMLDTO;
@@ -75,23 +75,23 @@ public class GeneraRadioXML implements Serializable {
 
 			radioXMLDTO.setEstacionXMLDTO(estacionXMLDTO);
 
-			CoberturaXMLDTO coberturaXMLDTO = new CoberturaXMLDTO();
+			CoberturasXMLDTO coberturasXMLDTO = new CoberturasXMLDTO();
 			List<PoblacionXMLDTO> poblaciones = new ArrayList<PoblacionXMLDTO>();
 
 			for (CoberturaRadioDTO coberturaRadioDTO : estacionDTO.getCoberturasRadioDTO()) {
 				PoblacionXMLDTO poblacionXMLDTO = new PoblacionXMLDTO();
-				poblacionXMLDTO.setEstado(coberturaRadioDTO.getEstado().getIdentificador());
-				poblacionXMLDTO.setMunicipio(coberturaRadioDTO.getMunicipio().getIdentificador());
+				poblacionXMLDTO.setIdEstado(coberturaRadioDTO.getEstado().getIdentificador());
+				poblacionXMLDTO.setIdPoblacion(coberturaRadioDTO.getMunicipio().getIdentificador());
 				poblaciones.add(poblacionXMLDTO);
 			}
 
-			coberturaXMLDTO.setPoblaciones(poblaciones);
-			radioXMLDTO.setCoberturaXMLDTO(coberturaXMLDTO);
+			coberturasXMLDTO.setPoblaciones(poblaciones);
+			radioXMLDTO.setCoberturasXMLDTO(coberturasXMLDTO);
 			List<PreguntaXMLDTO> preguntasXMLDTO = new ArrayList<PreguntaXMLDTO>();
 
 			for (TipoPregunta tipoPregunta : tipoPreguntas) {
 				PreguntaXMLDTO preguntaXMLDTO = new PreguntaXMLDTO();
-				preguntaXMLDTO.setIdPregunta(tipoPregunta.getIdTipoPregunta() != null ? tipoPregunta.getIdTipoPregunta().toString() : null);
+				preguntaXMLDTO.setIdPregunta(tipoPregunta.getIdTipoPregunta() != null ? tipoPregunta.getIdTipoPregunta().toString() : "");
 				preguntaXMLDTO.setDescPregunta(tipoPregunta.getPregunta());
 				switch (tipoPregunta.getIdTipoPregunta()) {
 

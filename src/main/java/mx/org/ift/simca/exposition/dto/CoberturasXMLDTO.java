@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import mx.org.ift.simca.model.Poblacion;
 
-@XmlRootElement(name="COBERTURA")
-public class CoberturaXMLDTO implements Serializable{
+@XmlRootElement(name="COBERTURAS")
+public class CoberturasXMLDTO implements Serializable{
 	
 	/**
 	 * 

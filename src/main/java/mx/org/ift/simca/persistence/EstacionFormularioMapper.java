@@ -11,9 +11,10 @@ public interface EstacionFormularioMapper extends IMapper<EstacionFormulario>{
 	
 	/**
 	 * 
+	 * @param idSenial
 	 * @param folioElectronico
 	 * @param idTipoFormulario
 	 * @return
 	 */
-	List<EstacionFormulario> obtenRespuestasFormulario(@Param("folioElectronico") String folioElectronico, @Param("idTipoFormulario") Integer idTipoFormulario);
+	List<EstacionFormulario> obtenRespuestasFormulario(@Param("idSenial") Integer idSenial, @Param("folioElectronico") String folioElectronico, @Param("idTipoFormulario") Integer idTipoFormulario);
 }

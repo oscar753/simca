@@ -18,10 +18,6 @@
         ID_ESTADO, ID_POBLACION, POBLACION
     </sql>
     
-    <sql id="collumnsPoblacion">
-        ID_ESTADO, ID_POBLACION, POBLACION
-    </sql>
-    
     <select id="getAll"
         parameterType="Poblacion"
         resultMap="poblacionMapper" >

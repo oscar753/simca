@@ -14,7 +14,7 @@ public class EstacionDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 6483812316190512455L;
 
-	private String numero;
+	private Integer numero;
 	private String folioRPCUMCA;
 	private CatalogoDTO estado;
 	private CatalogoDTO poblacion;
@@ -75,10 +75,11 @@ public class EstacionDTO implements Serializable {
 	private List<Opcion> opObligAcces = new ArrayList<Opcion>();
 	private List<Opcion> opMecanAcces= new ArrayList<Opcion>();
 	private List<Opcion> opMedioPublico = new ArrayList<Opcion>();
-	public String getNumero() {
+	
+	public Integer getNumero() {
 		return numero;
 	}
-	public void setNumero(String numero) {
+	public void setNumero(Integer numero) {
 		this.numero = numero;
 	}
 	public String getFolioRPCUMCA() {

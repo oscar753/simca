@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "XML")
-@XmlType(propOrder = { "grupoRadioXMLDTO", "estacionXMLDTO", "coberturaXMLDTO", "formularioXMLDTO" })
+@XmlType(propOrder = { "grupoRadioXMLDTO", "estacionXMLDTO", "coberturasXMLDTO", "formularioXMLDTO" })
 public class RadioXMLDTO implements Serializable {
 
 	/**
@@ -17,7 +17,7 @@ public class RadioXMLDTO implements Serializable {
 
 	GrupoRadioXMLDTO grupoRadioXMLDTO = new GrupoRadioXMLDTO();
 	EstacionXMLDTO estacionXMLDTO = new EstacionXMLDTO();
-	CoberturaXMLDTO coberturaXMLDTO = new CoberturaXMLDTO();
+	CoberturasXMLDTO coberturasXMLDTO = new CoberturasXMLDTO();
 	FormularioXMLDTO formularioXMLDTO = new FormularioXMLDTO();
 
 	@XmlElement(name = "GRUPO_RADIO")
@@ -38,13 +38,13 @@ public class RadioXMLDTO implements Serializable {
 		this.estacionXMLDTO = estacionXMLDTO;
 	}
 
-	@XmlElement(name = "COBERTURA")
-	public CoberturaXMLDTO getCoberturaXMLDTO() {
-		return coberturaXMLDTO;
+	@XmlElement(name = "COBERTURAS")
+	public CoberturasXMLDTO getCoberturasXMLDTO() {
+		return coberturasXMLDTO;
 	}
 
-	public void setCoberturaXMLDTO(CoberturaXMLDTO coberturaXMLDTO) {
-		this.coberturaXMLDTO = coberturaXMLDTO;
+	public void setCoberturasXMLDTO(CoberturasXMLDTO coberturasXMLDTO) {
+		this.coberturasXMLDTO = coberturasXMLDTO;
 	}
 
 	@XmlElement(name = "FORMULARIO")

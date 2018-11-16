@@ -63,12 +63,12 @@ public class EstacionFormularioServiceImpl implements EstacionFormularioService 
 		}
 	}
 	
-	public List<EstacionFormulario> buscarRespuestasFormulario(String folioElectronico, Integer idTipoFormulario){
-		LOGGER.info("Metodo para buscar las respuestas del formulario de un folio electrónico " + folioElectronico + " con idTipoFormulario " + idTipoFormulario);
+	public List<EstacionFormulario> buscarRespuestasFormulario(Integer idSenial, String folioElectronico, Integer idTipoFormulario){
+		LOGGER.info("Metodo para buscar las respuestas del formulario de un folio electrónico " + folioElectronico + " con idTipoFormulario " + idTipoFormulario + " e idSenial " + idSenial);
 		
 		List<EstacionFormulario> respuestasFormulario = new ArrayList<EstacionFormulario>();
 		try {
-			respuestasFormulario = estacionFormularioMapper.obtenRespuestasFormulario(folioElectronico, idTipoFormulario);
+			respuestasFormulario = estacionFormularioMapper.obtenRespuestasFormulario(idSenial, folioElectronico, idTipoFormulario);
 			return respuestasFormulario;
 		}
 		catch (Exception e) {

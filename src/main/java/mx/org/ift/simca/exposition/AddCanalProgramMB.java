@@ -36,7 +36,7 @@ import mx.org.ift.simca.exposition.dto.CanalFormularioDTO;
 import mx.org.ift.simca.exposition.dto.CanalVirtualDTO;
 import mx.org.ift.simca.exposition.dto.CatalogoDTO;
 import mx.org.ift.simca.exposition.dto.CoberturaDTO;
-import mx.org.ift.simca.exposition.dto.CoberturaXMLDTO;
+import mx.org.ift.simca.exposition.dto.CoberturasXMLDTO;
 import mx.org.ift.simca.exposition.dto.FormularioXMLDTO;
 import mx.org.ift.simca.exposition.dto.MultiprogramacionDTO;
 import mx.org.ift.simca.exposition.dto.MultiprogramacionXML;
@@ -149,12 +149,12 @@ public class AddCanalProgramMB implements Serializable {
 	
 	private Boolean addCoberturaCanal() {
 	
-		List<PoblacionXMLDTO> coberturasCanal = multiprog.getCobertura().getPoblaciones();
+		List<PoblacionXMLDTO> coberturasCanal = multiprog.getCoberturas().getPoblaciones();
 		Boolean noExisteCober = Boolean.TRUE;
 		
 		for (PoblacionXMLDTO coberturaDTO : coberturasCanal) {
-			if (coberturaDTO.getEstado().equals(estadoCobertura) && 
-					coberturaDTO.getMunicipio().equals(municipioCobertura)) {
+			if (coberturaDTO.getIdEstado().equals(estadoCobertura) && 
+					coberturaDTO.getIdPoblacion().equals(municipioCobertura)) {
 				noExisteCober = Boolean.FALSE;
 				LOG.info("/**** La cobertura ya existe ****/");
 				break;
@@ -164,10 +164,10 @@ public class AddCanalProgramMB implements Serializable {
 		if (noExisteCober) {
 			PoblacionXMLDTO poblacionDTO = new PoblacionXMLDTO();
 			
-			poblacionDTO.setEstado(estadoCobertura);
-			poblacionDTO.setMunicipio(municipioCobertura);
+			poblacionDTO.setIdEstado(estadoCobertura);
+			poblacionDTO.setIdPoblacion(municipioCobertura);
 			
-			multiprog.getCobertura().getPoblaciones().add(poblacionDTO); 
+			multiprog.getCoberturas().getPoblaciones().add(poblacionDTO); 
 		}
 		return noExisteCober;
 	}

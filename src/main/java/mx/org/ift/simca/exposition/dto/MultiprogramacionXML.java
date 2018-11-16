@@ -27,7 +27,7 @@ public class MultiprogramacionXML implements Serializable {
 	
 	private MultiprogramacionDTO multiprograma = new MultiprogramacionDTO();
 
-	private CoberturaXMLDTO cobertura = new CoberturaXMLDTO();
+	private CoberturasXMLDTO coberturas = new CoberturasXMLDTO();
 	
 	private FormularioXMLDTO formulario = new FormularioXMLDTO();
 
@@ -60,17 +60,17 @@ public class MultiprogramacionXML implements Serializable {
 	}	
 
 	/**
-	 * @return the cobertura
+	 * @return the coberturas
 	 */
-	public CoberturaXMLDTO getCobertura() {
-		return cobertura;
+	public CoberturasXMLDTO getCoberturas() {
+		return coberturas;
 	}
 
 	/**
-	 * @param cobertura the cobertura to set
+	 * @param coberturas the cobertura to set
 	 */
-	public void setCobertura(CoberturaXMLDTO cobertura) {
-		this.cobertura = cobertura;
+	public void setCoberturas(CoberturasXMLDTO coberturas) {
+		this.coberturas = coberturas;
 	}
 
 	/**
