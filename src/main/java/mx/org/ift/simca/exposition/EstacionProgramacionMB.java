@@ -72,13 +72,13 @@ public class EstacionProgramacionMB implements Serializable{
 
 	}
 	
-	public String modificar(Estacion estacion) {
-		System.out.println("seteando estacion select");
-		this.setEstacionSelect(estacion);
-		System.out.println("modificar: " + estacion.getDistintivo());
-		
-		return "modificaEstacionProgramacion.xhtml";
-	}
+//	public String modificar(Estacion estacion) {
+//		System.out.println("seteando estacion select");
+//		this.setEstacionSelect(estacion);
+//		System.out.println("modificar: " + estacion.getDistintivo());
+//		
+//		return "modificaEstacionProgramacion.xhtml";
+//	}
 	
 	public void borrar(Estacion estacion) {
 		System.out.println("borrar: " + estacion.getDistintivo());

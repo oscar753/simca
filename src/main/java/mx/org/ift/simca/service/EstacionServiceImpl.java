@@ -65,4 +65,14 @@ public class EstacionServiceImpl implements EstacionService {
 		}
 		return distintivosResult;
 	}
+	
+	public void generaRegistroEstacion(String model, String user, String longXML) {
+		try {
+			estacionMapper.generaRegEstacion(model, user, longXML);
+			
+		}
+		catch(Exception e) {
+			System.out.println("Error en generaRegistroEstacion: " + e.getMessage());
+		}
+	}
 }

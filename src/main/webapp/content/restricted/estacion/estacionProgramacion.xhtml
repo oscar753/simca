@@ -76,32 +76,33 @@
                                 title="Agregar"
                                 icon="ui-icon-plusthick"
                                 style="display:inline; float:right; font-size:x-small;"
-                                onclick="location = '#{request.contextPath}/content/restricted/estacion/agregaEstacionProgramacion.jsf';" />
+                                action="#{addEstacionProgramMB.limpiarFormulario}" />
+<!--                                 onclick="location = '#{request.contextPath}/content/restricted/estacion/agregaEstacionProgramacion.jsf';" /> -->
                                 </p:outputLabel>
                 </f:facet>
-                <p:column headerText="Distintivo" >
+                <p:column headerText="Distintivo" sortBy="#{estacion.distintivo}">
                 	<p:outputLabel id="tblDistintivo" value="#{estacion.distintivo}" />
                 </p:column>
-                <p:column headerText="Población" >
+                <p:column headerText="Población" sortBy="#{estacion.poblacion.poblacion}">
                 	<p:outputLabel id="tblPoblacion" value="#{estacion.poblacion.poblacion}" />
                 </p:column>
-                <p:column headerText="Estado" >
+                <p:column headerText="Estado" sortBy="#{estacion.estado.estado}">
                 	<p:outputLabel id="tblEstado" value="#{estacion.estado.estado}" />
                 </p:column>
-                <p:column headerText="Tipo de concesión" >
+                <p:column headerText="Tipo de concesión" sortBy="#{estacion.tipoUsoEstacion.tipoUsoEstacion}">
                 	<p:outputLabel id="tblTipo" value="#{estacion.tipoUsoEstacion.tipoUsoEstacion}" />
                 </p:column>
-                <p:column headerText="Concesionario" >
+                <p:column headerText="Concesionario" sortBy="#{estacion.grupoRadio.concesionario.nomConcesionario}">
                 	<p:outputLabel id="tblConcesionario" value="#{estacion.grupoRadio.concesionario.nomConcesionario}" />
                 </p:column>
-                <p:column headerText="Banda" >
+                <p:column headerText="Banda" sortBy="#{estacion.banda.banda}">
                 	<p:outputLabel id="tblBanda" value="#{estacion.banda.banda}" />
                 </p:column>
-                <p:column headerText="Frecuencia" >
+                <p:column headerText="Frecuencia" sortBy="#{estacion.frecuencia}">
                 	<p:outputLabel id="tblFrecuencia" value="#{estacion.frecuencia}" />
                 </p:column>
                 <p:column headerText="">
-					<p:commandButton value="Modificar" action="#{estacionProgramacionMB.modificar(estacion)}" >
+					<p:commandButton value="Modificar" action="#{modifyEstacionProgramMB.poblarDatosRegistro(estacion)}" >
 						<f:param name="canalProg" value="somevalue" />
 					</p:commandButton>
 					<p:commandButton value="Eliminar" action="#{estacionProgramacionMB.borrar(estacion)}" />

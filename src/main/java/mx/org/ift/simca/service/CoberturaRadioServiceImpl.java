@@ -36,12 +36,12 @@ public class CoberturaRadioServiceImpl implements CoberturaRadioService{
      * @return lista de ejercicios fiscales
      */
     @Override
-    public List<CoberturaRadioDTO> buscarCoberturas(String folioElectronico) {
+    public List<CoberturaRadioDTO> buscarCoberturas(String folioElectronico, Integer idSenial) {
         List<CoberturaRadioDTO> coberturasRadioDTO= new ArrayList<CoberturaRadioDTO>();
         
         List<CoberturaRadio> coberturasRadio= new ArrayList<CoberturaRadio>();
         try {
-        	coberturasRadio = coberturaRadioMapper.obtenCoberturas(folioElectronico);
+        	coberturasRadio = coberturaRadioMapper.obtenCoberturas(folioElectronico, idSenial);
         	for(CoberturaRadio coberturaRadio : coberturasRadio) {
         		CoberturaRadioDTO itemCat = new CoberturaRadioDTO();
         		

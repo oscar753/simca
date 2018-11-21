@@ -44,6 +44,10 @@
         <include refid="selectDistintivo"/> 
     </select>
     
+    <select id="generaRegEstacion" parameterType="map" statementType="CALLABLE">
+    	{call pck_RADIO_mtto.inserta(#{model, jdbcType=VARCHAR, mode=IN}, #{user, jdbcType=VARCHAR, mode=IN}, #{longXML, jdbcType=VARCHAR, mode=IN})}
+	</select>
+    
     <sql id="selectColumnsFrom">
         SELECT
             <include refid="allColumns"/>

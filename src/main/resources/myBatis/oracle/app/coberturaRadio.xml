@@ -7,10 +7,15 @@
 <mapper namespace="mx.org.ift.simca.persistence.CoberturaRadioMapper">
 
     <resultMap id="coberturaRadioMapper" type="CoberturaRadio" >
-    	<id property="folioElectronico" column="FOLIO_ELECTRONICO" jdbcType="VARCHAR"/>
-        <id property="idSenial" column="ID_SENIAL" jdbcType="INTEGER"/>
-		<association property="estado" column="ID_ESTADO" resultMap="mx.org.ift.simca.persistence.EstadoMapper.estadoMapper"/>
-		<association property="poblacion" column="ID_POBLACION" resultMap="mx.org.ift.simca.persistence.PoblacionMapper.poblacionMapper"/>
+   		<result property="folioElectronico" column="FOLIO_ELECTRONICO" jdbcType="VARCHAR"/>
+       	<result property="idSenial" column="ID_SENIAL" jdbcType="INTEGER"/>
+<!-- 		<association property="estado" column="ID_ESTADO" resultMap="mx.org.ift.simca.persistence.EstadoMapper.estadoMapper"/> -->
+		<result property="estado.idEstado" column="ID_ESTADO" jdbcType="INTEGER"/>
+        <result property="estado.estado" column="ESTADO" jdbcType="VARCHAR"/>
+<!-- 		<association property="poblacion" column="ID_POBLACION" resultMap="mx.org.ift.simca.persistence.PoblacionMapper.poblacionMapper"/> -->
+		<result property="poblacion.idEstado" column="ID_ESTADO" jdbcType="INTEGER"/>
+        <result property="poblacion.idPoblacion" column="ID_POBLACION" jdbcType="INTEGER"/>
+        <result property="poblacion.poblacion" column="POBLACION" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="tableName">COBERTURA_RADIO</sql>
@@ -53,6 +58,9 @@
 		AND EST.ID_ESTADO = POB.ID_ESTADO
 		<if test="folioElectronico != null">
 			AND CRD.FOLIO_ELECTRONICO = #{folioElectronico, jdbcType=VARCHAR}
+		</if>
+		<if test="idSenial != null">
+			AND CRD.ID_SENIAL = #{idSenial, jdbcType=INTEGER}
 		</if>
     </sql>
        

@@ -24,6 +24,7 @@ import mx.org.ift.simca.exposition.dto.EstacionDTO;
 import mx.org.ift.simca.model.TipoPregunta;
 import mx.org.ift.simca.service.CatalogoService;
 import mx.org.ift.simca.service.EstacionFormularioService;
+import mx.org.ift.simca.service.EstacionService;
 import mx.org.ift.simca.utils.GeneraRadioXML;
 
 /**
@@ -65,6 +66,9 @@ public class AddEstacionProgramMB implements Serializable {
 
 	@Autowired
 	private EstacionFormularioService estacionFormularioService;
+	
+	@Autowired
+	private EstacionService estacionService;
 
 	@PostConstruct
 	public void init() {
@@ -75,8 +79,15 @@ public class AddEstacionProgramMB implements Serializable {
 		concesionariosDTO = catalogoService.consultaConcesionario();
 		bandasDTO = catalogoService.consultaBanda();
 		tiposFrecuenciaDTO = catalogoService.consultaTipoFrecuencia();
+	}
+	
+	public String limpiarFormulario() {
+		estacionDTO = new EstacionDTO();
 		estacionDTO.getCoberturasRadioDTO().clear();
+		idEstadoCober = 0;
+		idMunicipioCober = 0;
 		generarOpcionesFormulario();
+		return "agregaEstacionProgramacion.xhtml";
 	}
 
 	public void onEstadoChange() {
@@ -155,6 +166,10 @@ public class AddEstacionProgramMB implements Serializable {
 	public void updateFrecComponents() {
 		RequestContext.getCurrentInstance().update("formAddEstacionProg");
 	}
+	
+	public String cancelar() {
+		return "estacionProgramacion.xhtml";
+	}
 
 	public void generarOpcionesFormulario() {
 		int idTipoFormulario = 3;
@@ -181,6 +196,16 @@ public class AddEstacionProgramMB implements Serializable {
 	}
 
 	public void agregarEstacion() {
+		String camposFaltantes="";
+		if(estacionDTO.getFolioRPCUMCA().equals("")) camposFaltantes+="Folio RPC/UMCA\n";
+		if(estacionDTO.getIdConcesionario() == null) camposFaltantes+="Concesionario\n";
+		if(estacionDTO.getDistintivo().equals("")) camposFaltantes+="Distintivo\n";
+		//FacesContext context = FacesContext.getCurrentInstance();
+		if(!camposFaltantes.equals(""))
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Mensaje", "Ingrese los campos obligatorios: " + camposFaltantes));
+		else {
+			GeneraRadioXML.generaEstacionXML(estacionService, estacionDTO, tipoPreguntas);
+		}
 //		System.out.println("Se agregará estación con los siguientes datos:\nNúmero: " + estacionDTO.getNumero());
 //		System.out.println("banda: " + estacionDTO.getIdBanda());
 //		System.out.println("VigenciaIni: " + (estacionDTO.getVigenciaIni() != null
@@ -198,7 +223,6 @@ public class AddEstacionProgramMB implements Serializable {
 //		System.out.println("idMecanAcces: " + estacionDTO.getIdMecanAcces());
 //		System.out.println("idMedioPublico: " + estacionDTO.getIdMedioPublico());
 
-		GeneraRadioXML.generaEstacionXML(estacionDTO, tipoPreguntas);
 	}
 
 	public void deleteAction(CoberturaRadioDTO coberturaRadioDTO) {

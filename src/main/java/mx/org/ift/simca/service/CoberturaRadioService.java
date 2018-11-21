@@ -14,5 +14,5 @@ import mx.org.ift.simca.exposition.dto.CoberturaRadioDTO;
  * @author KODE
  */
 public interface CoberturaRadioService extends Serializable {
-    List<CoberturaRadioDTO> buscarCoberturas(String folioElectronico);
+    List<CoberturaRadioDTO> buscarCoberturas(String folioElectronico, Integer idSenial);
 }

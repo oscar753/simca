@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name="ESTACION")
-@XmlType(propOrder = { "folioElectronico", "idSenial", "idClase", "idTipoUsoEstacion", "distintivo", "idBanda", "idTipoFrecuencia", "frecuencia", "fecIniVigencia", "fecFinVigencia" })
+@XmlType(propOrder = { "folioElectronico", "idEstado", "idPoblacion", "idSenial", "idClase", "idTipoUsoEstacion", "distintivo", "idBanda", "idTipoFrecuencia", "frecuencia", "fecIniVigencia", "fecFinVigencia" })
 public class EstacionXMLDTO implements Serializable{
 
 	/**
@@ -21,6 +21,8 @@ public class EstacionXMLDTO implements Serializable{
 	private static final long serialVersionUID = -5133481733301543740L;
 	
 	private String folioElectronico;
+	private String idEstado;
+	private String idPoblacion;
 	private String idSenial;
 	private String idClase;
 	private String idTipoUsoEstacion;
@@ -37,6 +39,22 @@ public class EstacionXMLDTO implements Serializable{
 	}
 	public void setFolioElectronico(String folioElectronico) {
 		this.folioElectronico = folioElectronico;
+	}
+	
+	@XmlElement(name="ID_ESTADO")
+	public String getIdEstado() {
+		return idEstado;
+	}
+	public void setIdEstado(String idEstado) {
+		this.idEstado = idEstado;
+	}
+	
+	@XmlElement(name="ID_POBLACION")
+	public String getIdPoblacion() {
+		return idPoblacion;
+	}
+	public void setIdPoblacion(String idPoblacion) {
+		this.idPoblacion = idPoblacion;
 	}
 	
 	@XmlElement(name="ID_SENIAL")

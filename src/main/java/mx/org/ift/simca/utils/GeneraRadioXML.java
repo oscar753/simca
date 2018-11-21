@@ -25,6 +25,7 @@ import mx.org.ift.simca.exposition.dto.PreguntaXMLDTO;
 import mx.org.ift.simca.exposition.dto.PreguntasXMLDTO;
 import mx.org.ift.simca.exposition.dto.RadioXMLDTO;
 import mx.org.ift.simca.model.TipoPregunta;
+import mx.org.ift.simca.service.EstacionService;
 
 public class GeneraRadioXML implements Serializable {
 
@@ -35,7 +36,7 @@ public class GeneraRadioXML implements Serializable {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AddEstacionProgramMB.class);
 
-	public static void generaEstacionXML(EstacionDTO estacionDTO, List<TipoPregunta> tipoPreguntas) {
+	public static void generaEstacionXML(EstacionService estacionService, EstacionDTO estacionDTO, List<TipoPregunta> tipoPreguntas) {
 		try {
 
 			RadioXMLDTO radioXMLDTO = new RadioXMLDTO();
@@ -49,7 +50,9 @@ public class GeneraRadioXML implements Serializable {
 			EstacionXMLDTO estacionXMLDTO = new EstacionXMLDTO();
 
 			estacionXMLDTO.setFolioElectronico(estacionDTO.getFolioRPCUMCA());
-			estacionXMLDTO.setIdSenial("");
+			estacionXMLDTO.setIdSenial(estacionDTO.getNumero() != null? estacionDTO.getNumero().toString() : "");
+			estacionXMLDTO.setIdEstado(estacionDTO.getIdEstado() != null? estacionDTO.getIdEstado().toString() : "");
+			estacionXMLDTO.setIdPoblacion(estacionDTO.getIdPoblacion() != null? estacionDTO.getIdPoblacion().toString() : "");
 			estacionXMLDTO.setIdClase(estacionDTO.getIdClase() != null ? estacionDTO.getIdClase().toString() : "");
 			estacionXMLDTO.setIdTipoUsoEstacion(
 					estacionDTO.getIdTipoUsoEstacion() != null ? estacionDTO.getIdTipoUsoEstacion().toString() : "");
@@ -175,6 +178,10 @@ public class GeneraRadioXML implements Serializable {
 			jaxbMarshaller.marshal(radioXMLDTO, sw);
 			String xmlString = sw.toString();
 			LOG.info(xmlString);
+			String user = "USER";
+			String model = "TEST";
+			
+			estacionService.generaRegistroEstacion(model, user, xmlString);
 
 		} catch (JAXBException e) {
 			System.out.println("Error en el método generaEstacionXML: " + e.getMessage());

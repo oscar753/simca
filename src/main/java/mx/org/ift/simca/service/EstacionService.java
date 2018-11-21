@@ -21,5 +21,6 @@ public interface EstacionService extends Serializable {
 	 * @return
 	 */
 	List<Estacion> buscarEstacionProgramacion(String distintivo, String idConcesionario, String canalProg);
-
+	
+	void generaRegistroEstacion(String model, String user, String longXML);
 }

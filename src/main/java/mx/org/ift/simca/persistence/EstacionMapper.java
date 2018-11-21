@@ -34,5 +34,16 @@ public interface EstacionMapper extends IMapper<Estacion>{
 			@Param("idConcesionario") String idConcesionario,
 			@Param("canalProg") String canalProg
 			);
-	
+	/**
+	 * Llama al SP para insertar el registro
+	 * @param model
+	 * @param user
+	 * @param longXML
+	 * @return
+	 */
+	String generaRegEstacion(
+			@Param("model") String model,
+			@Param("user") String user,
+			@Param("longXML") String longXML
+			);
 }

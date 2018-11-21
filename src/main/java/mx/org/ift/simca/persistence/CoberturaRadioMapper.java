@@ -11,7 +11,8 @@ public interface CoberturaRadioMapper extends IMapper<CoberturaRadio>{
 	/**
 	 * 
 	 * @param folioElectronico
+	 * @param idSenial
 	 * @return
 	 */
-	List<CoberturaRadio> obtenCoberturas(@Param("folioElectronico") String folioElectronico);
+	List<CoberturaRadio> obtenCoberturas(@Param("folioElectronico") String folioElectronico, @Param("idSenial") Integer idSenial);
 }
