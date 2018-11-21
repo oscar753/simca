@@ -16,8 +16,14 @@ import org.springframework.stereotype.Service;
 import mx.org.ift.simca.exposition.dto.CanalDTO;
 import mx.org.ift.simca.model.Canal;
 import mx.org.ift.simca.model.CanalVirtual;
+import mx.org.ift.simca.model.CanalVirtualFormulario;
+import mx.org.ift.simca.model.Cobertura;
+import mx.org.ift.simca.model.GrupoCanal;
 import mx.org.ift.simca.persistence.CanalMapper;
+import mx.org.ift.simca.persistence.CanalVirtualFormularioMapper;
 import mx.org.ift.simca.persistence.CanalVirtualMapper;
+import mx.org.ift.simca.persistence.CoberturaMapper;
+import mx.org.ift.simca.persistence.GrupoCanalMapper;
 
 /**
  * @author cesar.agustin
@@ -31,6 +37,15 @@ public class CanalServiceImpl implements CanalService {
 	
 	@Autowired
 	CanalVirtualMapper canVirtualMapper;
+	
+	@Autowired
+	CanalVirtualFormularioMapper canVirFormMapper;
+	
+	@Autowired
+	CoberturaMapper coberturaMapper;
+	
+	@Autowired
+	GrupoCanalMapper grupoCanalMapper;
 
 	/**
 	 * 
@@ -76,7 +91,7 @@ public class CanalServiceImpl implements CanalService {
 				canalResult.add(itemDTO);
 			}
 		} catch (Exception e) {
-			Log.error("No se logro obtener la información de los canales");
+			LOGGER.error("No se logro obtener la información de los canales");
 		}
 		
 		return canalResult;
@@ -92,7 +107,7 @@ public class CanalServiceImpl implements CanalService {
 			LOGGER.info("/**** Programas :: "+programas.size());
 			
 		} catch (Exception e) {
-			Log.error("No se logro obtener la información de los canales");
+			LOGGER.error("No se logro obtener la información de los canales");
 		}
 		
 		return programas;
@@ -102,15 +117,64 @@ public class CanalServiceImpl implements CanalService {
 	public CanalVirtual buscarCanalVirtualPorId(Integer idCanalVirtual) {
 		LOGGER.info("Metodo para buscar canal virtual por su ID");
 		
+		CanalVirtual canVirtualResult = null;
 		List<CanalVirtual> canalesVirtuales = new ArrayList<CanalVirtual>();
+		
 		try {						
 			canalesVirtuales = canVirtualMapper.getEditar(idCanalVirtual);
-			LOGGER.info("/**** Canal virtual :: "+canalesVirtuales.size());
 			
+			canVirtualResult = canalesVirtuales.get(0);
+			LOGGER.info("/****Id Canal virtual :: "+canVirtualResult.getNumCanalVirtual());
+			LOGGER.info("/****Id Canal :: "+canVirtualResult.getCanal().getIdCanal());
+			
+			
+			List<CanalVirtualFormulario> canVirFormulario = canVirFormMapper.getByCanalVirtual(canVirtualResult.getCanal().getIdCanal().intValue(), canVirtualResult.getNumCanalVirtual().intValue());							
+			if (!canVirFormulario.isEmpty()) {
+//				LOGGER.info("/****Preguntas :: "+canVirFormulario.size());
+				canVirtualResult.setPreguntasFormulario(canVirFormulario);
+			}
+			
+			List<Cobertura> coberturas = coberturaMapper.getByCanalVirtual(canVirtualResult.getNumCanalVirtual().intValue());
+			if (!coberturas.isEmpty()) {
+//				LOGGER.info("/****Coberturas :: "+coberturas.size());				
+				canVirtualResult.setCoberturas(coberturas);
+			}
+			
+			List<GrupoCanal> gruposCanal = grupoCanalMapper.getByCanal(canVirtualResult.getCanal().getIdCanal().intValue());
+			for (GrupoCanal grupoCanal : gruposCanal) {
+				LOGGER.info("/****Grupos :: "+gruposCanal.size());
+				canVirtualResult.getCanal().setGrupo(grupoCanal.getIdGrupo().toString());
+			}
 		} catch (Exception e) {
-			Log.error("No se logro obtener la información de los canales");
+			LOGGER.error("No se logro obtener la información de los canales");
+			e.printStackTrace();
 		}
 		
-		return canalesVirtuales.get(0);
+		return canVirtualResult;
+	}
+
+	public Boolean agregarCanalVirtual(String canalVirtualXML, String usuarioNombre) {
+		LOGGER.info("Servicio para INSERTAR canal virtual");
+		
+		try {
+			canVirtualMapper.insertCanalVirtual("canal", canalVirtualXML, usuarioNombre);
+		} catch (Exception e) {			
+			LOGGER.error("No se logro insertar el canal virtual"+e);
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
+
+	
+	public Boolean actualizarCanalVirtual(String canalVirtualXML, String usuarioNombre) {
+		LOGGER.info("Servicio para ACTUALIZAR canal virtual");
+		
+		try {
+			canVirtualMapper.updateCanalVirtual("canal", canalVirtualXML, usuarioNombre);
+		} catch (Exception e) {			
+			LOGGER.error("No se logro actualizar el canal virtual"+e);
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
 	}
 }

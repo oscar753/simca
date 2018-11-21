@@ -5,6 +5,7 @@ package mx.org.ift.simca.exposition.dto;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -21,11 +22,22 @@ public class MultiprogramacionDTO implements Serializable{
 	 */
 	private static final long serialVersionUID = 5325040789005075382L;
 	
+	@XmlElement(name="MULTIPROGRAMA")
 	private String multiprograma;
+	
+	@XmlElement(name="CALIDAD")
 	private String calidad;
+	
+	@XmlElement(name="TASA_TRANSF")
 	private String tasa_transf;
+	
+	@XmlElement(name="METODOCOMPR")
 	private String metodoCompr;
+	
+	@XmlElement(name="TERCEROBENEF")
 	private String terceroBenf;
+	
+	@XmlElement(name="ESTATUS")
 	private String estatus;
 	
 	

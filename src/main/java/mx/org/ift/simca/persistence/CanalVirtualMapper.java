@@ -25,4 +25,19 @@ public interface CanalVirtualMapper extends IMapper<CanalVirtual> {
 	 */
 	List<CanalVirtual> getEditar(@Param("idCanalVirtual") Integer idCanalVirtual);
 
+	/**
+	 * 
+	 * @param canalVirtualXML
+	 * @param usuarioNombre
+	 */
+	void insertCanalVirtual(@Param("modulo") String modulo, @Param("canalVirtualXML") String canalVirtualXML, @Param("usuarioNombre") String usuarioNombre);
+
+	/**
+	 * 
+	 * @param modulo
+	 * @param canalVirtualXML
+	 * @param usuarioNombre
+	 */
+	void updateCanalVirtual(@Param("modulo") String modulo, @Param("canalVirtualXML") String canalVirtualXML, @Param("usuarioNombre")String usuarioNombre);
+
 }

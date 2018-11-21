@@ -42,4 +42,19 @@ public interface CanalService extends Serializable {
 	 * @return
 	 */
 	CanalVirtual buscarCanalVirtualPorId(Integer idCanalVirtual);
+
+	/**
+	 * 
+	 * @param canalVirtualXML
+	 * @param usuarioNombre
+	 */
+	Boolean agregarCanalVirtual(String canalVirtualXML, String usuarioNombre);
+
+	/**
+	 * 
+	 * @param generarXmlStr
+	 * @param usuarioNombre
+	 * @return
+	 */
+	Boolean actualizarCanalVirtual(String canalVirtualXML, String usuarioNombre);
 }

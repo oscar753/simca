@@ -5,6 +5,7 @@ package mx.org.ift.simca.exposition.dto;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -13,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 @XmlRootElement(name="CANAL_VIRTUAL")
-@XmlType(propOrder = { "id_senial", "folio_rpc_umca", "tipo_uso", "contenido", "canal_digital", "canal_virtual", 
+@XmlType(propOrder = {"no_canal_virtual", "id_senial", "folio_rpc_umca", "tipo_uso", "contenido", "canal_digital", "canal_virtual", 
 		"programacion", "mc_mo", "medio", "primer_asignacion", "logo_b64"})
 public class CanalVirtualDTO implements Serializable {
 	
@@ -22,19 +23,57 @@ public class CanalVirtualDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 2574044121673824329L;
 	
+	@XmlElement(name="NO_CANAL_VIRTUAL")
+	private String no_canal_virtual;
+	
+	@XmlElement(name="ID_SENIAL")
 	private String id_senial;	
+	
+	@XmlElement(name="FOLIO_RPC_UMCA")
 	private String folio_rpc_umca;	
+	
+	@XmlElement(name="TIPO_USO")
 	private String tipo_uso;	
+	
+	@XmlElement(name="CONTENIDO")
 	private String contenido;	
+	
+	@XmlElement(name="CANAL_DIGITAL")
 	private String canal_digital;	
+	
+	@XmlElement(name="CANAL_VIRTUAL")
 	private String canal_virtual;	
+	
+	@XmlElement(name="PROGRAMACION")
 	private String programacion;	
+	
+	@XmlElement(name="MC_MO")
 	private String mc_mo;	
+	
+	@XmlElement(name="MEDIO")
 	private String medio;	
+	
+	@XmlElement(name="PRIMER_ASIGNACION")
 	private String primer_asignacion;	
+	
+	@XmlElement(name="LOGO_B64")
 	private String logo_b64;
 	
-	
+		
+	/**
+	 * @return the no_canal_virtual
+	 */
+	public String getNo_canal_virtual() {
+		return no_canal_virtual;
+	}
+
+	/**
+	 * @param no_canal_virtual the no_canal_virtual to set
+	 */
+	public void setNo_canal_virtual(String no_canal_virtual) {
+		this.no_canal_virtual = no_canal_virtual;
+	}
+
 	/**
 	 * @return the id_senial
 	 */

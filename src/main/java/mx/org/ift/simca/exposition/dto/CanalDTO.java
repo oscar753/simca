@@ -5,6 +5,7 @@ package mx.org.ift.simca.exposition.dto;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -13,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 @XmlRootElement(name="CANAL")
-@XmlType(propOrder = { "identificador", "no_canal", "distintivo", "estado", "poblacion", "concesionario", "grupo" })
+@XmlType(propOrder = { "id_canal", "identificador", "distintivo", "estado", "poblacion", "concesionario", "grupo" })
 public class CanalDTO implements Serializable {
 
 	/**
@@ -21,15 +22,41 @@ public class CanalDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 7740266554904324535L;
 
-	private String identificador;
-	private String no_canal;
+	@XmlElement(name="ID_CANAL")
+	private String id_canal;
+	
+	@XmlElement(name="IDENTIFICADOR")
+	private String identificador;	
+	
+	@XmlElement(name="DISTINTIVO")
 	private String distintivo;
+	
+	@XmlElement(name="ESTADO")
 	private String estado;
+	
+	@XmlElement(name="POBLACION")
 	private String poblacion;
+	
+	@XmlElement(name="CONCESIONARIO")
 	private String concesionario;
+	
+	@XmlElement(name="GRUPO")
 	private String grupo;
 	
 	
+	
+	/**
+	 * @return the id_canal
+	 */
+	public String getId_canal() {
+		return id_canal;
+	}
+	/**
+	 * @param id_canal the id_canal to set
+	 */
+	public void setId_canal(String id_canal) {
+		this.id_canal = id_canal;
+	}
 	/**
 	 * @return the identificador
 	 */
@@ -41,18 +68,6 @@ public class CanalDTO implements Serializable {
 	 */
 	public void setIdentificador(String identificador) {
 		this.identificador = identificador;
-	}
-	/**
-	 * @return the no_canal
-	 */
-	public String getNo_canal() {
-		return no_canal;
-	}
-	/**
-	 * @param no_canal the no_canal to set
-	 */
-	public void setNo_canal(String no_canal) {
-		this.no_canal = no_canal;
 	}
 	/**
 	 * @return the distintivo

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.persistence.CoberturaMapper">
+
+    <resultMap id="coberturaMapper" type="Cobertura" >
+    	<id property="idCanal" column="ID_CANAL" jdbcType="INTEGER"/>
+    	<id property="idEstado" column="ID_ESTADO" jdbcType="INTEGER"/>
+    	<id property="idPoblacion" column="ID_POBLACION" jdbcType="INTEGER"/>
+    	<id property="noCanal" column="NO_CANAL_VIRTUAL" jdbcType="INTEGER"/>                      
+    </resultMap>
+    
+    <resultMap id="coberturaCanalMapper" type="Cobertura">
+    	<id property="idCanal" column="ID_CANAL" jdbcType="INTEGER"/>    	
+    	<id property="noCanal" column="NO_CANAL_VIRTUAL" jdbcType="INTEGER"/>
+    	<id property="idEstado" column="ID_ESTADO" jdbcType="INTEGER"/>
+    	<id property="idPoblacion" column="ID_POBLACION" jdbcType="INTEGER"/>    	
+    	<association property="estado" column="ID_ESTADO" resultMap="mx.org.ift.simca.persistence.EstadoMapper.estadoMapper" />
+		<association property="poblacion" column="ID_POBLACION" resultMap="mx.org.ift.simca.persistence.PoblacionMapper.poblacionMapper"/>                    
+    </resultMap>
+
+    <sql id="tableName">COBERTURA</sql>
+    
+    <sql id="coberturaCanalName">COBERTURA CRD, ESTADO EST, POBLACION POB</sql>
+
+    <sql id="allColumns">
+        ID_CANAL, ID_ESTADO, ID_POBLACION, NO_CANAL_VIRTUAL
+    </sql>
+    
+    <sql id="coberturaCanalColumns">
+        ID_CANAL, NO_CANAL_VIRTUAL, EST.ID_ESTADO, POB.ID_POBLACION, EST.ID_ESTADO, EST.ESTADO, POB.ID_ESTADO, POB.ID_POBLACION, POB.POBLACION
+    </sql>
+    
+    <select id="getAll"
+        parameterType="Cobertura"
+        resultMap="coberturaMapper" >
+        <include refid="selectColumnsFrom"/> 
+    </select>
+    
+    <select id="getByCanalVirtual"
+        parameterType="Cobertura"
+        resultMap="coberturaCanalMapper" >
+        <include refid="selectColumnsCanalVirtual"/> 
+    </select>
+    
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+    
+    <sql id="selectColumnsCanalVirtual">
+        SELECT
+            <include refid="coberturaCanalColumns"/>
+        FROM <include refid="coberturaCanalName"/>
+        WHERE CRD.ID_ESTADO = EST.ID_ESTADO
+		AND CRD.ID_POBLACION = POB.ID_POBLACION
+		AND EST.ID_ESTADO = POB.ID_ESTADO      
+		<if test="idCanalVirtual != null">
+			AND NO_CANAL_VIRTUAL = #{idCanalVirtual, jdbcType=INTEGER}
+		</if>
+    </sql>
+       
+</mapper>

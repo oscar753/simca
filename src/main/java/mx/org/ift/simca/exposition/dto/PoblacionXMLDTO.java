@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name="POBLACION")
-@XmlType(propOrder = { "idEstado", "idPoblacion" })
+@XmlType(propOrder = { "idEstado", "idPoblacion", "estado", "municipio" })
 public class PoblacionXMLDTO implements Serializable{
 	
 	/**
@@ -21,7 +21,9 @@ public class PoblacionXMLDTO implements Serializable{
 	private static final long serialVersionUID = 731500510177345404L;
 	
 	private String idEstado;
+	private String estado;
 	private String idPoblacion;
+	private String municipio;
 
 	@XmlElement(name="ID_ESTADO")
 	public String getIdEstado() {
@@ -38,5 +40,33 @@ public class PoblacionXMLDTO implements Serializable{
 	public void setIdPoblacion(String idPoblacion) {
 		this.idPoblacion = idPoblacion;
 	}
+	/**
+	 * @return the estado
+	 */
+	@XmlElement(name="ESTADO")
+	public String getEstado() {
+		return estado;
+	}
+	/**
+	 * @param estado the estado to set
+	 */
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	/**
+	 * @return the municipio
+	 */
+	@XmlElement(name="MUNICIOPIO")
+	public String getMunicipio() {
+		return municipio;
+	}
+	/**
+	 * @param municipio the municipio to set
+	 */
+	public void setMunicipio(String municipio) {
+		this.municipio = municipio;
+	}
+	
+	
 	
 }

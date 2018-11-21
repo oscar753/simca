@@ -1,6 +1,10 @@
 package mx.org.ift.simca.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import oracle.sql.CLOB;
 
 public class CanalVirtual implements Serializable {
 
@@ -28,6 +32,9 @@ public class CanalVirtual implements Serializable {
 	private String primerAsignacion;
 	private Canal canal;
 	private TipoUso tipoUso;
+	private List<CanalVirtualFormulario> preguntasFormulario = new ArrayList<CanalVirtualFormulario>();
+	private List<Cobertura> coberturas = new ArrayList<Cobertura>();
+	private String logob64;
 	
 	/**
 	 * @return the idCanal
@@ -257,5 +264,42 @@ public class CanalVirtual implements Serializable {
 	public void setPrimerAsignacion(String primerAsignacion) {
 		this.primerAsignacion = primerAsignacion;
 	}
+	/**
+	 * @return the preguntasFormulario
+	 */
+	public List<CanalVirtualFormulario> getPreguntasFormulario() {
+		return preguntasFormulario;
+	}
+	/**
+	 * @param preguntasFormulario the preguntasFormulario to set
+	 */
+	public void setPreguntasFormulario(List<CanalVirtualFormulario> preguntasFormulario) {
+		this.preguntasFormulario = preguntasFormulario;
+	}
+	/**
+	 * @return the coberturas
+	 */
+	public List<Cobertura> getCoberturas() {
+		return coberturas;
+	}
+	/**
+	 * @param coberturas the coberturas to set
+	 */
+	public void setCoberturas(List<Cobertura> coberturas) {
+		this.coberturas = coberturas;
+	}
+	/**
+	 * @return the logob64
+	 */
+	public String getLogob64() {
+		return logob64;
+	}
+	/**
+	 * @param logob64 the logob64 to set
+	 */
+	public void setLogob64(String logob64) {
+		this.logob64 = logob64;
+	}
+	
 	
 }

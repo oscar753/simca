@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mx.org.ift.simca.persistence.GrupoCanalMapper">
+
+    <resultMap id="grupoCanalMapper" type="GrupoCanal" >
+    	<id property="idGrupo" column="ID_GRUPO" jdbcType="INTEGER"/>
+        <id property="idCanal" column="ID_CANAL" jdbcType="INTEGER"/>                
+    </resultMap>
+
+    <sql id="tableName">GRUPO_CANAL</sql>
+
+    <sql id="allColumns">
+        ID_GRUPO, ID_CANAL
+    </sql>
+    
+    <select id="getAll"
+        parameterType="GrupoCanal"
+        resultMap="grupoCanalMapper" >
+        <include refid="selectColumnsFrom"/> 
+    </select>
+    
+    <select id="getByCanal"
+        parameterType="GrupoCanal"
+        resultMap="grupoCanalMapper" >
+        <include refid="selectByCanal"/> 
+    </select>
+    
+    <sql id="selectColumnsFrom">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+    </sql>
+    
+    <sql id="selectByCanal">
+        SELECT
+            <include refid="allColumns"/>
+        FROM <include refid="tableName"/>
+        <if test="idCanal != null">
+			WHERE ID_CANAL = #{idCanal, jdbcType=INTEGER}
+		</if>
+    </sql>
+       
+</mapper>

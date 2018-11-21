@@ -8,35 +8,36 @@
 
 	<resultMap type="CanalVirtual" id="canalVitualMapAll">		
 		<id property="numCanalVirtual" column="NO_CANAL_VIRTUAL" jdbcType="INTEGER"/>
-		<id property="programacion" column="PROGRAMACION" jdbcType="VARCHAR"/>
-		<id property="idCanalVirtual" column="ID_CANAL_VIRTUAL" jdbcType="DOUBLE"/>		
+		<result property="programacion" column="PROGRAMACION" jdbcType="VARCHAR"/>
+		<result property="idCanalVirtual" column="ID_CANAL_VIRTUAL" jdbcType="DOUBLE"/>		
 		<association property="canal" column="ID_CANAL" resultMap="mx.org.ift.simca.persistence.CanalMapper.canalMapAll"></association>
 		<association property="tipoUso" column="ID_TIPO_USO" resultMap="mx.org.ift.simca.persistence.TipoUsoMapper.tipoUsoMapper"></association>
 	</resultMap>
 	
 	<resultMap type="CanalVirtual" id="canalVitualMap">		
 		<id property="numCanalVirtual" column="NO_CANAL_VIRTUAL" jdbcType="INTEGER"/>
-		<id property="programacion" column="PROGRAMACION" jdbcType="VARCHAR"/>
-		<id property="idCanalVirtual" column="ID_CANAL_VIRTUAL" jdbcType="DOUBLE"/>				
+		<result property="programacion" column="PROGRAMACION" jdbcType="VARCHAR"/>
+		<result property="idCanalVirtual" column="ID_CANAL_VIRTUAL" jdbcType="DOUBLE"/>				
 	</resultMap>
 	
 	<resultMap type="CanalVirtual" id="canalVitualEdit">
 		<id property="numCanalVirtual" column="NO_CANAL_VIRTUAL" jdbcType="INTEGER"/>
-		<id property="idCanalVirtual" column="ID_CANAL_VIRTUAL" jdbcType="DOUBLE"/>
-		<id property="folioRpcUmca" column="FOLIO_RPC_UMCA" jdbcType="VARCHAR"/>
-		<id property="canalDigital" column="CANAL_DIGITAL" jdbcType="INTEGER"/>
-		<id property="canalAsignado" column="CANAL_ASIGNADO" jdbcType="DOUBLE"/>	
-		<id property="programacion" column="PROGRAMACION" jdbcType="VARCHAR"/>
-		<id property="mcMo" column="MC_MO" jdbcType="VARCHAR"/>
-		<id property="idTipoUso" column="ID_TIPO_USO" jdbcType="INTEGER"/>
-		<id property="idTipoContenido" column="ID_TIPO_CONTENIDO" jdbcType="INTEGER"/>
-		<id property="multiprogramacion" column="MULTIPROGRAMACION" jdbcType="VARCHAR"/>
-		<id property="idCalidad" column="ID_CALIDAD" jdbcType="INTEGER"/>
-		<id property="tasaTrans" column="TASA_TRANSF" jdbcType="DOUBLE"/>
-		<id property="idMetodoCompr" column="ID_METODO_COMPR" jdbcType="INTEGER"/>
-		<id property="idTerceroBenef" column="ID_TERCERO_BENEF" jdbcType="INTEGER"/>
-		<id property="idEstatus" column="ID_ESTATUS" jdbcType="INTEGER"/>
-		<id property="primerAsignacion" column="PRIMER_ASIGNACION" jdbcType="VARCHAR"/>
+		<result property="idCanalVirtual" column="ID_CANAL_VIRTUAL" jdbcType="DOUBLE"/>
+		<result property="folioRpcUmca" column="FOLIO_RPC_UMCA" jdbcType="VARCHAR"/>
+		<result property="canalDigital" column="CANAL_DIGITAL" jdbcType="INTEGER"/>
+		<result property="canalAsignado" column="CANAL_ASIGNADO" jdbcType="DOUBLE"/>	
+		<result property="programacion" column="PROGRAMACION" jdbcType="VARCHAR"/>
+		<result property="mcMo" column="MC_MO" jdbcType="VARCHAR"/>
+		<result property="idTipoUso" column="ID_TIPO_USO" jdbcType="INTEGER"/>
+		<result property="idTipoContenido" column="ID_TIPO_CONTENIDO" jdbcType="INTEGER"/>
+		<result property="multiprogramacion" column="MULTIPROGRAMACION" jdbcType="VARCHAR"/>
+		<result property="idCalidad" column="ID_CALIDAD" jdbcType="INTEGER"/>
+		<result property="tasaTrans" column="TASA_TRANSF" jdbcType="DOUBLE"/>
+		<result property="idMetodoCompr" column="ID_METODO_COMPR" jdbcType="INTEGER"/>
+		<result property="idTerceroBenef" column="ID_TERCERO_BENEF" jdbcType="INTEGER"/>
+		<result property="idEstatus" column="ID_ESTATUS" jdbcType="INTEGER"/>
+		<result property="primerAsignacion" column="PRIMER_ASIGNACION" jdbcType="VARCHAR"/>
+		<result property="logob64" column="LOGO" jdbcType="CLOB"/>
 		<association property="canal" column="ID_CANAL" resultMap="mx.org.ift.simca.persistence.CanalMapper.canalMap"></association>
 	</resultMap>
 
@@ -56,9 +57,17 @@
     
     <sql id="colsEditar">
         VIR.NO_CANAL_VIRTUAL, VIR.ID_CANAL_VIRTUAL, VIR.FOLIO_RPC_UMCA, VIR.CANAL_DIGITAL, VIR.CANAL_ASIGNADO, VIR.PROGRAMACION, VIR.MC_MO, VIR.ID_TIPO_USO, VIR.ID_TIPO_CONTENIDO, VIR.MULTIPROGRAMACION,
-        VIR.ID_CALIDAD, VIR.TASA_TRANSF, VIR.ID_METODO_COMPR, VIR.ID_TERCERO_BENEF, VIR.ID_ESTATUS, CAN.ID_CANAL, CAN.FOLIO_RPC, VIR.PRIMER_ASIGNACION,
+        VIR.ID_CALIDAD, VIR.TASA_TRANSF, VIR.ID_METODO_COMPR, VIR.ID_TERCERO_BENEF, VIR.ID_ESTATUS, CAN.ID_CANAL, CAN.FOLIO_RPC, VIR.PRIMER_ASIGNACION, VIR.LOGO,
         CAN.DISTINTIVO, CAN.ID_ESTADO, CAN.ID_POBLACION, CAN.ID_CONCESIONARIO, CAN.GRUPO
     </sql>
+    
+    <select id="insertCanalVirtual" statementType="CALLABLE">
+    	{call pck_cv_mtto.p_inserta(#{modulo, jdbcType = VARCHAR, mode = IN}, #{usuarioNombre, jdbcType = VARCHAR, mode = IN}, #{canalVirtualXML, jdbcType = VARCHAR, mode = IN})}
+    </select>
+    
+    <select id="updateCanalVirtual" statementType="CALLABLE">
+    	{call pck_cv_mtto.p_MODIFICA(#{modulo, jdbcType = VARCHAR, mode = IN}, #{usuarioNombre, jdbcType = VARCHAR, mode = IN}, #{canalVirtualXML, jdbcType = VARCHAR, mode = IN})}
+    </select>
     
     <select id="getAll"
         parameterType="CanalVirtual"

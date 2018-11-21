@@ -8,7 +8,7 @@
 
 	<resultMap type="Canal" id="canalMapAll">
 		<id property="idCanal" column="ID_CANAL" jdbcType="INTEGER"/>
-		<id property="distintivo" column="DISTINTIVO" jdbcType="VARCHAR"/>
+		<result property="distintivo" column="DISTINTIVO" jdbcType="VARCHAR"/>
 		<association property="poblacion" column="ID_POBLACION" resultMap="mx.org.ift.simca.persistence.PoblacionMapper.poblacionMapper"/>
 		<association property="estado" column="ID_ESTADO" resultMap="mx.org.ift.simca.persistence.EstadoMapper.estadoMapper"/>
 		<association property="concesionario" column="ID_CONCESIONARIO" resultMap="mx.org.ift.simca.persistence.ConcesionarioMapper.concesionarioMapper"></association>
@@ -16,12 +16,12 @@
 
     <resultMap id="canalMap" type="Canal" >
     	<id property="idCanal" column="ID_CANAL" jdbcType="INTEGER"/>
-        <id property="folioRPC" column="FOLIO_RPC" jdbcType="VARCHAR"/>
-        <id property="distintivo" column="DISTINTIVO" jdbcType="VARCHAR"/>
-        <id property="idEstado" column="ID_ESTADO" jdbcType="INTEGER"/>
-        <id property="idPoblacion" column="ID_POBLACION" jdbcType="INTEGER"/>
-        <id property="idConcesionario" column="ID_CONCESIONARIO" jdbcType="INTEGER"/>
-        <id property="grupo" column="GRUPO" jdbcType="VARCHAR"/>
+        <result property="folioRPC" column="FOLIO_RPC" jdbcType="VARCHAR"/>
+        <result property="distintivo" column="DISTINTIVO" jdbcType="VARCHAR"/>
+        <result property="idEstado" column="ID_ESTADO" jdbcType="INTEGER"/>
+        <result property="idPoblacion" column="ID_POBLACION" jdbcType="INTEGER"/>
+        <result property="idConcesionario" column="ID_CONCESIONARIO" jdbcType="INTEGER"/>
+        <result property="grupo" column="GRUPO" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="tableName">CANAL</sql>

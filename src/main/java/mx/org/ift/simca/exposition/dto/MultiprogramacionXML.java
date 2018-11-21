@@ -5,6 +5,7 @@ package mx.org.ift.simca.exposition.dto;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -13,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 @XmlRootElement(name = "XML")
-@XmlType(propOrder = { "canal", "canal_virtual", "cobertura", "multiprograma", "formulario" })
+@XmlType(propOrder = { "canal", "canal_virtual", "coberturas", "multiprograma", "formulario" })
 public class MultiprogramacionXML implements Serializable {
 
 	/**
@@ -21,14 +22,19 @@ public class MultiprogramacionXML implements Serializable {
 	 */
 	private static final long serialVersionUID = -7575685053213237536L;
 	
+	@XmlElement(name="CANAL")
 	private CanalDTO canal = new CanalDTO();
 	
+	@XmlElement(name="CANAL_VIRTUAL")
 	private CanalVirtualDTO canal_virtual = new CanalVirtualDTO();
 	
+	@XmlElement(name="MULTIPROGRAMA")
 	private MultiprogramacionDTO multiprograma = new MultiprogramacionDTO();
 
+	@XmlElement(name="COBERTURAS")
 	private CoberturasXMLDTO coberturas = new CoberturasXMLDTO();
 	
+	@XmlElement(name="FORMULARIO")
 	private FormularioXMLDTO formulario = new FormularioXMLDTO();
 
 	/**

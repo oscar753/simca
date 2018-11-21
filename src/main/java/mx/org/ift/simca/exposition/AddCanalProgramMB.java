@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import mx.org.ift.simca.arq.core.exposition.CommonDataMB;
 import mx.org.ift.simca.enums.PreguntaCanalVirtual;
 import mx.org.ift.simca.exposition.dto.CanalDTO;
 import mx.org.ift.simca.exposition.dto.CanalFormularioDTO;
@@ -47,6 +48,8 @@ import mx.org.ift.simca.exposition.dto.PreguntaXMLDTO;
 import mx.org.ift.simca.exposition.dto.PreguntasXMLDTO;
 import mx.org.ift.simca.model.Canal;
 import mx.org.ift.simca.model.CanalVirtual;
+import mx.org.ift.simca.model.CanalVirtualFormulario;
+import mx.org.ift.simca.model.Cobertura;
 import mx.org.ift.simca.service.CanalService;
 import mx.org.ift.simca.service.CatalogoService;
 
@@ -99,12 +102,16 @@ public class AddCanalProgramMB implements Serializable {
 	@Autowired
 	private CanalService canalService;
 	
+	@Autowired
+	private CommonDataMB commonDataMB;
+	
 	@PostConstruct
 	public void init() {
-		LOG.info("/**** Se inicializa MB para agregar ****/"+esEditar);
+		LOG.info("/**** Se inicializa MB para agregar ****/");		
 		
 		multiprog = new MultiprogramacionXML();
 		formularioDTO = new CanalFormularioDTO();
+		esEditar = Boolean.FALSE;
 		
 		coberturasDTO = new ArrayList<CoberturaDTO>();
 		estadosDTO = catalogoService.consultaEstado();
@@ -126,6 +133,19 @@ public class AddCanalProgramMB implements Serializable {
 	
 	private List<CatalogoDTO> consultaPoblacion(String idEstado) {
 		return catalogoService.consultaPoblacionEstado(new Integer(idEstado));
+	}
+	
+	public void eliminarCobertura(CoberturaDTO varCoberturaDTO) {
+		LOG.info("/**** Cobertura :: "+varCoberturaDTO.getPoblacion().getEstado());
+		coberturasDTO.remove(varCoberturaDTO);
+		
+		for (PoblacionXMLDTO itemCoberXML: multiprog.getCoberturas().getPoblaciones()) {
+			if (itemCoberXML.getEstado().equals(varCoberturaDTO.getPoblacion().getEstado()) &&
+					itemCoberXML.getMunicipio().equals(varCoberturaDTO.getPoblacion().getMunicipio())) {
+				multiprog.getCoberturas().getPoblaciones().remove(itemCoberXML);
+				break;
+			}
+		}
 	}
 	
 	public void agregarCobertura() {
@@ -165,7 +185,9 @@ public class AddCanalProgramMB implements Serializable {
 			PoblacionXMLDTO poblacionDTO = new PoblacionXMLDTO();
 			
 			poblacionDTO.setIdEstado(estadoCobertura);
+			poblacionDTO.setEstado(obtenerDescrCatalogo(estadosDTO, estadoCobertura));
 			poblacionDTO.setIdPoblacion(municipioCobertura);
+			poblacionDTO.setMunicipio(obtenerDescrCatalogo(poblacionesDTO, municipioCobertura));
 			
 			multiprog.getCoberturas().getPoblaciones().add(poblacionDTO); 
 		}
@@ -197,21 +219,29 @@ public class AddCanalProgramMB implements Serializable {
 		if (StringUtils.isNotBlank(logoB64)) {
 			multiprog.getCanal_virtual().setLogo_b64(logoB64);
 		}
-		generarXmlStr();
+		
+		if (esEditar) {
+			canalService.actualizarCanalVirtual(generarXmlStr(), commonDataMB.getUsuarioNombre());
+		} else {
+			canalService.agregarCanalVirtual(generarXmlStr(), commonDataMB.getUsuarioNombre());
+		}
+		
 	}
 
-	private void generarXmlStr() {
+	private String generarXmlStr() {
+		String xmlString = null;
 		try {		
 			JAXBContext jaxbContext = JAXBContext.newInstance(MultiprogramacionXML.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			StringWriter sw = new StringWriter();
 			jaxbMarshaller.marshal(multiprog, sw);
-			String xmlString = sw.toString();
+			xmlString = sw.toString();
 			LOG.info("/**** XML :: "+xmlString);
 		} catch (JAXBException e) {
 			LOG.error("No se logro generar el XML :: ");
 			e.printStackTrace();
 		}
+		return xmlString;
 	}
 
 	private void cargarFormulario() {		
@@ -363,6 +393,7 @@ public class AddCanalProgramMB implements Serializable {
 	private void poblarMultiprogXML(CanalVirtual canalVirtualBD) {
 		CanalVirtualDTO canVirDTOEdit = new CanalVirtualDTO();
 		
+		canVirDTOEdit.setNo_canal_virtual(canalVirtualBD.getNumCanalVirtual().toString());
 		canVirDTOEdit.setId_senial(canalVirtualBD.getIdCanalVirtual().toString());
 		canVirDTOEdit.setFolio_rpc_umca(canalVirtualBD.getFolioRpcUmca());
 		canVirDTOEdit.setTipo_uso(canalVirtualBD.getIdTipoUso().toString());
@@ -372,13 +403,118 @@ public class AddCanalProgramMB implements Serializable {
 		canVirDTOEdit.setProgramacion(canalVirtualBD.getProgramacion());
 		canVirDTOEdit.setMc_mo(canalVirtualBD.getMcMo());
 		canVirDTOEdit.setPrimer_asignacion(canalVirtualBD.getPrimerAsignacion());
+		logoB64 = canalVirtualBD.getLogob64();
 				
 		poblarCanalDTO(canalVirtualBD.getCanal());
 		poblarMultiprogramacionDTO(canalVirtualBD);
+		poblarCoberturasDTO(canalVirtualBD.getCoberturas());
+		poblarFormularioDTO(canalVirtualBD.getPreguntasFormulario());
 		
 		multiprog.setCanal_virtual(canVirDTOEdit);		
 	}
 	
+	private void poblarFormularioDTO(List<CanalVirtualFormulario> preguntasFormulario) {
+		formularioDTO = new CanalFormularioDTO();
+		for (CanalVirtualFormulario itemPregunta : preguntasFormulario) {									
+			if (PreguntaCanalVirtual.PREGUNTA1.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setLineaFrontera(itemPregunta.getValor());				
+			} else if (PreguntaCanalVirtual.PREGUNTA2.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setOpinionFcc(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA3.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setNotificaCv(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA4.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setFechaOficioNot(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA5.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setNivelTransmicion(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA6.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setPublicaListado(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA7.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setPublicacion(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA8.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setObservacionCV(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA9.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setPrimerNota(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA10.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setTipoResolMulti(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA11.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setResolMulti(itemPregunta.getValor());
+			}
+			//Falta una pregunta que si esta en BD
+			else if (PreguntaCanalVirtual.PREGUNTA13.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setFechaOficioNotAut(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA14.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setModificacion(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA15.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setResConcesionario(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA16.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setEstatusModificacion(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA17.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setPrimeraPublicacion(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA18.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setPublicaListadoMulti(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA19.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setObservacionesMulti(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA20.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setBdIne(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA21.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setCentroVm(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA22.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setNombreCanalIne(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA23.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setNombreComercialIne(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA24.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setTipoMonitoreoIne(itemPregunta.getValor());			
+			} else if (PreguntaCanalVirtual.PREGUNTA25.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setBdAudista(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA26.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setNomCanalAudista(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA27.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setPrograAudista(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA28.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setLocalidadAudista(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA29.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setMonitorServExt(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA30.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setLocalidadServExt(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA31.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setNomComServExt(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA32.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setTipoPrograInfant(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA33.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setObligaAccesibilidad(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA34.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setMecaAccesibilidad(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA35.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setMedioPublico(itemPregunta.getValor());
+			} else if (PreguntaCanalVirtual.PREGUNTA36.getIdentificador()==itemPregunta.getIdPregunta().intValue()) {
+				formularioDTO.setInstPublicaFed(itemPregunta.getValor());
+			}						
+		}
+	}
+
+	private void poblarCoberturasDTO(List<Cobertura> coberturas) {
+		coberturasDTO.clear();
+		
+		for (Cobertura cobertura : coberturas) {
+			CoberturaDTO itemCoberDTO = new CoberturaDTO();
+			PoblacionDTO itemPoblacionDTO = new PoblacionDTO();
+			
+			PoblacionXMLDTO poblacionXML = new PoblacionXMLDTO();
+			
+			itemPoblacionDTO.setEstado(cobertura.getEstado().getEstado());
+			itemPoblacionDTO.setMunicipio(cobertura.getPoblacion().getPoblacion());
+			
+			poblacionXML.setIdEstado(cobertura.getEstado().getIdEstado().toString());
+			poblacionXML.setIdPoblacion(cobertura.getPoblacion().getIdPoblacion().toString());
+			
+			itemCoberDTO.setPoblacion(itemPoblacionDTO);
+			coberturasDTO.add(itemCoberDTO);
+			
+			multiprog.getCoberturas().getPoblaciones().add(poblacionXML);
+		}
+//		multiprog.setCoberturas(coberturas);
+	}
+
 	private void poblarCanalDTO(Canal canalBD) {
 		CanalDTO canalDTOEdit = new CanalDTO();
 		
@@ -386,6 +522,7 @@ public class AddCanalProgramMB implements Serializable {
 		
 		poblacionesDTO = consultaPoblacion(canalBD.getIdEstado().toString());
 		
+		canalDTOEdit.setId_canal(canalBD.getIdCanal().toString());
 		canalDTOEdit.setPoblacion(canalBD.getIdPoblacion().toString());
 		canalDTOEdit.setConcesionario(canalBD.getIdConcesionario().toString());
 		canalDTOEdit.setDistintivo(canalBD.getDistintivo());

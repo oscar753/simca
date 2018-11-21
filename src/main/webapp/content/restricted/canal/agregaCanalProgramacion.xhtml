@@ -167,7 +167,7 @@
             				<p:commandButton actionListener="#{addCanalProgramMB.visualizarLogo}" ajax="false" value="Vista previa"/>
             			</p:column>
             			<p:column>
-            				<ui:fragment id="previewLogo" rendered="#{not empty addCanalProgramMB.fileLogo}">
+            				<ui:fragment id="previewLogo" rendered="#{not empty addCanalProgramMB.logoB64}">
     							<img src="data:image/png;base64,#{addCanalProgramMB.logoB64}" style="width:100px; height: 100px"/>
 							</ui:fragment>
             			</p:column>
@@ -233,7 +233,7 @@
 		                	<p:outputLabel id="municipioCoberLb" value="#{cobertura.poblacion.municipio}" />
 		                </p:column>
 		                <p:column  headerText="Acciones" >
-		                	
+		                	<p:commandButton icon="ui-icon-trash" id="btnEliminaCober" title="Eliminar" styleClass="botonpequeno" action="#{addCanalProgramMB.eliminarCobertura(cobertura)}" update="tblCoberturas"/>
 		                </p:column>                               
            			</p:dataTable>
 					</p:tab>
