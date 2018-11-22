@@ -17,10 +17,12 @@ public interface EstacionService extends Serializable {
 	 * 
 	 * @param distintivo
 	 * @param idConcesionario
-	 * @param canalProg
+	 * @param folioElectronico
 	 * @return
 	 */
-	List<Estacion> buscarEstacionProgramacion(String distintivo, String idConcesionario, String canalProg);
+	List<Estacion> buscarEstacionProgramacion(String distintivo, String idConcesionario, String folioElectronico);
 	
-	void generaRegistroEstacion(String model, String user, String longXML);
+	String generaRegistroEstacion(String model, String user, String longXML);
+	
+	String modificaRegistroEstacion(String model, String user, String longXML);
 }

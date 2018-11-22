@@ -34,16 +34,16 @@ public class EstacionServiceImpl implements EstacionService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EstacionServiceImpl.class);
 	
-	public List<Estacion> buscarEstacionProgramacion(String distintivo, String idConcesionario, String canalProg) {
+	public List<Estacion> buscarEstacionProgramacion(String distintivo, String idConcesionario, String folioElectronico) {
 		LOGGER.info("Metodo para buscar los canales de programacion de radio");
 		
 		List<Estacion> estacionResult = new ArrayList<Estacion>();
-		System.out.println("Distintivo: " + distintivo + " idConcesionario: "+ idConcesionario + " canalProg: " + canalProg);
+		System.out.println("Distintivo: " + distintivo + " idConcesionario: "+ idConcesionario + " folioElectronico: " + folioElectronico);
 		try {
 			estacionResult = estacionMapper.buscarEstacionProgramacion(
 					StringUtils.isBlank(distintivo)?null:distintivo,
 					StringUtils.isBlank(idConcesionario)?null:idConcesionario,
-					StringUtils.isBlank(canalProg)?null:canalProg);
+					StringUtils.isBlank(folioElectronico)?null:folioElectronico);
 			System.out.println(estacionResult.size());
 			return estacionResult;
 		}
@@ -66,13 +66,25 @@ public class EstacionServiceImpl implements EstacionService {
 		return distintivosResult;
 	}
 	
-	public void generaRegistroEstacion(String model, String user, String longXML) {
+	public String generaRegistroEstacion(String model, String user, String longXML) {
 		try {
 			estacionMapper.generaRegEstacion(model, user, longXML);
-			
+			return "success";
 		}
 		catch(Exception e) {
 			System.out.println("Error en generaRegistroEstacion: " + e.getMessage());
+			return e.getMessage();
+		}
+	}
+	
+	public String modificaRegistroEstacion(String model, String user, String longXML) {
+		try {
+			estacionMapper.modificaRegEstacion(model, user, longXML);
+			return "success";
+		}
+		catch(Exception e) {
+			System.out.println("Error en modificaRegistroEstacion: " + e.getMessage());
+			return e.getMessage();
 		}
 	}
 }

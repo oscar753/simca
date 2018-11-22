@@ -258,7 +258,7 @@
 		                </p:column>
 		                <p:column headerText="Acciones">
 		                	<f:facet name="header">Acciones</f:facet>
-    						<p:commandButton value="Eliminar" action="#{modifyEstacionProgramMB.deleteAction(cobertura)}" />
+    						<p:commandButton icon="ui-icon-trash" styleClass="botonpequeno" process="@this" action="#{modifyEstacionProgramMB.deleteAction(cobertura)}" />
 		                </p:column>                               
            			</p:dataTable>
 					</p:tab>
@@ -418,7 +418,7 @@
 					<div align="right">
 						<p:commandButton id="cancelModEstacion" value="Cancelar" actionListener="#{modifyEstacionProgramMB.cancelar}"></p:commandButton>
 						<p:spacer width="15" />
-						<p:commandButton id="guardarModEstacion" value="Guardar" actionListener="#{modifyEstacionProgramMB.agregarEstacion}"></p:commandButton>
+						<p:commandButton id="guardarModEstacion" value="Guardar" actionListener="#{modifyEstacionProgramMB.modificarEstacion}" update=":growl, pnlGriModEstacion"></p:commandButton>
 					</div>
 				</f:facet>
 			</h:panelGrid>

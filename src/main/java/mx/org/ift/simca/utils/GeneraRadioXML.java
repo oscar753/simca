@@ -36,7 +36,7 @@ public class GeneraRadioXML implements Serializable {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AddEstacionProgramMB.class);
 
-	public static void generaEstacionXML(EstacionService estacionService, EstacionDTO estacionDTO, List<TipoPregunta> tipoPreguntas) {
+	public static String generaEstacionXML(EstacionService estacionService, EstacionDTO estacionDTO, List<TipoPregunta> tipoPreguntas) {
 		try {
 
 			RadioXMLDTO radioXMLDTO = new RadioXMLDTO();
@@ -181,11 +181,16 @@ public class GeneraRadioXML implements Serializable {
 			String user = "USER";
 			String model = "TEST";
 			
-			estacionService.generaRegistroEstacion(model, user, xmlString);
+			if(estacionXMLDTO.getIdSenial().equals(""))
+				return estacionService.generaRegistroEstacion(model, user, xmlString);
+			else {
+				return estacionService.modificaRegistroEstacion(model, user, xmlString);
+			}
 
 		} catch (JAXBException e) {
 			System.out.println("Error en el método generaEstacionXML: " + e.getMessage());
 			e.printStackTrace();
+			return "Error al registrar estación";
 		}
 	}
 }

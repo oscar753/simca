@@ -95,55 +95,45 @@ public class ModifyEstacionProgramMB implements Serializable {
 	}
 	
 	public String poblarDatosRegistro(Estacion estacion) {
-//		estacionDTO.setNumero(estacionProgramacionMB.getEstacionSelect().getIdSenial());
-//		estacionDTO.setFolioRPCUMCA(estacionProgramacionMB.getEstacionSelect().getGrupoRadio().getFolioElectronico());
-//		estacionDTO.setIdEstado(estacionProgramacionMB.getEstacionSelect().getEstado().getIdEstado());
-//		if (estacionDTO.getIdEstado() > 0) {
-//			poblacionesDTO = catalogoService.consultaPoblacionEstado(estacionDTO.getIdEstado());
-//			estacionDTO.setIdPoblacion(estacionProgramacionMB.getEstacionSelect().getPoblacion().getIdPoblacion());
-//		}
-//		estacionDTO.setIdClase(estacionProgramacionMB.getEstacionSelect().getClase().getIdClase());
-//		estacionDTO.setIdTipoUsoEstacion(estacionProgramacionMB.getEstacionSelect().getTipoUsoEstacion().getIdTipoUsoEstacion());
-//		estacionDTO.setIdConcesionario(estacionProgramacionMB.getEstacionSelect().getGrupoRadio().getConcesionario().getIdConcesionario());
-//		estacionDTO.setDistintivo(estacionProgramacionMB.getEstacionSelect().getDistintivo());
-//		estacionDTO.setIdBanda(estacionProgramacionMB.getEstacionSelect().getBanda().getIdBanda());
-//		if(estacionDTO.getIdBanda() == 1)
-//			estacionDTO.setFrecuenciaAM(estacionProgramacionMB.getEstacionSelect().getFrecuencia());
-//		else
-//			estacionDTO.setFrecuenciaFM(estacionProgramacionMB.getEstacionSelect().getFrecuencia());
-//		estacionDTO.setVigenciaIni(estacionProgramacionMB.getEstacionSelect().getVigenciaIni());
-//		estacionDTO.setVigenciaFin(estacionProgramacionMB.getEstacionSelect().getVigenciaFin());
-//		estacionDTO.setIdTipoFrecuencia(estacionProgramacionMB.getEstacionSelect().getTipoFrecuencia().getIdTipoFrecuencia());
-		
-		estacionDTO.setNumero(estacion.getIdSenial());
-		estacionDTO.setFolioRPCUMCA(estacion.getGrupoRadio().getFolioElectronico());
-		estacionDTO.setIdEstado(estacion.getEstado().getIdEstado());
-		if (estacionDTO.getIdEstado() > 0) {
-			poblacionesDTO = catalogoService.consultaPoblacionEstado(estacionDTO.getIdEstado());
-			estacionDTO.setIdPoblacion(estacion.getPoblacion().getIdPoblacion());
+		try {
+			estacionDTO.setNumero(estacion.getIdSenial());
+			estacionDTO.setFolioRPCUMCA(estacion.getGrupoRadio().getFolioElectronico());
+			estacionDTO.setIdEstado(estacion.getEstado().getIdEstado());
+			if (estacionDTO.getIdEstado() > 0) {
+				poblacionesDTO = catalogoService.consultaPoblacionEstado(estacionDTO.getIdEstado());
+				estacionDTO.setIdPoblacion(estacion.getPoblacion().getIdPoblacion());
+			}
+			estacionDTO.setIdClase(estacion.getClase() != null ? estacion.getClase().getIdClase() : null);
+			estacionDTO.setIdTipoUsoEstacion(estacion.getTipoUsoEstacion() != null ? estacion.getTipoUsoEstacion().getIdTipoUsoEstacion() : null);
+			estacionDTO.setIdConcesionario(estacion.getGrupoRadio().getConcesionario().getIdConcesionario());
+			estacionDTO.setDistintivo(estacion.getDistintivo());
+			estacionDTO.setIdBanda(estacion.getBanda().getIdBanda());
+			if(estacionDTO.getIdBanda() == 1) {
+				estacionDTO.setFrecuenciaAM(estacion.getFrecuencia());
+				estacionDTO.setFrecuenciaFM("");
+			}
+			else {
+				estacionDTO.setFrecuenciaAM("");
+				estacionDTO.setFrecuenciaFM(estacion.getFrecuencia());
+			}
+			estacionDTO.setVigenciaIni(estacion.getVigenciaIni());
+			estacionDTO.setVigenciaFin(estacion.getVigenciaFin());
+			estacionDTO.setIdTipoFrecuencia(estacion.getTipoFrecuencia().getIdTipoFrecuencia());
+	
+			generarOpcionesFormulario();
+			setearRespuestasFormulario();
+			obtenerCoberturas(estacionDTO.getFolioRPCUMCA(), estacion.getIdSenial());
+			
+			return "modificaEstacionProgramacion.xhtml";
 		}
-		estacionDTO.setIdClase(estacion.getClase().getIdClase());
-		estacionDTO.setIdTipoUsoEstacion(estacion.getTipoUsoEstacion().getIdTipoUsoEstacion());
-		estacionDTO.setIdConcesionario(estacion.getGrupoRadio().getConcesionario().getIdConcesionario());
-		estacionDTO.setDistintivo(estacion.getDistintivo());
-		estacionDTO.setIdBanda(estacion.getBanda().getIdBanda());
-		if(estacionDTO.getIdBanda() == 1) {
-			estacionDTO.setFrecuenciaAM(estacion.getFrecuencia());
-			estacionDTO.setFrecuenciaFM("");
+		catch (Exception e) {
+			System.out.println("Error en método poblarDatosRegistro" + e.getMessage());
+			return null;
 		}
-		else {
-			estacionDTO.setFrecuenciaAM("");
-			estacionDTO.setFrecuenciaFM(estacion.getFrecuencia());
-		}
-		estacionDTO.setVigenciaIni(estacion.getVigenciaIni());
-		estacionDTO.setVigenciaFin(estacion.getVigenciaFin());
-		estacionDTO.setIdTipoFrecuencia(estacion.getTipoFrecuencia().getIdTipoFrecuencia());
-
-		generarOpcionesFormulario();
-		setearRespuestasFormulario();
-		obtenerCoberturas(estacionDTO.getFolioRPCUMCA(), estacion.getIdSenial());
-		
-		return "modificaEstacionProgramacion.xhtml";
+	}
+	
+	public String eliminarDatosRegistro(Estacion estacion) {
+		return null;
 	}
 
 	public void onEstadoChange() {
@@ -167,7 +157,7 @@ public class ModifyEstacionProgramMB implements Serializable {
 		try {
 			System.out.println("entrando a agregarCober. idEstadoCober=" + idEstadoCober + ". idMunicipioCober:"
 					+ idMunicipioCober);
-			if (idEstadoCober != null && idMunicipioCober != null) {
+			if (idEstadoCober != null && idEstadoCober != 0 && idMunicipioCober != null && idMunicipioCober != 0) {
 				CatalogoDTO catalogoDTO = new CatalogoDTO();
 				coberturaRadioDTO = new CoberturaRadioDTO();
 
@@ -216,7 +206,7 @@ public class ModifyEstacionProgramMB implements Serializable {
 			else
 				i++;
 		}
-		return 0;
+		return -1;
 	}
 	
 	public void updateFrecComponents() {
@@ -294,8 +284,33 @@ public class ModifyEstacionProgramMB implements Serializable {
 		estacionDTO.setCoberturasRadioDTO(coberturaRadioService.buscarCoberturas(folioElectronico, idSenial));
 	}
 	
-	public void agregarEstacion() {
-		GeneraRadioXML.generaEstacionXML(estacionService, estacionDTO, tipoPreguntas);
+	public void modificarEstacion() {
+		String camposFaltantes="";
+		String respuesta = "";
+		if(estacionDTO.getFolioRPCUMCA().equals("")) camposFaltantes+="Folio RPC/UMCA, \n";
+		if(estacionDTO.getIdEstado() == null) camposFaltantes+="Estado, \n";
+		if(estacionDTO.getIdPoblacion() == null) camposFaltantes+="Población, \n";
+		if(estacionDTO.getIdTipoUsoEstacion() == null || estacionDTO.getIdTipoUsoEstacion() == 0) camposFaltantes+="Tipo de uso, \n";
+		if(estacionDTO.getIdConcesionario() == null) camposFaltantes+="Concesionario, \n";
+		if(estacionDTO.getDistintivo().equals("")) camposFaltantes+="Distintivo, \n";
+		if(estacionDTO.getIdBanda() == null || estacionDTO.getIdBanda() == 0) camposFaltantes+="Banda, \n";
+		if(((estacionDTO.getIdBanda() != null ? estacionDTO.getIdBanda() : 0) == 1 && estacionDTO.getFrecuenciaAM().equals("")) || 
+				((estacionDTO.getIdBanda() != null ? estacionDTO.getIdBanda() : 0) == 2 && estacionDTO.getFrecuenciaFM().equals(""))) camposFaltantes+="Frecuencia, \n";
+		if(estacionDTO.getVigenciaIni() == null) camposFaltantes+="Vigencia Inicio\n";
+		if(estacionDTO.getIdTipoFrecuencia() == null) camposFaltantes+="Tipo frecuencia\n";
+		if(estacionDTO.getIdTipoEstacion() == null) camposFaltantes+="Tipo de estación\n";
+		
+		if(!camposFaltantes.equals(""))
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Mensaje", "Ingrese los campos obligatorios: " + camposFaltantes));
+		else {
+			respuesta = GeneraRadioXML.generaEstacionXML(estacionService, estacionDTO, tipoPreguntas);			
+			if(respuesta == "success") {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Mensaje", "Registro modificado"));				
+			}
+			else
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Mensaje", respuesta));
+		}
+
 	}
 
 	public EstacionProgramacionMB getEstacionProgramacionMB() {

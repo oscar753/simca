@@ -26,13 +26,13 @@
             			</p:column>
             			<p:column>
             				<p:inputText id="noTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.numero}" disabled="true"></p:inputText>
-            				<p:message for="noTabGnralIn" display="icon"/>
             			</p:column>
             			<p:column>
             				<p:outputLabel value="Folio RPC/UMCA:" id="rpcTabGnral" style="float:right"></p:outputLabel>
             			</p:column>
             			<p:column>
             				<p:inputText id="rpcTabGnralIn" value="#{addEstacionProgramMB.estacionDTO.folioRPCUMCA}"></p:inputText>
+            				<p:message for="rpcTabGnralIn" display="icon"/>
             			</p:column>
 				
             			<p:column>
@@ -95,7 +95,7 @@
             			<p:column>
             				<p:selectOneMenu id="concesionarioTabGnralSel" value="#{addEstacionProgramMB.estacionDTO.idConcesionario}" 
                                                       filter="true" filterMatchMode="startsWith" autoWidth="false">                                        
-										<f:selectItem itemLabel="Seleccione..." itemValue=""></f:selectItem>
+										<f:selectItem itemLabel="Seleccione..." itemValue=""/>
                                         <f:selectItems var="concesionario" value="#{addEstacionProgramMB.concesionariosDTO}"
                                                        itemValue="#{concesionario.identificador}" 
                                                        itemLabel="#{concesionario.descripcion}"/>
@@ -261,8 +261,8 @@
 		                </p:column>
 		                <p:column headerText="Acciones">
 		                	<f:facet name="header">Acciones</f:facet>
-    						<p:commandButton value="Eliminar" action="#{addEstacionProgramMB.deleteAction(cobertura)}" />
-		                </p:column>                               
+    						<p:commandButton icon="ui-icon-trash" styleClass="botonpequeno" process="@this" action="#{addEstacionProgramMB.deleteAction(cobertura)}" />
+		                </p:column>
            			</p:dataTable>
 					</p:tab>
 					<p:tab id="tabGenerales2" title="Generales 2">
@@ -419,9 +419,9 @@
 				
 				<f:facet name="footer">
 					<div align="right">
-						<p:commandButton id="cancelAddEstacion" value="Cancelar" actionListener="#{addEstacionProgramMB.cancelar}"></p:commandButton>
+						<p:commandButton id="cancelAddEstacion" value="Cancelar" process="@this" actionListener="#{addEstacionProgramMB.cancelar}"></p:commandButton>
 						<p:spacer width="15" />
-						<p:commandButton id="guardarAddEstacion" value="Guardar" actionListener="#{addEstacionProgramMB.agregarEstacion}" update=":growl"></p:commandButton>
+						<p:commandButton id="guardarAddEstacion" value="Guardar" actionListener="#{addEstacionProgramMB.agregarEstacion}" update=":growl, pnlGriAddEstacion"></p:commandButton>
 					</div>
 				</f:facet>
 			</h:panelGrid>

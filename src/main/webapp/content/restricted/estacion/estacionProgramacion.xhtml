@@ -24,8 +24,7 @@
 				</p:column>
 				<p:column>
 					<p:selectOneMenu id="distintivoSel" value="#{estacionProgramacionMB.idDistintivo}"
-									 autoWidth="false" filter="true" style="min-width:250px">
-									 
+									 autoWidth="false" filter="true" style="max-width:200px">
 					<f:selectItem itemLabel="Seleccione..." itemValue=""/>
                     <f:selectItems var="distintivo" value="#{estacionProgramacionMB.distintivos}"
                                    itemValue="#{distintivo.distintivo}" 
@@ -37,7 +36,7 @@
 				</p:column>
 				<p:column>
 					<p:selectOneMenu id="concesionarioSel" value="#{estacionProgramacionMB.idConcesionario}"
-									 filter="true" filterMatchMode="startsWith" autoWidth="false">
+									 filter="true" filterMatchMode="startsWith" autoWidth="false" style="max-width:450px">
 					<f:selectItem itemLabel="Seleccione..." itemValue=""/>
                     <f:selectItems var="concesionario" value="#{estacionProgramacionMB.concesionariosDTO}"
                                    itemValue="#{concesionario.identificador}" 
@@ -46,10 +45,10 @@
 				</p:column>
 				
 				<p:column>
-					<p:outputLabel id="lbCanalP" value="Canal de programación:"/>
+					<p:outputLabel id="lbFolioElectronico" value="Folio Electrónico:"/>
 				</p:column>
 				<p:column>
-					<p:inputText id="itCanalP" value="#{estacionProgramacionMB.canalProg}"></p:inputText>
+					<p:inputText id="itFolioElectronico" value="#{estacionProgramacionMB.folioElectronico}"></p:inputText>
 				</p:column>
 				
 				<f:facet name="footer">
@@ -60,7 +59,20 @@
             		</div>            		
             	</f:facet>         
             </h:panelGrid>
-            
+            <h:panelGrid styleClass="addBtn">
+		           	<f:facet name="header">
+			            <div align="right">
+				           	<p:outputLabel>Agregar</p:outputLabel><p:spacer width="10" />
+				           	<p:commandButton 
+		                          id="btnAddEstacion" 
+		                          styleClass="botonpequeno"
+		                          title="Agregar"
+		                          icon="ui-icon-plusthick"
+		                          style="display:inline; float:right; font-size:x-small;"
+		                          action="#{addEstacionProgramMB.nuevaEstacion}" />
+			            </div>
+		            </f:facet>
+            </h:panelGrid>
             <p:dataTable id="tblEstaciones" rows="10"
                                              emptyMessage="No hay datos"
                                              paginator="true"
@@ -69,17 +81,6 @@
                                              style="font-size: small; width: 100%; float: none;"
                                              value="#{estacionProgramacionMB.estacionBD}"
                                              var="estacion">
-            	<f:facet name="header">
-            	<p:outputLabel>Agregar<p:commandButton 
-                                id="btnAddEstacion" 
-                                styleClass="botonpequeno"
-                                title="Agregar"
-                                icon="ui-icon-plusthick"
-                                style="display:inline; float:right; font-size:x-small;"
-                                action="#{addEstacionProgramMB.limpiarFormulario}" />
-<!--                                 onclick="location = '#{request.contextPath}/content/restricted/estacion/agregaEstacionProgramacion.jsf';" /> -->
-                                </p:outputLabel>
-                </f:facet>
                 <p:column headerText="Distintivo" sortBy="#{estacion.distintivo}">
                 	<p:outputLabel id="tblDistintivo" value="#{estacion.distintivo}" />
                 </p:column>
@@ -102,10 +103,9 @@
                 	<p:outputLabel id="tblFrecuencia" value="#{estacion.frecuencia}" />
                 </p:column>
                 <p:column headerText="">
-					<p:commandButton value="Modificar" action="#{modifyEstacionProgramMB.poblarDatosRegistro(estacion)}" >
-						<f:param name="canalProg" value="somevalue" />
-					</p:commandButton>
-					<p:commandButton value="Eliminar" action="#{estacionProgramacionMB.borrar(estacion)}" />
+					<p:commandButton icon="ui-icon-pencil" id="tblEditar" title="Editar" styleClass="botonpequeno" action="#{modifyEstacionProgramMB.poblarDatosRegistro(estacion)}" >
+					</p:commandButton><p:spacer width="10" />
+					<p:commandButton icon="ui-icon-trash" id="tblEliminar" title="Eliminar" styleClass="botonpequeno" action="#{estacionProgramacionMB.borrar(estacion)}" />
                 </p:column>
            	</p:dataTable>
        	</h:panelGrid>

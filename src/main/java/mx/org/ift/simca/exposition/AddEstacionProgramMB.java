@@ -81,7 +81,7 @@ public class AddEstacionProgramMB implements Serializable {
 		tiposFrecuenciaDTO = catalogoService.consultaTipoFrecuencia();
 	}
 	
-	public String limpiarFormulario() {
+	public String nuevaEstacion() {
 		estacionDTO = new EstacionDTO();
 		estacionDTO.getCoberturasRadioDTO().clear();
 		idEstadoCober = 0;
@@ -111,7 +111,7 @@ public class AddEstacionProgramMB implements Serializable {
 		try {
 			System.out.println("entrando a agregarCober. idEstadoCober=" + idEstadoCober + ". idMunicipioCober:"
 					+ idMunicipioCober);
-			if (idEstadoCober != null && idMunicipioCober != null) {
+			if (idEstadoCober != null && idEstadoCober != 0 && idMunicipioCober != null && idMunicipioCober != 0) {
 				CatalogoDTO catalogoDTO = new CatalogoDTO();
 				coberturaRadioDTO = new CoberturaRadioDTO();
 
@@ -160,7 +160,7 @@ public class AddEstacionProgramMB implements Serializable {
 			else
 				i++;
 		}
-		return 0;
+		return -1;
 	}
 	
 	public void updateFrecComponents() {
@@ -197,31 +197,30 @@ public class AddEstacionProgramMB implements Serializable {
 
 	public void agregarEstacion() {
 		String camposFaltantes="";
-		if(estacionDTO.getFolioRPCUMCA().equals("")) camposFaltantes+="Folio RPC/UMCA\n";
-		if(estacionDTO.getIdConcesionario() == null) camposFaltantes+="Concesionario\n";
-		if(estacionDTO.getDistintivo().equals("")) camposFaltantes+="Distintivo\n";
-		//FacesContext context = FacesContext.getCurrentInstance();
+		String respuesta = "";
+		if(estacionDTO.getFolioRPCUMCA().equals("")) camposFaltantes+="Folio RPC/UMCA, \n";
+		if(estacionDTO.getIdEstado() == null) camposFaltantes+="Estado, \n";
+		if(estacionDTO.getIdPoblacion() == null) camposFaltantes+="Población, \n";
+		if(estacionDTO.getIdTipoUsoEstacion() == null || estacionDTO.getIdTipoUsoEstacion() == 0) camposFaltantes+="Tipo de uso, \n";
+		if(estacionDTO.getIdConcesionario() == null) camposFaltantes+="Concesionario, \n";
+		if(estacionDTO.getDistintivo().equals("")) camposFaltantes+="Distintivo, \n";
+		if(estacionDTO.getIdBanda() == null || estacionDTO.getIdBanda() == 0) camposFaltantes+="Banda, \n";
+		if(((estacionDTO.getIdBanda() != null ? estacionDTO.getIdBanda() : 0) == 1 && estacionDTO.getFrecuenciaAM().equals("")) || 
+				((estacionDTO.getIdBanda() != null ? estacionDTO.getIdBanda() : 0) == 2 && estacionDTO.getFrecuenciaFM().equals(""))) camposFaltantes+="Frecuencia, \n";
+		if(estacionDTO.getVigenciaIni() == null) camposFaltantes+="Vigencia Inicio\n";
+		if(estacionDTO.getIdTipoFrecuencia() == null) camposFaltantes+="Tipo frecuencia\n";
+		if(estacionDTO.getIdTipoEstacion() == null) camposFaltantes+="Tipo de estación\n";
+		
 		if(!camposFaltantes.equals(""))
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Mensaje", "Ingrese los campos obligatorios: " + camposFaltantes));
 		else {
-			GeneraRadioXML.generaEstacionXML(estacionService, estacionDTO, tipoPreguntas);
+			respuesta = GeneraRadioXML.generaEstacionXML(estacionService, estacionDTO, tipoPreguntas);			
+			if(respuesta == "success") {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Mensaje", "Registro agregado"));				
+			}
+			else
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Mensaje", respuesta));
 		}
-//		System.out.println("Se agregará estación con los siguientes datos:\nNúmero: " + estacionDTO.getNumero());
-//		System.out.println("banda: " + estacionDTO.getIdBanda());
-//		System.out.println("VigenciaIni: " + (estacionDTO.getVigenciaIni() != null
-//				? new SimpleDateFormat("dd/MM/yyyy").format(estacionDTO.getVigenciaIni())
-//				: null));
-//		System.out.println("VigenciaFin: " + (estacionDTO.getVigenciaFin() != null
-//				? new SimpleDateFormat("dd/MM/yyyy").format(estacionDTO.getVigenciaFin())
-//				: null));
-//		System.out.println("Multiprograma: " + estacionDTO.getIdMultiprograma());
-//		System.out.println("idBDINE: " + estacionDTO.getIdBDINE());
-//		System.out.println("idBdAuditsa: " + estacionDTO.getIdBdAuditsa());
-//		System.out.println("idMonitoreoServExt: " + estacionDTO.getIdMonitoreoServExt());
-//		System.out.println("idProgramInfantil: " + estacionDTO.getIdProgramInfantil());
-//		System.out.println("idObligAcces: " + estacionDTO.getIdObligAcces());
-//		System.out.println("idMecanAcces: " + estacionDTO.getIdMecanAcces());
-//		System.out.println("idMedioPublico: " + estacionDTO.getIdMedioPublico());
 
 	}
 

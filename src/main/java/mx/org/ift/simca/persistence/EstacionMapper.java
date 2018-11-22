@@ -26,14 +26,15 @@ public interface EstacionMapper extends IMapper<Estacion>{
 	 * Obtien los canales de acuerdo a los parametros enviados.
 	 * @param distintivo
 	 * @param idConcesionario
-	 * @param canalProg
+	 * @param folioElectronico
 	 * @return
 	 */
 	List<Estacion> buscarEstacionProgramacion(
 			@Param("distintivo") String distintivo,
 			@Param("idConcesionario") String idConcesionario,
-			@Param("canalProg") String canalProg
+			@Param("folioElectronico") String folioElectronico
 			);
+	
 	/**
 	 * Llama al SP para insertar el registro
 	 * @param model
@@ -42,6 +43,19 @@ public interface EstacionMapper extends IMapper<Estacion>{
 	 * @return
 	 */
 	String generaRegEstacion(
+			@Param("model") String model,
+			@Param("user") String user,
+			@Param("longXML") String longXML
+			);
+	
+	/**
+	 * Llama al SP para insertar el registro
+	 * @param model
+	 * @param user
+	 * @param longXML
+	 * @return
+	 */
+	String modificaRegEstacion(
 			@Param("model") String model,
 			@Param("user") String user,
 			@Param("longXML") String longXML

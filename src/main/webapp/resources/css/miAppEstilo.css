@@ -88,6 +88,13 @@ and open the template in the editor.
 
 }
 
+.addBtn td  {
+
+    text-align: right;
+    float: right;
+
+}
+
 .centered8  {
 
     text-align: left;

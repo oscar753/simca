@@ -41,10 +41,10 @@ public class EstacionProgramacionMB implements Serializable{
 	private String idConcesionario;
 	private String idDistintivo;
 	private String idCanalProg;
+	private String folioElectronico;
 	private List<Estacion> estacionBD = new ArrayList<Estacion>();
 	private List<CatalogoDTO> concesionariosDTO = new ArrayList<CatalogoDTO>();
 	private List<Estacion> distintivos = new ArrayList<Estacion>();
-	private Estacion estacionSelect = new Estacion();
 	
 	@PostConstruct
 	public void init() {
@@ -59,11 +59,12 @@ public class EstacionProgramacionMB implements Serializable{
 		concesionario = "";
 		idConcesionario = "";
 		idDistintivo = "";
+		folioElectronico = "";
 	}
 
 	public void buscarEstacion() {
 		estacionBD.clear();
-		estacionBD = estacionService.buscarEstacionProgramacion(idDistintivo, idConcesionario, canalProg);
+		estacionBD = estacionService.buscarEstacionProgramacion(idDistintivo, idConcesionario, folioElectronico);
 
 		if (estacionBD.isEmpty())
 			LOG.info("No se encontraron estaciones");
@@ -148,11 +149,11 @@ public class EstacionProgramacionMB implements Serializable{
 		this.idCanalProg = idCanalProg;
 	}
 
-	public Estacion getEstacionSelect() {
-		return estacionSelect;
+	public String getFolioElectronico() {
+		return folioElectronico;
 	}
 
-	public void setEstacionSelect(Estacion estacionSelect) {
-		this.estacionSelect = estacionSelect;
+	public void setFolioElectronico(String folioElectronico) {
+		this.folioElectronico = folioElectronico;
 	}
 }
